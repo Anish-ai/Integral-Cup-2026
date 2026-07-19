@@ -1,0 +1,497 @@
+/* ===================================================================
+   Integral Cup 2026 — Unified Module Stylesheet
+   Supports: dark/light themes, topic-wise color coding
+   =================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; }
+
+/* ══════════════════════════════════════════════════════════════════════
+   DARK THEME (default)
+   ══════════════════════════════════════════════════════════════════════ */
+:root,
+[data-theme="dark"] {
+    --bg-primary:    #0d1117;
+    --bg-surface:    #161b22;
+    --bg-elevated:   #1c2128;
+    --text-primary:  #e6edf3;
+    --text-secondary:#8b949e;
+    --text-muted:    #6e7681;
+    --border-color:  #30363d;
+    --border-subtle: #21262d;
+    --code-bg:       #0d1117;
+    --code-text:     #a5d6ff;
+    --shadow:        rgba(0, 0, 0, 0.4);
+
+    /* Semantic box colors (uniform across all topics) */
+    --def-color:     #58d5ba;
+    --thm-color:     var(--accent);
+    --proof-color:   #8b949e;
+    --example-color: #d29922;
+    --lemma-color:   #a5d6ff;
+
+    /* Box backgrounds */
+    --def-bg:        rgba(88, 213, 186, 0.06);
+    --thm-bg:        rgba(136, 136, 255, 0.06);
+    --proof-bg:      transparent;
+    --example-bg:    rgba(210, 153, 34, 0.06);
+    --lemma-bg:      rgba(165, 214, 255, 0.06);
+
+    color-scheme: dark;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   LIGHT THEME
+   ══════════════════════════════════════════════════════════════════════ */
+[data-theme="light"] {
+    --bg-primary:    #ffffff;
+    --bg-surface:    #f6f8fa;
+    --bg-elevated:   #f0f2f5;
+    --text-primary:  #1f2328;
+    --text-secondary:#59636e;
+    --text-muted:    #8b949e;
+    --border-color:  #d0d7de;
+    --border-subtle: #e8ebef;
+    --code-bg:       #f6f8fa;
+    --code-text:     #0550ae;
+    --shadow:        rgba(0, 0, 0, 0.08);
+
+    --def-color:     #0e7c6b;
+    --thm-color:     var(--accent);
+    --proof-color:   #59636e;
+    --example-color: #9a6700;
+    --lemma-color:   #0550ae;
+
+    --def-bg:        rgba(14, 124, 107, 0.06);
+    --thm-bg:        rgba(100, 100, 255, 0.06);
+    --proof-bg:      transparent;
+    --example-bg:    rgba(154, 103, 0, 0.06);
+    --lemma-bg:      rgba(5, 80, 174, 0.06);
+
+    color-scheme: light;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   TOPIC-WISE ACCENT COLORS
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* Default accent (fallback) */
+:root { --accent: #7c5cfc; --accent-glow: rgba(124, 92, 252, 0.12); }
+
+/* Topic 1: Divisibility & Primes — Purple */
+[data-topic="1"] { --accent: #7c5cfc; --accent-glow: rgba(124, 92, 252, 0.12); }
+[data-topic="1"][data-theme="light"] { --accent: #6344e0; }
+
+/* Topic 2: Congruence & Modular — Blue */
+[data-topic="2"] { --accent: #3b82f6; --accent-glow: rgba(59, 130, 246, 0.12); }
+[data-topic="2"][data-theme="light"] { --accent: #2563eb; }
+
+/* Topic 3: Diophantine Equations — Cyan */
+[data-topic="3"] { --accent: #06b6d4; --accent-glow: rgba(6, 182, 212, 0.12); }
+[data-topic="3"][data-theme="light"] { --accent: #0891b2; }
+
+/* Topic 4: Arithmetic Functions — Green */
+[data-topic="4"] { --accent: #10b981; --accent-glow: rgba(16, 185, 129, 0.12); }
+[data-topic="4"][data-theme="light"] { --accent: #059669; }
+
+/* Topic 5: Quadratic Residues — Amber */
+[data-topic="5"] { --accent: #f59e0b; --accent-glow: rgba(245, 158, 11, 0.12); }
+[data-topic="5"][data-theme="light"] { --accent: #d97706; }
+
+/* Topic 6: Primitive Roots — Red */
+[data-topic="6"] { --accent: #ef4444; --accent-glow: rgba(239, 68, 68, 0.12); }
+[data-topic="6"][data-theme="light"] { --accent: #dc2626; }
+
+/* Topic 7: Elliptic Curves — Pink */
+[data-topic="7"] { --accent: #ec4899; --accent-glow: rgba(236, 72, 153, 0.12); }
+[data-topic="7"][data-theme="light"] { --accent: #db2777; }
+
+/* ══════════════════════════════════════════════════════════════════════
+   BASE TYPOGRAPHY & LAYOUT
+   ══════════════════════════════════════════════════════════════════════ */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Source Serif 4', 'Georgia', 'Charter', serif;
+    font-size: 0.92rem;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    -webkit-font-smoothing: antialiased;
+}
+
+main {
+    max-width: none;
+    margin: 0;
+    padding: 1.25rem 2.25rem 2.5rem;
+}
+
+/* ── Header ── */
+header {
+    border-bottom: 2px solid var(--accent);
+    margin-bottom: 1.75rem;
+    padding-bottom: 1rem;
+}
+
+header h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 0.15rem;
+    letter-spacing: -0.02em;
+}
+
+header h2 {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--accent);
+    margin: 0.35rem 0 0;
+    border: none;
+    padding: 0;
+}
+
+header p {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    margin: 0.2rem 0 0;
+}
+
+/* ── Headings ── */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+h1 { color: var(--text-primary); }
+
+h2 {
+    font-size: 1.3rem;
+    color: var(--accent);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.4rem;
+    margin-top: 1.75rem;
+    margin-bottom: 0.75rem;
+}
+
+h3 {
+    font-size: 1.1rem;
+    color: var(--accent);
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+h4 {
+    font-size: 1rem;
+    color: var(--text-primary);
+    margin-top: 1.25rem;
+}
+
+/* ── Paragraphs & Lists ── */
+p {
+    margin: 0.65rem 0;
+    font-size: 0.92rem;
+}
+
+ul, ol {
+    padding-left: 1.5rem;
+    margin: 0.5rem 0;
+}
+
+li {
+    margin-bottom: 0.2rem;
+}
+
+a {
+    color: var(--accent);
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+strong {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   CONTENT BOXES: .theorem, .definition, .proof, .example, .lemma
+   ══════════════════════════════════════════════════════════════════════ */
+.theorem, .definition, .proof, .example, .lemma,
+.box.theorem, .box.definition, .box.proof,
+.block {
+    padding: 1rem 1.25rem;
+    margin: 1rem 0;
+    border-left: 4px solid;
+    border-radius: 0 6px 6px 0;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.definition, .box.definition {
+    border-color: var(--def-color);
+    background-color: var(--def-bg);
+}
+
+.theorem, .box.theorem, .block {
+    border-color: var(--thm-color);
+    background-color: var(--thm-bg);
+}
+
+.proof, .box.proof {
+    border-color: var(--proof-color);
+    background-color: var(--proof-bg);
+    font-style: italic;
+    border-left-style: dashed;
+}
+
+.proof p, .proof ul, .proof ol,
+.proof strong, .proof .label, .proof .box-title,
+.proof .block-title, .proof .proof-title {
+    font-style: normal;
+}
+
+.example {
+    border-color: var(--example-color);
+    background-color: var(--example-bg);
+}
+
+.lemma {
+    border-color: var(--lemma-color);
+    background-color: var(--lemma-bg);
+}
+
+/* ── Box Titles / Labels ── */
+.label, .box-title, .block-title,
+.theorem-title, .definition-title, .lemma-title,
+.example-title, .proof-title {
+    font-weight: 700;
+    font-style: normal;
+    display: block;
+    margin-bottom: 0.4rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 0.78rem;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Title colors based on parent */
+.definition .label, .definition .box-title,
+.definition .block-title, .definition-title {
+    color: var(--def-color);
+}
+
+.theorem .label, .theorem .box-title,
+.theorem .block-title, .theorem-title,
+.block .block-title {
+    color: var(--thm-color);
+}
+
+.proof .label, .proof .box-title,
+.proof .block-title, .proof-title {
+    color: var(--proof-color);
+    text-transform: none;
+    font-style: italic;
+}
+
+.example .label, .example .box-title,
+.example .block-title, .example-title {
+    color: var(--example-color);
+}
+
+.lemma .label, .lemma .box-title, .lemma-title {
+    color: var(--lemma-color);
+}
+
+/* ── QED Symbol ── */
+.qedsymbol {
+    float: right;
+    font-size: 1.1em;
+    font-style: normal;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   SECTIONS (for files that wrap content in <section> with bg)
+   ══════════════════════════════════════════════════════════════════════ */
+section {
+    margin-bottom: 1.5rem;
+}
+
+article {
+    margin-bottom: 1.25rem;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   CODE BLOCKS
+   ══════════════════════════════════════════════════════════════════════ */
+pre {
+    background-color: var(--code-bg);
+    border: 1px solid var(--border-color);
+    padding: 0.85rem 1rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', 'Courier New', monospace;
+    font-size: 0.82rem;
+    line-height: 1.45;
+    color: var(--code-text);
+    margin: 0.75rem 0;
+}
+
+code {
+    font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.9em;
+    background-color: var(--bg-surface);
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    color: var(--code-text);
+}
+
+pre code {
+    background: none;
+    padding: 0;
+    border-radius: 0;
+    font-size: inherit;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   TABLES
+   ══════════════════════════════════════════════════════════════════════ */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+}
+
+th, td {
+    padding: 0.6rem 1rem;
+    border: 1px solid var(--border-color);
+    text-align: left;
+}
+
+th {
+    background-color: var(--bg-surface);
+    font-weight: 600;
+    color: var(--accent);
+}
+
+tr:nth-child(even) {
+    background-color: var(--bg-surface);
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   FOOTER
+   ══════════════════════════════════════════════════════════════════════ */
+footer {
+    margin-top: 2.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   PRACTICE QUESTIONS SPECIFICS
+   ══════════════════════════════════════════════════════════════════════ */
+.solution, .answer, .hint {
+    margin: 1rem 0;
+    padding: 1rem 1.25rem;
+    border-left: 3px solid var(--accent);
+    background-color: var(--bg-surface);
+    border-radius: 0 6px 6px 0;
+}
+
+details {
+    margin: 1rem 0;
+}
+
+details summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--accent);
+    padding: 0.5rem 0;
+    user-select: none;
+}
+
+details summary:hover {
+    opacity: 0.8;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   THEME TOGGLE BUTTON (standalone, for direct file access)
+   ══════════════════════════════════════════════════════════════════════ */
+.theme-toggle-standalone {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 1000;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-surface);
+    color: var(--text-secondary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px var(--shadow);
+}
+
+.theme-toggle-standalone:hover {
+    background: var(--bg-elevated);
+    color: var(--accent);
+    transform: scale(1.05);
+}
+
+/* Hide standalone toggle when inside iframe */
+.in-iframe .theme-toggle-standalone {
+    display: none;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   SCROLLBAR
+   ══════════════════════════════════════════════════════════════════════ */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+/* ══════════════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ══════════════════════════════════════════════════════════════════════ */
+@media (max-width: 640px) {
+    main {
+        padding: 1.5rem 1rem 3rem;
+    }
+    h1 { font-size: 1.5rem; }
+    h2 { font-size: 1.25rem; }
+    pre { font-size: 0.8rem; padding: 0.75rem; }
+    .theorem, .definition, .proof, .example, .lemma,
+    .box, .block {
+        padding: 1rem;
+    }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   PRINT
+   ══════════════════════════════════════════════════════════════════════ */
+@media print {
+    body { background: white; color: black; }
+    .theme-toggle-standalone { display: none; }
+    pre { border: 1px solid #ccc; }
+    .theorem, .definition, .proof, .example, .lemma,
+    .box, .block {
+        break-inside: avoid;
+    }
+}

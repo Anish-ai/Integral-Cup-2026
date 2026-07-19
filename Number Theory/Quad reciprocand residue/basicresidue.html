@@ -1,82 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-topic="5" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quadratic Residues and Reciprocity: Part A</title>
+        
+    <link rel="stylesheet" href="../../styles/module.css">
     <script>
-        window.MathJax = {
+        MathJax = {
             tex: {
                 inlineMath: [['$', '$']],
-                displayMath: [['$$', '$$']]
-            },
-            svg: {
-                fontCache: 'global'
+                displayMath: [['$$', '$$']],
+                processEscapes: true
             }
         };
     </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <style>
-        :root {
-            --bg-color: #fcfcfc;
-            --text-color: #222222;
-            --accent-color: #0b5394;
-            --box-bg: #f4f6f8;
-            --border-color: #cbd5e1;
-        }
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-color: #1a1a2e;
-                --text-color: #e2e8f0;
-                --accent-color: #64b5f6;
-                --box-bg: #16213e;
-                --border-color: #0f3460;
-            }
-        }
-        body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.7;
-            color: var(--text-color);
-            background-color: var(--bg-color);
-            max-width: 960px;
-            margin: 0 auto;
-            padding: 2rem;
-            transition: all 0.3s ease;
-        }
-        header {
-            border-bottom: 2px solid var(--accent-color);
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-        }
-        h1, h2, h3 {
-            color: var(--accent-color);
-        }
-        .block {
-            background-color: var(--box-bg);
-            border-left: 4px solid var(--accent-color);
-            padding: 1rem 1.5rem;
-            margin: 1.5rem 0;
-            border-radius: 0 4px 4px 0;
-        }
-        .block-title {
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            display: block;
-            text-transform: uppercase;
-            font-size: 0.9em;
-            letter-spacing: 0.05em;
-        }
-        .proof-title {
-            font-style: italic;
-            font-weight: 600;
-        }
-        code {
-            font-family: Consolas, Monaco, 'Andale Mono', monospace;
-            background-color: var(--box-bg);
-            padding: 0.2rem 0.4rem;
-            border-radius: 3px;
-        }
-    </style>
 </head>
 <body>
     <header>
@@ -164,5 +103,194 @@
             </div>
         </section>
     </article>
+
+    <script src="../../styles/theme.js"></script>
+</body>
+</html>, '
+<body>
+    <header>
+        <h1>Advanced Algorithmic Number Theory</h1>
+        <h2>Module: Quadratic Residues and Reciprocity</h2>
+        <p><strong>Part A: Quadratic Residues and Basic Properties</strong></p>
+    </header>
+
+    <article>
+        <section>
+            <p>Welcome. In advanced number theory and competitive programming, the study of quadratic congruences is foundational. Whether you are factoring large integers, running deterministic primality tests, or solving polynomial congruences, you must first master the algebraic structure of squares modulo a prime.</p>
+        </section>
+
+        <section>
+            <h2>1. Formal Definition and Group Structure</h2>
+            
+            <div class="block">
+                <span class="block-title">Definition 1.1: Quadratic Residue</span>
+                Let $p$ be an odd prime and let $a \in \mathbb{Z}$ such that $\gcd(a, p) = 1$. We say that $a$ is a <strong>quadratic residue</strong> modulo $p$ if the congruence 
+                $$x^2 \equiv a \pmod{p}$$ 
+                admits a solution $x \in \mathbb{Z}$. If no such solution exists, $a$ is called a <strong>quadratic non-residue</strong> modulo $p$.
+            </div>
+
+            <p>To understand the distribution of these residues, we must examine the multiplicative group of integers modulo $p$, denoted $\mathbb{Z}_p^*$. It is a classical result in algebra that $\mathbb{Z}_p^*$ is a cyclic group of order $p-1$. Therefore, there exists a primitive root $g \in \mathbb{Z}_p^*$ such that $\mathbb{Z}_p^* = \{g, g^2, \ldots, g^{p-1} \equiv 1\}$.</p>
+
+            <div class="block">
+                <span class="block-title">Theorem 1.2: Structure of Residues</span>
+                Exactly half of the elements in $\mathbb{Z}_p^*$ are quadratic residues, and the other half are quadratic non-residues. Specifically, there are $\frac{p-1}{2}$ quadratic residues.
+                <br><br>
+                <span class="proof-title">Proof.</span> Let $g$ be a primitive root modulo $p$. Any element $a \in \mathbb{Z}_p^*$ can be written uniquely as $a \equiv g^k \pmod{p}$ for some integer $1 \le k \le p-1$. 
+                <br><br>
+                If $k$ is even, say $k = 2m$, then $a \equiv (g^m)^2 \pmod{p}$, meaning $a$ is a quadratic residue. 
+                <br><br>
+                Suppose $k$ is odd, and $a \equiv g^k \pmod{p}$ is a quadratic residue. Then there exists $x \equiv g^y \pmod{p}$ such that $x^2 \equiv a \pmod{p}$. This implies $g^{2y} \equiv g^k \pmod{p}$, which requires $2y \equiv k \pmod{p-1}$. Since $p-1$ is even, $2y$ and $p-1$ are both even, which forces $k$ to be even. This contradicts our assumption that $k$ is odd. 
+                <br><br>
+                Thus, the quadratic residues are exactly the even powers of the primitive root $g$. Since there are $\frac{p-1}{2}$ even exponents in the range $[1, p-1]$, the theorem holds. $\blacksquare$
+            </div>
+        </section>
+
+        <section>
+            <h2>2. Euler's Criterion</h2>
+            <p>While the primitive root formulation gives us the exact count of residues, finding a primitive root is computationally expensive. We need a deterministic, efficient mathematical test to check residuosity. This is provided by Euler.</p>
+
+            <div class="block">
+                <span class="block-title">Theorem 1.3: Euler's Criterion</span>
+                Let $p$ be an odd prime and $\gcd(a, p) = 1$. Then $a$ is a quadratic residue modulo $p$ if and only if
+                $$a^{\frac{p-1}{2}} \equiv 1 \pmod{p}$$
+                and $a$ is a quadratic non-residue modulo $p$ if and only if
+                $$a^{\frac{p-1}{2}} \equiv -1 \pmod{p}$$
+                
+                <span class="proof-title">Proof.</span> 
+                By Fermat's Little Theorem, $a^{p-1} \equiv 1 \pmod{p}$. We can factor this as:
+                $$(a^{\frac{p-1}{2}} - 1)(a^{\frac{p-1}{2}} + 1) \equiv 0 \pmod{p}$$
+                Since $p$ is prime, $\mathbb{Z}_p$ is an integral domain, so $a^{\frac{p-1}{2}}$ must be congruent to either $1$ or $-1$ modulo $p$.
+                <br><br>
+                <strong>Case 1 ($a$ is a quadratic residue):</strong> There exists $x$ such that $x^2 \equiv a \pmod{p}$. Raising both sides to the power of $\frac{p-1}{2}$ yields:
+                $$a^{\frac{p-1}{2}} \equiv (x^2)^{\frac{p-1}{2}} \equiv x^{p-1} \pmod{p}$$
+                Since $\gcd(a, p) = 1$, we also have $\gcd(x, p) = 1$. By Fermat's Little Theorem, $x^{p-1} \equiv 1 \pmod{p}$, hence $a^{\frac{p-1}{2}} \equiv 1 \pmod{p}$.
+                <br><br>
+                <strong>Case 2 ($a$ is a quadratic non-residue):</strong> Consider the polynomial $P(y) = y^{\frac{p-1}{2}} - 1$ over the field $\mathbb{Z}_p$. A polynomial of degree $d$ over a field has at most $d$ roots. We already showed that the $\frac{p-1}{2}$ distinct quadratic residues satisfy this polynomial equation, meaning they account for all possible roots. Because $a$ is a non-residue, it cannot be a root of $P(y)$. Therefore, $a^{\frac{p-1}{2}} \not\equiv 1 \pmod{p}$. Given our earlier factorization, we must conclude that $a^{\frac{p-1}{2}} \equiv -1 \pmod{p}$. $\blacksquare$
+            </div>
+            
+            <p>From an algorithmic perspective, Euler's Criterion is exceptionally powerful. By utilizing binary exponentiation, determining whether $a$ is a quadratic residue takes $O(\log p)$ time, making it suitable for modern cryptographic limits.</p>
+
+            <div class="block">
+                <span class="block-title">Example 1.4</span>
+                Let us classify the elements of $\mathbb{Z}_7^*$. Here, $p = 7$, so $\frac{p-1}{2} = 3$.
+                <br><br>
+                Squares directly:
+                <ul>
+                    <li>$1^2 \equiv 1 \pmod{7}$</li>
+                    <li>$2^2 \equiv 4 \pmod{7}$</li>
+                    <li>$3^2 \equiv 2 \pmod{7}$</li>
+                    <li>$4^2 \equiv 16 \equiv 2 \pmod{7}$</li>
+                    <li>$5^2 \equiv 25 \equiv 4 \pmod{7}$</li>
+                    <li>$6^2 \equiv 36 \equiv 1 \pmod{7}$</li>
+                </ul>
+                The set of quadratic residues is $\{1, 2, 4\}$.
+                <br><br>
+                Now let us verify Euler's Criterion for $a = 2$ and $a = 3$:
+                <br>
+                For $a=2$: $2^3 = 8 \equiv 1 \pmod{7}$. Thus, $2$ is a quadratic residue.
+                <br>
+                For $a=3$: $3^3 = 27 \equiv -1 \pmod{7}$. Thus, $3$ is a quadratic non-residue.
+            </div>
+        </section>
+    </article>
+
+    <script src="../../styles/theme.js"></script>
+</body>
+</html>]],
+                displayMath: [['$', '$']],
+                processEscapes: true
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Advanced Algorithmic Number Theory</h1>
+        <h2>Module: Quadratic Residues and Reciprocity</h2>
+        <p><strong>Part A: Quadratic Residues and Basic Properties</strong></p>
+    </header>
+
+    <article>
+        <section>
+            <p>Welcome. In advanced number theory and competitive programming, the study of quadratic congruences is foundational. Whether you are factoring large integers, running deterministic primality tests, or solving polynomial congruences, you must first master the algebraic structure of squares modulo a prime.</p>
+        </section>
+
+        <section>
+            <h2>1. Formal Definition and Group Structure</h2>
+            
+            <div class="block">
+                <span class="block-title">Definition 1.1: Quadratic Residue</span>
+                Let $p$ be an odd prime and let $a \in \mathbb{Z}$ such that $\gcd(a, p) = 1$. We say that $a$ is a <strong>quadratic residue</strong> modulo $p$ if the congruence 
+                $$x^2 \equiv a \pmod{p}$$ 
+                admits a solution $x \in \mathbb{Z}$. If no such solution exists, $a$ is called a <strong>quadratic non-residue</strong> modulo $p$.
+            </div>
+
+            <p>To understand the distribution of these residues, we must examine the multiplicative group of integers modulo $p$, denoted $\mathbb{Z}_p^*$. It is a classical result in algebra that $\mathbb{Z}_p^*$ is a cyclic group of order $p-1$. Therefore, there exists a primitive root $g \in \mathbb{Z}_p^*$ such that $\mathbb{Z}_p^* = \{g, g^2, \ldots, g^{p-1} \equiv 1\}$.</p>
+
+            <div class="block">
+                <span class="block-title">Theorem 1.2: Structure of Residues</span>
+                Exactly half of the elements in $\mathbb{Z}_p^*$ are quadratic residues, and the other half are quadratic non-residues. Specifically, there are $\frac{p-1}{2}$ quadratic residues.
+                <br><br>
+                <span class="proof-title">Proof.</span> Let $g$ be a primitive root modulo $p$. Any element $a \in \mathbb{Z}_p^*$ can be written uniquely as $a \equiv g^k \pmod{p}$ for some integer $1 \le k \le p-1$. 
+                <br><br>
+                If $k$ is even, say $k = 2m$, then $a \equiv (g^m)^2 \pmod{p}$, meaning $a$ is a quadratic residue. 
+                <br><br>
+                Suppose $k$ is odd, and $a \equiv g^k \pmod{p}$ is a quadratic residue. Then there exists $x \equiv g^y \pmod{p}$ such that $x^2 \equiv a \pmod{p}$. This implies $g^{2y} \equiv g^k \pmod{p}$, which requires $2y \equiv k \pmod{p-1}$. Since $p-1$ is even, $2y$ and $p-1$ are both even, which forces $k$ to be even. This contradicts our assumption that $k$ is odd. 
+                <br><br>
+                Thus, the quadratic residues are exactly the even powers of the primitive root $g$. Since there are $\frac{p-1}{2}$ even exponents in the range $[1, p-1]$, the theorem holds. $\blacksquare$
+            </div>
+        </section>
+
+        <section>
+            <h2>2. Euler's Criterion</h2>
+            <p>While the primitive root formulation gives us the exact count of residues, finding a primitive root is computationally expensive. We need a deterministic, efficient mathematical test to check residuosity. This is provided by Euler.</p>
+
+            <div class="block">
+                <span class="block-title">Theorem 1.3: Euler's Criterion</span>
+                Let $p$ be an odd prime and $\gcd(a, p) = 1$. Then $a$ is a quadratic residue modulo $p$ if and only if
+                $$a^{\frac{p-1}{2}} \equiv 1 \pmod{p}$$
+                and $a$ is a quadratic non-residue modulo $p$ if and only if
+                $$a^{\frac{p-1}{2}} \equiv -1 \pmod{p}$$
+                
+                <span class="proof-title">Proof.</span> 
+                By Fermat's Little Theorem, $a^{p-1} \equiv 1 \pmod{p}$. We can factor this as:
+                $$(a^{\frac{p-1}{2}} - 1)(a^{\frac{p-1}{2}} + 1) \equiv 0 \pmod{p}$$
+                Since $p$ is prime, $\mathbb{Z}_p$ is an integral domain, so $a^{\frac{p-1}{2}}$ must be congruent to either $1$ or $-1$ modulo $p$.
+                <br><br>
+                <strong>Case 1 ($a$ is a quadratic residue):</strong> There exists $x$ such that $x^2 \equiv a \pmod{p}$. Raising both sides to the power of $\frac{p-1}{2}$ yields:
+                $$a^{\frac{p-1}{2}} \equiv (x^2)^{\frac{p-1}{2}} \equiv x^{p-1} \pmod{p}$$
+                Since $\gcd(a, p) = 1$, we also have $\gcd(x, p) = 1$. By Fermat's Little Theorem, $x^{p-1} \equiv 1 \pmod{p}$, hence $a^{\frac{p-1}{2}} \equiv 1 \pmod{p}$.
+                <br><br>
+                <strong>Case 2 ($a$ is a quadratic non-residue):</strong> Consider the polynomial $P(y) = y^{\frac{p-1}{2}} - 1$ over the field $\mathbb{Z}_p$. A polynomial of degree $d$ over a field has at most $d$ roots. We already showed that the $\frac{p-1}{2}$ distinct quadratic residues satisfy this polynomial equation, meaning they account for all possible roots. Because $a$ is a non-residue, it cannot be a root of $P(y)$. Therefore, $a^{\frac{p-1}{2}} \not\equiv 1 \pmod{p}$. Given our earlier factorization, we must conclude that $a^{\frac{p-1}{2}} \equiv -1 \pmod{p}$. $\blacksquare$
+            </div>
+            
+            <p>From an algorithmic perspective, Euler's Criterion is exceptionally powerful. By utilizing binary exponentiation, determining whether $a$ is a quadratic residue takes $O(\log p)$ time, making it suitable for modern cryptographic limits.</p>
+
+            <div class="block">
+                <span class="block-title">Example 1.4</span>
+                Let us classify the elements of $\mathbb{Z}_7^*$. Here, $p = 7$, so $\frac{p-1}{2} = 3$.
+                <br><br>
+                Squares directly:
+                <ul>
+                    <li>$1^2 \equiv 1 \pmod{7}$</li>
+                    <li>$2^2 \equiv 4 \pmod{7}$</li>
+                    <li>$3^2 \equiv 2 \pmod{7}$</li>
+                    <li>$4^2 \equiv 16 \equiv 2 \pmod{7}$</li>
+                    <li>$5^2 \equiv 25 \equiv 4 \pmod{7}$</li>
+                    <li>$6^2 \equiv 36 \equiv 1 \pmod{7}$</li>
+                </ul>
+                The set of quadratic residues is $\{1, 2, 4\}$.
+                <br><br>
+                Now let us verify Euler's Criterion for $a = 2$ and $a = 3$:
+                <br>
+                For $a=2$: $2^3 = 8 \equiv 1 \pmod{7}$. Thus, $2$ is a quadratic residue.
+                <br>
+                For $a=3$: $3^3 = 27 \equiv -1 \pmod{7}$. Thus, $3$ is a quadratic non-residue.
+            </div>
+        </section>
+    </article>
+
+    <script src="../../styles/theme.js"></script>
 </body>
 </html>

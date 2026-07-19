@@ -1,113 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-topic="3" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Advanced Number Theory: Diophantine Equations - Part 1</title>
     
-    <!-- MathJax for LaTeX Rendering -->
+    
+    <link rel="stylesheet" href="../../styles/module.css">
     <script>
-        window.MathJax = {
+        MathJax = {
             tex: {
-                inlineMath: [['$', '$'], ['\\(', '\\)']],
-                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                inlineMath: [['$', '$']],
+                displayMath: [['$$', '$$']],
                 processEscapes: true
             }
         };
     </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
-    <style>
-        :root {
-            --bg-color: #121212;
-            --text-color: #e0e0e0;
-            --accent-color: #64ffda;
-            --secondary-bg: #1e1e1e;
-            --border-color: #333;
-        }
-        
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: 'Georgia', serif;
-            line-height: 1.7;
-            margin: 0;
-            padding: 40px 20px;
-            max-width: 900px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        h1, h2, h3, h4 {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            color: var(--accent-color);
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 5px;
-        }
-
-        .theorem, .lemma, .definition {
-            background-color: var(--secondary-bg);
-            border-left: 4px solid var(--accent-color);
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 0 4px 4px 0;
-        }
-
-        .theorem-title, .lemma-title, .definition-title {
-            font-weight: bold;
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            text-transform: uppercase;
-            font-size: 0.9em;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        .proof {
-            margin: 20px 0;
-            padding-left: 20px;
-            border-left: 2px dashed var(--border-color);
-        }
-
-        .proof::before {
-            content: "Proof.";
-            font-style: italic;
-            font-weight: bold;
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        .qedsymbol {
-            float: right;
-            font-size: 1.2em;
-        }
-
-        pre {
-            background-color: #0a0a0a;
-            color: #a6accd;
-            padding: 15px;
-            border-radius: 5px;
-            overflow-x: auto;
-            font-family: 'Fira Code', 'Courier New', monospace;
-            font-size: 14px;
-            border: 1px solid var(--border-color);
-        }
-
-        code {
-            font-family: 'Fira Code', 'Courier New', monospace;
-            color: #ff9e64;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        header p {
-            font-style: italic;
-            color: #888;
-        }
-    </style>
 </head>
 <body>
 
@@ -184,5 +93,169 @@ return 1;
 
 </main>
 
+    <script src="../../styles/theme.js"></script>
+</body>
+</html>, '
+<body>
+
+<header>
+    <h1>Module I: Linear Diophantine Equations</h1>
+    <p>Algorithmic Number Theory & Abstract Algebra • Advanced Undergraduate Sequence</p>
+</header>
+
+<main>
+    <section>
+        <h2>1. Algebraic Foundations and Bézout's Identity</h2>
+        <p>We commence our study of Diophantine equations with the linear case in two variables. The objective is to analyze the set of all integer pairs $(x, y) \in \mathbb{Z}^2$ that satisfy the equation $ax + by = c$, where $a, b, c \in \mathbb{Z}$ are given constants.</p>
+
+        <div class="theorem">
+            <span class="theorem-title">Theorem 1.1 (Solvability and Parameterization)</span>
+            <p>The linear Diophantine equation $ax + by = c$ has a solution in integers $x, y$ if and only if $d \mid c$, where $d = \gcd(a, b)$. If $(x_0, y_0)$ is any particular solution, then the entire infinite family of solutions is parameterized by:</p>
+            $$x = x_0 + k\frac{b}{d}, \quad y = y_0 - k\frac{a}{d} \quad \text{for } k \in \mathbb{Z}$$
+        </div>
+
+        <div class="proof">
+            <p>Let $S = \{ ax + by \mid x, y \in \mathbb{Z} \}$. By the Euclidean algorithm, the smallest positive integer in $S$ is precisely $d = \gcd(a, b)$, and thus $S$ is exactly the set of multiples of $d$. Therefore, $c \in S \iff d \mid c$.</p>
+            <p>Assume $d \mid c$ and let $(x_0, y_0)$ be a solution, so $ax_0 + by_0 = c$. Let $(x, y)$ be any other solution. Subtracting the two yields:</p>
+            $$a(x - x_0) + b(y - y_0) = 0 \implies \frac{a}{d}(x - x_0) = -\frac{b}{d}(y - y_0)$$
+            <p>Since $\gcd\left(\frac{a}{d}, \frac{b}{d}\right) = 1$, Euclid's Lemma dictates that $\frac{b}{d}$ must divide $(x - x_0)$. Hence, there exists an integer $k$ such that $x - x_0 = k\frac{b}{d}$. Substituting this back into the relation yields $y - y_0 = -k\frac{a}{d}$. It is trivial to verify that any choice of $k \in \mathbb{Z}$ produces a valid solution.</p>
+            <div class="qedsymbol">$\blacksquare$</div>
+        </div>
+
+        <h3>1.1 Algorithmic Realization (Extended Euclidean Algorithm)</h3>
+        <p>To compute the particular solution $(x_0, y_0)$, we employ the Extended Euclidean Algorithm (EEA) to find $x', y'$ such that $ax' + by' = d$, and then scale the result by $\frac{c}{d}$. Below is the aggressively optimized, theoretically minimal C++ implementation tailored for low-latency computational mathematics.</p>
+
+<pre><code>long long f(long long a,long long b,long long&x,long long&y){
+if(!b){x=1;y=0;return a;}
+long long u,v,d=f(b,a%b,u,v);
+x=v;y=u-v*(a/b);
+return d;
+}
+bool s(long long a,long long b,long long c,long long&x,long long&y){
+long long d=f(abs(a),abs(b),x,y);
+if(c%d)return 0;
+x*=c/d;y*=c/d;
+if(a<0)x=-x;if(b<0)y=-y;
+return 1;
+}</code></pre>
+    </section>
+
+    <section>
+        <h2>2. Advanced Addition: The Frobenius Coin Problem</h2>
+        <p>A natural topological restriction on our solution space $\mathbb{Z}^2$ is to strictly demand $x, y \in \mathbb{Z}_{\ge 0}$. When $a, b > 0$ and $\gcd(a,b) = 1$, the question of which non-negative integers $c$ can be expressed as $ax + by$ is famously known as the Frobenius Coin Problem, or the Chicken McNugget Theorem.</p>
+
+        <div class="theorem">
+            <span class="theorem-title">Theorem 1.2 (Sylvester's Theorem, 1884)</span>
+            <p>Let $a, b \in \mathbb{Z}_{>0}$ such that $\gcd(a, b) = 1$.</p>
+            <ol>
+                <li>The largest integer $c$ that cannot be expressed in the form $ax + by$ for non-negative integers $x, y$ is $g(a,b) = ab - a - b$.</li>
+                <li>The total number of non-expressible non-negative integers is exactly $\frac{(a-1)(b-1)}{2}$.</li>
+            </ol>
+        </div>
+
+        <div class="proof">
+            <p>We prove (1). Consider the equation $ax + by = ab - a - b$. Assume for the sake of contradiction that a solution exists with $x \ge 0, y \ge 0$.</p>
+            <p>Taking the equation modulo $a$, we observe:</p>
+            $$by \equiv -b \pmod a \implies b(y+1) \equiv 0 \pmod a$$
+            <p>Since $\gcd(a,b) = 1$, we must have $y+1 \equiv 0 \pmod a$. Because $y \ge 0$, the minimal possible value for $y$ is $a - 1$.</p>
+            <p>By symmetry, analyzing modulo $b$ necessitates $x \ge b - 1$.</p>
+            <p>If we substitute these minimal bounds back into the original expression, we obtain:</p>
+            $$ax + by \ge a(b-1) + b(a-1) = 2ab - a - b > ab - a - b$$
+            <p>This strict inequality contradicts our initial assumption. Hence, $ab - a - b$ cannot be represented.</p>
+            <p>To show that every integer $N > ab - a - b$ is representable, observe that the integers $0, b, 2b, \dots, (a-1)b$ form a complete residue system modulo $a$. For any $N$, there exists some unique $0 \le y \le a-1$ such that $by \equiv N \pmod a$. Thus, $N - by = ax$ for some integer $x$. We must show $x \ge 0$.</p>
+            $$ax = N - by > (ab - a - b) - b(a-1) = -a \implies ax \ge 0 \implies x \ge 0$$
+            <p>Thus, $(x, y)$ provides a valid non-negative parameterization for any $N > ab - a - b$.</p>
+            <div class="qedsymbol">$\blacksquare$</div>
+        </div>
+    </section>
+
+</main>
+
+    <script src="../../styles/theme.js"></script>
+</body>
+</html>]],
+                displayMath: [['$', '$']],
+                processEscapes: true
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<header>
+    <h1>Module I: Linear Diophantine Equations</h1>
+    <p>Algorithmic Number Theory & Abstract Algebra • Advanced Undergraduate Sequence</p>
+</header>
+
+<main>
+    <section>
+        <h2>1. Algebraic Foundations and Bézout's Identity</h2>
+        <p>We commence our study of Diophantine equations with the linear case in two variables. The objective is to analyze the set of all integer pairs $(x, y) \in \mathbb{Z}^2$ that satisfy the equation $ax + by = c$, where $a, b, c \in \mathbb{Z}$ are given constants.</p>
+
+        <div class="theorem">
+            <span class="theorem-title">Theorem 1.1 (Solvability and Parameterization)</span>
+            <p>The linear Diophantine equation $ax + by = c$ has a solution in integers $x, y$ if and only if $d \mid c$, where $d = \gcd(a, b)$. If $(x_0, y_0)$ is any particular solution, then the entire infinite family of solutions is parameterized by:</p>
+            $$x = x_0 + k\frac{b}{d}, \quad y = y_0 - k\frac{a}{d} \quad \text{for } k \in \mathbb{Z}$$
+        </div>
+
+        <div class="proof">
+            <p>Let $S = \{ ax + by \mid x, y \in \mathbb{Z} \}$. By the Euclidean algorithm, the smallest positive integer in $S$ is precisely $d = \gcd(a, b)$, and thus $S$ is exactly the set of multiples of $d$. Therefore, $c \in S \iff d \mid c$.</p>
+            <p>Assume $d \mid c$ and let $(x_0, y_0)$ be a solution, so $ax_0 + by_0 = c$. Let $(x, y)$ be any other solution. Subtracting the two yields:</p>
+            $$a(x - x_0) + b(y - y_0) = 0 \implies \frac{a}{d}(x - x_0) = -\frac{b}{d}(y - y_0)$$
+            <p>Since $\gcd\left(\frac{a}{d}, \frac{b}{d}\right) = 1$, Euclid's Lemma dictates that $\frac{b}{d}$ must divide $(x - x_0)$. Hence, there exists an integer $k$ such that $x - x_0 = k\frac{b}{d}$. Substituting this back into the relation yields $y - y_0 = -k\frac{a}{d}$. It is trivial to verify that any choice of $k \in \mathbb{Z}$ produces a valid solution.</p>
+            <div class="qedsymbol">$\blacksquare$</div>
+        </div>
+
+        <h3>1.1 Algorithmic Realization (Extended Euclidean Algorithm)</h3>
+        <p>To compute the particular solution $(x_0, y_0)$, we employ the Extended Euclidean Algorithm (EEA) to find $x', y'$ such that $ax' + by' = d$, and then scale the result by $\frac{c}{d}$. Below is the aggressively optimized, theoretically minimal C++ implementation tailored for low-latency computational mathematics.</p>
+
+<pre><code>long long f(long long a,long long b,long long&x,long long&y){
+if(!b){x=1;y=0;return a;}
+long long u,v,d=f(b,a%b,u,v);
+x=v;y=u-v*(a/b);
+return d;
+}
+bool s(long long a,long long b,long long c,long long&x,long long&y){
+long long d=f(abs(a),abs(b),x,y);
+if(c%d)return 0;
+x*=c/d;y*=c/d;
+if(a<0)x=-x;if(b<0)y=-y;
+return 1;
+}</code></pre>
+    </section>
+
+    <section>
+        <h2>2. Advanced Addition: The Frobenius Coin Problem</h2>
+        <p>A natural topological restriction on our solution space $\mathbb{Z}^2$ is to strictly demand $x, y \in \mathbb{Z}_{\ge 0}$. When $a, b > 0$ and $\gcd(a,b) = 1$, the question of which non-negative integers $c$ can be expressed as $ax + by$ is famously known as the Frobenius Coin Problem, or the Chicken McNugget Theorem.</p>
+
+        <div class="theorem">
+            <span class="theorem-title">Theorem 1.2 (Sylvester's Theorem, 1884)</span>
+            <p>Let $a, b \in \mathbb{Z}_{>0}$ such that $\gcd(a, b) = 1$.</p>
+            <ol>
+                <li>The largest integer $c$ that cannot be expressed in the form $ax + by$ for non-negative integers $x, y$ is $g(a,b) = ab - a - b$.</li>
+                <li>The total number of non-expressible non-negative integers is exactly $\frac{(a-1)(b-1)}{2}$.</li>
+            </ol>
+        </div>
+
+        <div class="proof">
+            <p>We prove (1). Consider the equation $ax + by = ab - a - b$. Assume for the sake of contradiction that a solution exists with $x \ge 0, y \ge 0$.</p>
+            <p>Taking the equation modulo $a$, we observe:</p>
+            $$by \equiv -b \pmod a \implies b(y+1) \equiv 0 \pmod a$$
+            <p>Since $\gcd(a,b) = 1$, we must have $y+1 \equiv 0 \pmod a$. Because $y \ge 0$, the minimal possible value for $y$ is $a - 1$.</p>
+            <p>By symmetry, analyzing modulo $b$ necessitates $x \ge b - 1$.</p>
+            <p>If we substitute these minimal bounds back into the original expression, we obtain:</p>
+            $$ax + by \ge a(b-1) + b(a-1) = 2ab - a - b > ab - a - b$$
+            <p>This strict inequality contradicts our initial assumption. Hence, $ab - a - b$ cannot be represented.</p>
+            <p>To show that every integer $N > ab - a - b$ is representable, observe that the integers $0, b, 2b, \dots, (a-1)b$ form a complete residue system modulo $a$. For any $N$, there exists some unique $0 \le y \le a-1$ such that $by \equiv N \pmod a$. Thus, $N - by = ax$ for some integer $x$. We must show $x \ge 0$.</p>
+            $$ax = N - by > (ab - a - b) - b(a-1) = -a \implies ax \ge 0 \implies x \ge 0$$
+            <p>Thus, $(x, y)$ provides a valid non-negative parameterization for any $N > ab - a - b$.</p>
+            <div class="qedsymbol">$\blacksquare$</div>
+        </div>
+    </section>
+
+</main>
+
+    <script src="../../styles/theme.js"></script>
 </body>
 </html>

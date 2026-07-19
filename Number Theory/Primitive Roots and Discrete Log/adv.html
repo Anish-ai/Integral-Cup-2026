@@ -1,110 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-topic="6" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Module 1, Part D: Advanced Algorithmic Implementations</title>
+        
+    <link rel="stylesheet" href="../../styles/module.css">
     <script>
         MathJax = {
             tex: {
                 inlineMath: [['$', '$']],
                 displayMath: [['$$', '$$']],
-                packages: {'[+]': ['amsfonts', 'amssymb', 'amsthm']}
-            },
-            svg: {
-                fontCache: 'global'
+                processEscapes: true
             }
         };
     </script>
-    <script type="text/javascript" id="MathJax-script" async
-        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
-    </script>
-    <style>
-        :root {
-            --bg-color: #0f172a;
-            --text-color: #e2e8f0;
-            --heading-color: #38bdf8;
-            --accent-color: #818cf8;
-            --surface-color: #1e293b;
-            --border-color: #334155;
-            --code-bg: #0b1120;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-        }
-
-        main {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        header {
-            border-bottom: 2px solid var(--border-color);
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-        }
-
-        h1, h2, h3, h4 {
-            color: var(--heading-color);
-            margin-top: 2rem;
-        }
-
-        h1 { font-size: 2.25rem; }
-        h2 { font-size: 1.75rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; }
-        h3 { font-size: 1.25rem; color: var(--accent-color); }
-
-        .theorem, .definition, .proof, .example {
-            background-color: var(--surface-color);
-            border-left: 4px solid var(--accent-color);
-            padding: 1.25rem;
-            margin: 1.5rem 0;
-            border-radius: 0 0.5rem 0.5rem 0;
-        }
-
-        .theorem-title, .definition-title, .example-title {
-            font-weight: bold;
-            color: var(--accent-color);
-            margin-bottom: 0.5rem;
-            display: block;
-        }
-
-        .proof {
-            border-left-color: #94a3b8;
-            background-color: transparent;
-            border: 1px solid var(--border-color);
-        }
-
-        .proof-title {
-            font-style: italic;
-            color: #94a3b8;
-        }
-
-        .qedsymbol {
-            float: right;
-        }
-
-        code {
-            font-family: "Fira Code", monospace;
-            background-color: var(--code-bg);
-            padding: 0.2rem 0.4rem;
-            border-radius: 0.25rem;
-            font-size: 0.9em;
-        }
-
-        pre code {
-            display: block;
-            padding: 1rem;
-            overflow-x: auto;
-            border: 1px solid var(--border-color);
-        }
-    </style>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
 
@@ -201,5 +112,209 @@ long long s(long long g, long long h, long long m) {
 
 </main>
 
+    <script src="../../styles/theme.js"></script>
+</body>
+</html>, '
+<body>
+
+<main>
+    <header>
+        <h1>Algorithmic Number Theory</h1>
+        <p><strong>Module:</strong> Primitive Roots and Discrete Logarithms</p>
+        <p><strong>Part D:</strong> Advanced Algorithmic Implementations</p>
+    </header>
+
+    <article id="part-D">
+        <h2>D. Advanced Algorithmic Implementations</h2>
+
+        <p>Finding the discrete logarithm $\text{ind}_g(h)$, equivalent to solving the congruence $g^x \equiv h \pmod m$, is a computationally hard problem. While an exhaustive linear search requires $O(m)$ time, we can optimize this significantly using time-memory tradeoffs and algebraic group structures.</p>
+
+        <h3>The Baby-step Giant-step (BSGS) Algorithm</h3>
+
+        <p>Developed by Daniel Shanks, BSGS is a deterministic algorithm that reduces the time complexity of computing discrete logarithms to $O(\sqrt{m})$ at the cost of $O(\sqrt{m})$ memory. It relies on rewriting the unknown exponent $x$ using the division algorithm.</p>
+
+        <div class="theorem">
+            <span class="theorem-title">Mathematical Basis of BSGS</span>
+            Let $n = \lceil \sqrt{m} \rceil$. Any integer $x$ in the range $[0, m-1]$ can be uniquely expressed as:
+            $$x = i \cdot n - j$$
+            where $1 \le i \le n$ and $0 \le j < n$.<br><br>
+            Substituting this into the congruence $g^x \equiv h \pmod m$ gives:
+            $$g^{i \cdot n - j} \equiv h \pmod m$$
+            Multiplying both sides by $g^j$ yields:
+            $$(g^n)^i \equiv h \cdot g^j \pmod m$$
+        </div>
+
+        <p>The algorithm evaluates both sides of this equation independently to find a collision:</p>
+        <ol>
+            <li><strong>Baby Steps:</strong> Compute $h \cdot g^j \pmod m$ for all $0 \le j < n$ and store the pairs $(h \cdot g^j \bmod m, j)$ in a hash map or balanced binary search tree.</li>
+            <li><strong>Giant Steps:</strong> Compute $(g^n)^i \pmod m$ for $1 \le i \le n$. For each iteration, check if the value exists in the map.</li>
+            <li>If a match is found, the discrete logarithm is $x = i \cdot n - j$.</li>
+        </ol>
+
+        <p>Below is the highly optimized C++ implementation matching the strict algorithmic constraints of competitive programming environments:</p>
+
+        <pre><code>#include &lt;cmath&gt;
+#include &lt;map&gt;
+
+long long p(long long b, long long e, long long m) {
+    long long r = 1;
+    b %= m;
+    while (e) {
+        if (e & 1) r = (r * b) % m;
+        b = (b * b) % m;
+        e >>= 1;
+    }
+    return r;
+}
+
+long long s(long long g, long long h, long long m) {
+    long long n = std::sqrt(m) + 1;
+    std::map&lt;long long, long long&gt; t;
+    long long c = h % m;
+    for (long long j = 0; j < n; ++j) {
+        t[c] = j;
+        c = (c * g) % m;
+    }
+    long long f = p(g, n, m);
+    long long v = f;
+    for (long long i = 1; i <= n; ++i) {
+        if (t.count(v)) return i * n - t[v];
+        v = (v * f) % m;
+    }
+    return -1;
+}</code></pre>
+
+        <h3>Advanced Addition: The Pohlig-Hellman Algorithm</h3>
+
+        <p>BSGS treats the multiplicative group as a black box. If the group order $N = \phi(m)$ has small prime factors, the Pohlig-Hellman algorithm drastically reduces the complexity. If the prime factorization of $N$ is $p_1^{e_1} p_2^{e_2} \dots p_k^{e_k}$, the algorithm projects the discrete logarithm problem into smaller subgroups.</p>
+
+        <p>Using the Chinese Remainder Theorem (CRT), solving $g^x \equiv h \pmod m$ is equivalent to solving $x \pmod{p_i^{e_i}}$ for each prime factor independently. For a specific $p_i^{e_i}$, the problem is further broken down to $e_i$ discrete logarithms in a subgroup of order $p_i$.</p>
+
+        <p><strong>Complexity:</strong> The time complexity drops from $O(\sqrt{N})$ to $O(\sum e_i \sqrt{p_i})$. If $N$ is $B$-smooth (all prime factors are $\le B$), the algorithm runs in $O(\sqrt{B})$, which is why cryptographic systems require moduli where $p-1$ contains a large prime factor.</p>
+
+        <h3>Advanced Addition: Pollard's rho Algorithm for Discrete Logarithms</h3>
+
+        <p>While BSGS operates in $O(\sqrt{m})$ time, it also demands $O(\sqrt{m})$ memory, which is prohibitive for $m \approx 10^{14}$ in CP constraints. Pollard's $\rho$ algorithm offers the same $O(\sqrt{m})$ expected time complexity but requires only $O(1)$ auxiliary space.</p>
+
+        <p>The algorithm partitions the group into three disjoint sets $S_1, S_2, S_3$ of roughly equal size and defines a pseudo-random walk $x_{k+1} = f(x_k)$ where:</p>
+        $$
+        f(x) = \begin{cases} 
+        h \cdot x \pmod m & \text{if } x \in S_1 \\
+        x^2 \pmod m & \text{if } x \in S_2 \\
+        g \cdot x \pmod m & \text{if } x \in S_3 
+        \end{cases}
+        $$
+        <p>By keeping track of the exponents of $g$ and $h$ that form $x_k$, we look for a cycle in the sequence using Floyd's cycle-finding algorithm (the "tortoise and hare" approach). Once a collision $x_{i} = x_{2i}$ is detected, we obtain an equation of the form $g^A h^B \equiv g^C h^D \pmod m$, which trivially resolves to a linear congruence $(B-D)x \equiv C-A \pmod{\phi(m)}$, yielding the discrete logarithm.</p>
+
+    </article>
+
+</main>
+
+    <script src="../../styles/theme.js"></script>
+</body>
+</html>]],
+                displayMath: [['$', '$']],
+                processEscapes: true
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<main>
+    <header>
+        <h1>Algorithmic Number Theory</h1>
+        <p><strong>Module:</strong> Primitive Roots and Discrete Logarithms</p>
+        <p><strong>Part D:</strong> Advanced Algorithmic Implementations</p>
+    </header>
+
+    <article id="part-D">
+        <h2>D. Advanced Algorithmic Implementations</h2>
+
+        <p>Finding the discrete logarithm $\text{ind}_g(h)$, equivalent to solving the congruence $g^x \equiv h \pmod m$, is a computationally hard problem. While an exhaustive linear search requires $O(m)$ time, we can optimize this significantly using time-memory tradeoffs and algebraic group structures.</p>
+
+        <h3>The Baby-step Giant-step (BSGS) Algorithm</h3>
+
+        <p>Developed by Daniel Shanks, BSGS is a deterministic algorithm that reduces the time complexity of computing discrete logarithms to $O(\sqrt{m})$ at the cost of $O(\sqrt{m})$ memory. It relies on rewriting the unknown exponent $x$ using the division algorithm.</p>
+
+        <div class="theorem">
+            <span class="theorem-title">Mathematical Basis of BSGS</span>
+            Let $n = \lceil \sqrt{m} \rceil$. Any integer $x$ in the range $[0, m-1]$ can be uniquely expressed as:
+            $$x = i \cdot n - j$$
+            where $1 \le i \le n$ and $0 \le j < n$.<br><br>
+            Substituting this into the congruence $g^x \equiv h \pmod m$ gives:
+            $$g^{i \cdot n - j} \equiv h \pmod m$$
+            Multiplying both sides by $g^j$ yields:
+            $$(g^n)^i \equiv h \cdot g^j \pmod m$$
+        </div>
+
+        <p>The algorithm evaluates both sides of this equation independently to find a collision:</p>
+        <ol>
+            <li><strong>Baby Steps:</strong> Compute $h \cdot g^j \pmod m$ for all $0 \le j < n$ and store the pairs $(h \cdot g^j \bmod m, j)$ in a hash map or balanced binary search tree.</li>
+            <li><strong>Giant Steps:</strong> Compute $(g^n)^i \pmod m$ for $1 \le i \le n$. For each iteration, check if the value exists in the map.</li>
+            <li>If a match is found, the discrete logarithm is $x = i \cdot n - j$.</li>
+        </ol>
+
+        <p>Below is the highly optimized C++ implementation matching the strict algorithmic constraints of competitive programming environments:</p>
+
+        <pre><code>#include &lt;cmath&gt;
+#include &lt;map&gt;
+
+long long p(long long b, long long e, long long m) {
+    long long r = 1;
+    b %= m;
+    while (e) {
+        if (e & 1) r = (r * b) % m;
+        b = (b * b) % m;
+        e >>= 1;
+    }
+    return r;
+}
+
+long long s(long long g, long long h, long long m) {
+    long long n = std::sqrt(m) + 1;
+    std::map&lt;long long, long long&gt; t;
+    long long c = h % m;
+    for (long long j = 0; j < n; ++j) {
+        t[c] = j;
+        c = (c * g) % m;
+    }
+    long long f = p(g, n, m);
+    long long v = f;
+    for (long long i = 1; i <= n; ++i) {
+        if (t.count(v)) return i * n - t[v];
+        v = (v * f) % m;
+    }
+    return -1;
+}</code></pre>
+
+        <h3>Advanced Addition: The Pohlig-Hellman Algorithm</h3>
+
+        <p>BSGS treats the multiplicative group as a black box. If the group order $N = \phi(m)$ has small prime factors, the Pohlig-Hellman algorithm drastically reduces the complexity. If the prime factorization of $N$ is $p_1^{e_1} p_2^{e_2} \dots p_k^{e_k}$, the algorithm projects the discrete logarithm problem into smaller subgroups.</p>
+
+        <p>Using the Chinese Remainder Theorem (CRT), solving $g^x \equiv h \pmod m$ is equivalent to solving $x \pmod{p_i^{e_i}}$ for each prime factor independently. For a specific $p_i^{e_i}$, the problem is further broken down to $e_i$ discrete logarithms in a subgroup of order $p_i$.</p>
+
+        <p><strong>Complexity:</strong> The time complexity drops from $O(\sqrt{N})$ to $O(\sum e_i \sqrt{p_i})$. If $N$ is $B$-smooth (all prime factors are $\le B$), the algorithm runs in $O(\sqrt{B})$, which is why cryptographic systems require moduli where $p-1$ contains a large prime factor.</p>
+
+        <h3>Advanced Addition: Pollard's rho Algorithm for Discrete Logarithms</h3>
+
+        <p>While BSGS operates in $O(\sqrt{m})$ time, it also demands $O(\sqrt{m})$ memory, which is prohibitive for $m \approx 10^{14}$ in CP constraints. Pollard's $\rho$ algorithm offers the same $O(\sqrt{m})$ expected time complexity but requires only $O(1)$ auxiliary space.</p>
+
+        <p>The algorithm partitions the group into three disjoint sets $S_1, S_2, S_3$ of roughly equal size and defines a pseudo-random walk $x_{k+1} = f(x_k)$ where:</p>
+        $$
+        f(x) = \begin{cases} 
+        h \cdot x \pmod m & \text{if } x \in S_1 \\
+        x^2 \pmod m & \text{if } x \in S_2 \\
+        g \cdot x \pmod m & \text{if } x \in S_3 
+        \end{cases}
+        $$
+        <p>By keeping track of the exponents of $g$ and $h$ that form $x_k$, we look for a cycle in the sequence using Floyd's cycle-finding algorithm (the "tortoise and hare" approach). Once a collision $x_{i} = x_{2i}$ is detected, we obtain an equation of the form $g^A h^B \equiv g^C h^D \pmod m$, which trivially resolves to a linear congruence $(B-D)x \equiv C-A \pmod{\phi(m)}$, yielding the discrete logarithm.</p>
+
+    </article>
+
+</main>
+
+    <script src="../../styles/theme.js"></script>
 </body>
 </html>

@@ -1,94 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-topic="5" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quadratic Residues and Reciprocity: Part B</title>
+        
+    <link rel="stylesheet" href="../../styles/module.css">
     <script>
-        window.MathJax = {
+        MathJax = {
             tex: {
                 inlineMath: [['$', '$']],
-                displayMath: [['$$', '$$']]
-            },
-            svg: {
-                fontCache: 'global'
+                displayMath: [['$$', '$$']],
+                processEscapes: true
             }
         };
     </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <style>
-        :root {
-            --bg-color: #fcfcfc;
-            --text-color: #222222;
-            --accent-color: #0b5394;
-            --box-bg: #f4f6f8;
-            --border-color: #cbd5e1;
-            --code-bg: #e2e8f0;
-            --code-color: #1e293b;
-        }
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-color: #1a1a2e;
-                --text-color: #e2e8f0;
-                --accent-color: #64b5f6;
-                --box-bg: #16213e;
-                --border-color: #0f3460;
-                --code-bg: #0b1120;
-                --code-color: #e2e8f0;
-            }
-        }
-        body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.7;
-            color: var(--text-color);
-            background-color: var(--bg-color);
-            max-width: 960px;
-            margin: 0 auto;
-            padding: 2rem;
-            transition: all 0.3s ease;
-        }
-        header {
-            border-bottom: 2px solid var(--accent-color);
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-        }
-        h1, h2, h3 {
-            color: var(--accent-color);
-        }
-        .block {
-            background-color: var(--box-bg);
-            border-left: 4px solid var(--accent-color);
-            padding: 1rem 1.5rem;
-            margin: 1.5rem 0;
-            border-radius: 0 4px 4px 0;
-        }
-        .block-title {
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            display: block;
-            text-transform: uppercase;
-            font-size: 0.9em;
-            letter-spacing: 0.05em;
-        }
-        .proof-title {
-            font-style: italic;
-            font-weight: 600;
-        }
-        code, pre {
-            font-family: Consolas, Monaco, 'Andale Mono', monospace;
-            background-color: var(--code-bg);
-            color: var(--code-color);
-            border-radius: 4px;
-        }
-        code {
-            padding: 0.2rem 0.4rem;
-        }
-        pre {
-            padding: 1rem;
-            overflow-x: auto;
-            line-height: 1.4;
-        }
-    </style>
 </head>
 <body>
     <header>
@@ -213,5 +140,268 @@ int l(int a, int q) {
 }</code></pre>
         </section>
     </article>
+
+    <script src="../../styles/theme.js"></script>
+</body>
+</html>, '
+<body>
+    <header>
+        <h1>Advanced Algorithmic Number Theory</h1>
+        <h2>Module: Quadratic Residues and Reciprocity</h2>
+        <p><strong>Part B: The Legendre Symbol and Gauss's Lemma</strong></p>
+    </header>
+
+    <article>
+        <section>
+            <p>To streamline our theoretical discourse and algorithmic notation, we introduce a concise mathematical function. The Legendre symbol abstracts away the congruence notation of residuosity, mapping integers directly into the multiplicative group $\{-1, 1\}$, with $0$ acting as an absorbing element.</p>
+        </section>
+
+        <section>
+            <h2>1. The Legendre Symbol and its Multiplicative Properties</h2>
+            
+            <div class="block">
+                <span class="block-title">Definition 2.1: The Legendre Symbol</span>
+                Let $p$ be an odd prime and $a$ be an integer. The Legendre symbol $\left(\frac{a}{p}\right)$ is defined as:
+                $$
+                \left(\frac{a}{p}\right) = 
+                \begin{cases} 
+                1 & \text{if } a \text{ is a quadratic residue modulo } p \text{ and } a \not\equiv 0 \pmod{p} \\
+                -1 & \text{if } a \text{ is a quadratic non-residue modulo } p \\
+                0 & \text{if } a \equiv 0 \pmod{p}
+                \end{cases}
+                $$
+            </div>
+
+            <p>From Euler's Criterion established in Part A, we can immediately state that for any integer $a$:</p>
+            $$ \left(\frac{a}{p}\right) \equiv a^{\frac{p-1}{2}} \pmod{p} $$
+            
+            <p>This formulation trivially proves that the Legendre symbol is a completely multiplicative function.</p>
+
+            <div class="block">
+                <span class="block-title">Theorem 2.2: Multiplicativity</span>
+                For any integers $a$ and $b$, and an odd prime $p$:
+                $$ \left(\frac{ab}{p}\right) = \left(\frac{a}{p}\right)\left(\frac{b}{p}\right) $$
+                
+                <span class="proof-title">Proof.</span>
+                Using Euler's Criterion:
+                $$ \left(\frac{ab}{p}\right) \equiv (ab)^{\frac{p-1}{2}} \equiv a^{\frac{p-1}{2}}b^{\frac{p-1}{2}} \equiv \left(\frac{a}{p}\right)\left(\frac{b}{p}\right) \pmod{p} $$
+                Since the Legendre symbol only takes values in $\{-1, 0, 1\}$, and $p \ge 3$, the congruence class directly implies strict equality. $\blacksquare$
+            </div>
+            
+            <p>From this, a crucial structural fact emerges: the product of two non-residues is always a residue (since $(-1) \times (-1) = 1$).</p>
+        </section>
+
+        <section>
+            <h2>2. Gauss's Lemma</h2>
+            <p>While Euler's criterion is computationally flawless, it lacks geometric depth. Carl Friedrich Gauss introduced a combinatorial approach to evaluate the Legendre symbol. This lemma forms the rigorous foundation for the Law of Quadratic Reciprocity.</p>
+
+            <div class="block">
+                <span class="block-title">Lemma 2.3: Gauss's Lemma</span>
+                Let $p$ be an odd prime and $a \in \mathbb{Z}$ such that $\gcd(a,p) = 1$. Consider the set of integers:
+                $$ S = \left\{ a, 2a, 3a, \dots, \left(\frac{p-1}{2}\right)a \right\} $$
+                Let $n$ be the number of elements in $S$ whose least positive residue modulo $p$ strictly exceeds $\frac{p}{2}$. Then:
+                $$ \left(\frac{a}{p}\right) = (-1)^n $$
+
+                <span class="proof-title">Proof.</span>
+                Reduce each element $ka \in S$ modulo $p$ to obtain a sequence of least positive residues. Let $u_1, u_2, \ldots, u_m$ be the residues that are less than or equal to $\frac{p}{2}$, and let $v_1, v_2, \ldots, v_n$ be the residues that are strictly greater than $\frac{p}{2}$. 
+                <br><br>
+                Note that $m + n = \frac{p-1}{2}$. 
+                Consider the numbers $p - v_i$. These are in the range $[1, \frac{p-1}{2}]$. 
+                We claim the set $U = \{u_1, \ldots, u_m, p-v_1, \ldots, p-v_n\}$ is exactly the set $\{1, 2, \ldots, \frac{p-1}{2}\}$. 
+                <br><br>
+                To prove this, we must show no two elements in $U$ are congruent modulo $p$. 
+                Clearly $u_i \not\equiv u_j$ and $v_i \not\equiv v_j$ since $ka \equiv ja \pmod{p} \implies k \equiv j \pmod{p}$, which is impossible for distinct $k, j \le \frac{p-1}{2}$. 
+                Suppose $u_i \equiv p - v_j \pmod{p}$. This means $u_i + v_j \equiv 0 \pmod{p}$. But $u_i \equiv k_1 a$ and $v_j \equiv k_2 a$, so $(k_1 + k_2)a \equiv 0 \pmod{p} \implies k_1 + k_2 \equiv 0 \pmod{p}$. This is impossible since $1 \le k_1 + k_2 \le p-1$.
+                <br><br>
+                Since $U$ contains $\frac{p-1}{2}$ distinct integers bounded by $\frac{p-1}{2}$, they must be the integers $1, 2, \dots, \frac{p-1}{2}$. We take the product of all elements in $S$:
+                $$ a \cdot 2a \cdots \left(\frac{p-1}{2}\right)a \equiv u_1 \cdots u_m \cdot v_1 \cdots v_n \pmod{p} $$
+                $$ a^{\frac{p-1}{2}} \left(\frac{p-1}{2}\right)! \equiv u_1 \cdots u_m \cdot (-1)^n (p-v_1) \cdots (p-v_n) \pmod{p} $$
+                $$ a^{\frac{p-1}{2}} \left(\frac{p-1}{2}\right)! \equiv (-1)^n \left(\frac{p-1}{2}\right)! \pmod{p} $$
+                Canceling $\left(\frac{p-1}{2}\right)!$ from both sides, we are left with $a^{\frac{p-1}{2}} \equiv (-1)^n \pmod{p}$. Applying Euler's Criterion concludes the proof. $\blacksquare$
+            </div>
+        </section>
+
+        <section>
+            <h2>3. Evaluating the Legendre Symbol for $-1$ and $2$</h2>
+            <p>Using the tools constructed thus far, we can deterministically evaluate the Legendre symbol for specific fundamental constants.</p>
+
+            <div class="block">
+                <span class="block-title">Theorem 2.4: Evaluation of $\left(\frac{-1}{p}\right)$</span>
+                For an odd prime $p$:
+                $$ \left(\frac{-1}{p}\right) = (-1)^{\frac{p-1}{2}} = \begin{cases} 1 & \text{if } p \equiv 1 \pmod{4} \\ -1 & \text{if } p \equiv 3 \pmod{4} \end{cases} $$
+                <span class="proof-title">Proof.</span> Directly applies Euler's Criterion: $\left(\frac{-1}{p}\right) \equiv (-1)^{\frac{p-1}{2}} \pmod{p}$. $\blacksquare$
+            </div>
+
+            <div class="block">
+                <span class="block-title">Theorem 2.5: Evaluation of $\left(\frac{2}{p}\right)$</span>
+                For an odd prime $p$:
+                $$ \left(\frac{2}{p}\right) = (-1)^{\frac{p^2-1}{8}} = \begin{cases} 1 & \text{if } p \equiv 1, 7 \pmod{8} \\ -1 & \text{if } p \equiv 3, 5 \pmod{8} \end{cases} $$
+                <span class="proof-title">Proof.</span> We apply Gauss's Lemma with $a=2$. The set $S = \{2, 4, 6, \dots, p-1\}$. We need to count how many of these are strictly greater than $\frac{p}{2}$. 
+                An element $2k > \frac{p}{2} \implies k > \frac{p}{4}$. Since $k$ runs up to $\frac{p-1}{2}$, the number of such elements is:
+                $$ n = \frac{p-1}{2} - \left\lfloor \frac{p}{4} \right\rfloor $$
+                If $p = 8k+1$, $n = 4k - 2k = 2k$ (even).
+                If $p = 8k+3$, $n = (4k+1) - 2k = 2k+1$ (odd).
+                If $p = 8k+5$, $n = (4k+2) - (2k+1) = 2k+1$ (odd).
+                If $p = 8k+7$, $n = (4k+3) - (2k+1) = 2k+2$ (even).
+                The exponent parity matches the closed-form expression $\frac{p^2-1}{8}$. $\blacksquare$
+            </div>
+        </section>
+
+        <section>
+            <h2>4. Algorithmic Execution</h2>
+            <p>From an execution standpoint, computing the Legendre symbol natively via Euler's criterion is a standard operation in CP for checking square roots existence before executing Tonelli-Shanks.</p>
+
+<pre><code>int p(int a, int b, int m) {
+    int r = 1;
+    a %= m;
+    while (b > 0) {
+        if (b & 1) r = (1LL * r * a) % m;
+        a = (1LL * a * a) % m;
+        b >>= 1;
+    }
+    return r;
+}
+int l(int a, int q) {
+    int r = p(a, (q - 1) / 2, q);
+    return r == q - 1 ? -1 : r;
+}</code></pre>
+        </section>
+    </article>
+
+    <script src="../../styles/theme.js"></script>
+</body>
+</html>]],
+                displayMath: [['$', '$']],
+                processEscapes: true
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Advanced Algorithmic Number Theory</h1>
+        <h2>Module: Quadratic Residues and Reciprocity</h2>
+        <p><strong>Part B: The Legendre Symbol and Gauss's Lemma</strong></p>
+    </header>
+
+    <article>
+        <section>
+            <p>To streamline our theoretical discourse and algorithmic notation, we introduce a concise mathematical function. The Legendre symbol abstracts away the congruence notation of residuosity, mapping integers directly into the multiplicative group $\{-1, 1\}$, with $0$ acting as an absorbing element.</p>
+        </section>
+
+        <section>
+            <h2>1. The Legendre Symbol and its Multiplicative Properties</h2>
+            
+            <div class="block">
+                <span class="block-title">Definition 2.1: The Legendre Symbol</span>
+                Let $p$ be an odd prime and $a$ be an integer. The Legendre symbol $\left(\frac{a}{p}\right)$ is defined as:
+                $$
+                \left(\frac{a}{p}\right) = 
+                \begin{cases} 
+                1 & \text{if } a \text{ is a quadratic residue modulo } p \text{ and } a \not\equiv 0 \pmod{p} \\
+                -1 & \text{if } a \text{ is a quadratic non-residue modulo } p \\
+                0 & \text{if } a \equiv 0 \pmod{p}
+                \end{cases}
+                $$
+            </div>
+
+            <p>From Euler's Criterion established in Part A, we can immediately state that for any integer $a$:</p>
+            $$ \left(\frac{a}{p}\right) \equiv a^{\frac{p-1}{2}} \pmod{p} $$
+            
+            <p>This formulation trivially proves that the Legendre symbol is a completely multiplicative function.</p>
+
+            <div class="block">
+                <span class="block-title">Theorem 2.2: Multiplicativity</span>
+                For any integers $a$ and $b$, and an odd prime $p$:
+                $$ \left(\frac{ab}{p}\right) = \left(\frac{a}{p}\right)\left(\frac{b}{p}\right) $$
+                
+                <span class="proof-title">Proof.</span>
+                Using Euler's Criterion:
+                $$ \left(\frac{ab}{p}\right) \equiv (ab)^{\frac{p-1}{2}} \equiv a^{\frac{p-1}{2}}b^{\frac{p-1}{2}} \equiv \left(\frac{a}{p}\right)\left(\frac{b}{p}\right) \pmod{p} $$
+                Since the Legendre symbol only takes values in $\{-1, 0, 1\}$, and $p \ge 3$, the congruence class directly implies strict equality. $\blacksquare$
+            </div>
+            
+            <p>From this, a crucial structural fact emerges: the product of two non-residues is always a residue (since $(-1) \times (-1) = 1$).</p>
+        </section>
+
+        <section>
+            <h2>2. Gauss's Lemma</h2>
+            <p>While Euler's criterion is computationally flawless, it lacks geometric depth. Carl Friedrich Gauss introduced a combinatorial approach to evaluate the Legendre symbol. This lemma forms the rigorous foundation for the Law of Quadratic Reciprocity.</p>
+
+            <div class="block">
+                <span class="block-title">Lemma 2.3: Gauss's Lemma</span>
+                Let $p$ be an odd prime and $a \in \mathbb{Z}$ such that $\gcd(a,p) = 1$. Consider the set of integers:
+                $$ S = \left\{ a, 2a, 3a, \dots, \left(\frac{p-1}{2}\right)a \right\} $$
+                Let $n$ be the number of elements in $S$ whose least positive residue modulo $p$ strictly exceeds $\frac{p}{2}$. Then:
+                $$ \left(\frac{a}{p}\right) = (-1)^n $$
+
+                <span class="proof-title">Proof.</span>
+                Reduce each element $ka \in S$ modulo $p$ to obtain a sequence of least positive residues. Let $u_1, u_2, \ldots, u_m$ be the residues that are less than or equal to $\frac{p}{2}$, and let $v_1, v_2, \ldots, v_n$ be the residues that are strictly greater than $\frac{p}{2}$. 
+                <br><br>
+                Note that $m + n = \frac{p-1}{2}$. 
+                Consider the numbers $p - v_i$. These are in the range $[1, \frac{p-1}{2}]$. 
+                We claim the set $U = \{u_1, \ldots, u_m, p-v_1, \ldots, p-v_n\}$ is exactly the set $\{1, 2, \ldots, \frac{p-1}{2}\}$. 
+                <br><br>
+                To prove this, we must show no two elements in $U$ are congruent modulo $p$. 
+                Clearly $u_i \not\equiv u_j$ and $v_i \not\equiv v_j$ since $ka \equiv ja \pmod{p} \implies k \equiv j \pmod{p}$, which is impossible for distinct $k, j \le \frac{p-1}{2}$. 
+                Suppose $u_i \equiv p - v_j \pmod{p}$. This means $u_i + v_j \equiv 0 \pmod{p}$. But $u_i \equiv k_1 a$ and $v_j \equiv k_2 a$, so $(k_1 + k_2)a \equiv 0 \pmod{p} \implies k_1 + k_2 \equiv 0 \pmod{p}$. This is impossible since $1 \le k_1 + k_2 \le p-1$.
+                <br><br>
+                Since $U$ contains $\frac{p-1}{2}$ distinct integers bounded by $\frac{p-1}{2}$, they must be the integers $1, 2, \dots, \frac{p-1}{2}$. We take the product of all elements in $S$:
+                $$ a \cdot 2a \cdots \left(\frac{p-1}{2}\right)a \equiv u_1 \cdots u_m \cdot v_1 \cdots v_n \pmod{p} $$
+                $$ a^{\frac{p-1}{2}} \left(\frac{p-1}{2}\right)! \equiv u_1 \cdots u_m \cdot (-1)^n (p-v_1) \cdots (p-v_n) \pmod{p} $$
+                $$ a^{\frac{p-1}{2}} \left(\frac{p-1}{2}\right)! \equiv (-1)^n \left(\frac{p-1}{2}\right)! \pmod{p} $$
+                Canceling $\left(\frac{p-1}{2}\right)!$ from both sides, we are left with $a^{\frac{p-1}{2}} \equiv (-1)^n \pmod{p}$. Applying Euler's Criterion concludes the proof. $\blacksquare$
+            </div>
+        </section>
+
+        <section>
+            <h2>3. Evaluating the Legendre Symbol for $-1$ and $2$</h2>
+            <p>Using the tools constructed thus far, we can deterministically evaluate the Legendre symbol for specific fundamental constants.</p>
+
+            <div class="block">
+                <span class="block-title">Theorem 2.4: Evaluation of $\left(\frac{-1}{p}\right)$</span>
+                For an odd prime $p$:
+                $$ \left(\frac{-1}{p}\right) = (-1)^{\frac{p-1}{2}} = \begin{cases} 1 & \text{if } p \equiv 1 \pmod{4} \\ -1 & \text{if } p \equiv 3 \pmod{4} \end{cases} $$
+                <span class="proof-title">Proof.</span> Directly applies Euler's Criterion: $\left(\frac{-1}{p}\right) \equiv (-1)^{\frac{p-1}{2}} \pmod{p}$. $\blacksquare$
+            </div>
+
+            <div class="block">
+                <span class="block-title">Theorem 2.5: Evaluation of $\left(\frac{2}{p}\right)$</span>
+                For an odd prime $p$:
+                $$ \left(\frac{2}{p}\right) = (-1)^{\frac{p^2-1}{8}} = \begin{cases} 1 & \text{if } p \equiv 1, 7 \pmod{8} \\ -1 & \text{if } p \equiv 3, 5 \pmod{8} \end{cases} $$
+                <span class="proof-title">Proof.</span> We apply Gauss's Lemma with $a=2$. The set $S = \{2, 4, 6, \dots, p-1\}$. We need to count how many of these are strictly greater than $\frac{p}{2}$. 
+                An element $2k > \frac{p}{2} \implies k > \frac{p}{4}$. Since $k$ runs up to $\frac{p-1}{2}$, the number of such elements is:
+                $$ n = \frac{p-1}{2} - \left\lfloor \frac{p}{4} \right\rfloor $$
+                If $p = 8k+1$, $n = 4k - 2k = 2k$ (even).
+                If $p = 8k+3$, $n = (4k+1) - 2k = 2k+1$ (odd).
+                If $p = 8k+5$, $n = (4k+2) - (2k+1) = 2k+1$ (odd).
+                If $p = 8k+7$, $n = (4k+3) - (2k+1) = 2k+2$ (even).
+                The exponent parity matches the closed-form expression $\frac{p^2-1}{8}$. $\blacksquare$
+            </div>
+        </section>
+
+        <section>
+            <h2>4. Algorithmic Execution</h2>
+            <p>From an execution standpoint, computing the Legendre symbol natively via Euler's criterion is a standard operation in CP for checking square roots existence before executing Tonelli-Shanks.</p>
+
+<pre><code>int p(int a, int b, int m) {
+    int r = 1;
+    a %= m;
+    while (b > 0) {
+        if (b & 1) r = (1LL * r * a) % m;
+        a = (1LL * a * a) % m;
+        b >>= 1;
+    }
+    return r;
+}
+int l(int a, int q) {
+    int r = p(a, (q - 1) / 2, q);
+    return r == q - 1 ? -1 : r;
+}</code></pre>
+        </section>
+    </article>
+
+    <script src="../../styles/theme.js"></script>
 </body>
 </html>

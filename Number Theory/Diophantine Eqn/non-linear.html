@@ -1,113 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-topic="3" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Advanced Number Theory: Diophantine Equations - Part 2</title>
-    
+        
+    <link rel="stylesheet" href="../../styles/module.css">
     <script>
-        window.MathJax = {
+        MathJax = {
             tex: {
-                inlineMath: [['$', '$'], ['\\(', '\\)']],
-                displayMath: [['$$', '$$'], ['\\[', '\\]']],
-                processEscapes: true,
-                tags: 'ams'
+                inlineMath: [['$', '$']],
+                displayMath: [['$$', '$$']],
+                processEscapes: true
             }
         };
     </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
-    <style>
-        :root {
-            --bg-color: #121212;
-            --text-color: #e0e0e0;
-            --accent-color: #64ffda;
-            --secondary-bg: #1e1e1e;
-            --border-color: #333;
-        }
-        
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: 'Georgia', serif;
-            line-height: 1.7;
-            margin: 0;
-            padding: 40px 20px;
-            max-width: 900px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        h1, h2, h3, h4 {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            color: var(--accent-color);
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 5px;
-        }
-
-        .theorem, .lemma, .definition {
-            background-color: var(--secondary-bg);
-            border-left: 4px solid var(--accent-color);
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 0 4px 4px 0;
-        }
-
-        .theorem-title, .lemma-title, .definition-title {
-            font-weight: bold;
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            text-transform: uppercase;
-            font-size: 0.9em;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        .proof {
-            margin: 20px 0;
-            padding-left: 20px;
-            border-left: 2px dashed var(--border-color);
-        }
-
-        .proof::before {
-            content: "Proof.";
-            font-style: italic;
-            font-weight: bold;
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        .qedsymbol {
-            float: right;
-            font-size: 1.2em;
-        }
-
-        pre {
-            background-color: #0a0a0a;
-            color: #a6accd;
-            padding: 15px;
-            border-radius: 5px;
-            overflow-x: auto;
-            font-family: 'Fira Code', 'Courier New', monospace;
-            font-size: 14px;
-            border: 1px solid var(--border-color);
-        }
-
-        code {
-            font-family: 'Fira Code', 'Courier New', monospace;
-            color: #ff9e64;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        header p {
-            font-style: italic;
-            color: #888;
-        }
-    </style>
 </head>
 <body>
 
@@ -220,5 +128,241 @@ if(c*c<s)l=c+1;else r=c-1;
 
 </main>
 
+    <script src="../../styles/theme.js"></script>
+</body>
+</html>, '
+<body>
+
+<header>
+    <h1>Module II: Non-Linear Equations and Sums of Squares</h1>
+    <p>Algorithmic Number Theory & Abstract Algebra • Advanced Undergraduate Sequence</p>
+</header>
+
+<main>
+    <section>
+        <h2>1. Primitive Pythagorean Triples</h2>
+        <p>We transition into non-linear analysis by classifying the integer solutions to the canonical quadratic Diophantine equation $x^2 + y^2 = z^2$. A triple $(x, y, z) \in \mathbb{Z}^3_{>0}$ is termed a <em>Primitive Pythagorean Triple</em> (PPT) if $\gcd(x, y, z) = 1$.</p>
+
+        <div class="lemma">
+            <span class="lemma-title">Lemma 2.1 (Parity Constraints)</span>
+            <p>If $(x,y,z)$ is a PPT, then exactly one of $x$ or $y$ is even, and $z$ is odd.</p>
+        </div>
+        
+        <div class="proof">
+            <p>If both $x$ and $y$ are even, then $2 \mid x$ and $2 \mid y \implies 4 \mid (x^2 + y^2) = z^2 \implies 2 \mid z$. This contradicts $\gcd(x,y,z)=1$.</p>
+            <p>If both $x$ and $y$ are odd, then $x^2 \equiv 1 \pmod 4$ and $y^2 \equiv 1 \pmod 4$. Thus, $z^2 = x^2 + y^2 \equiv 2 \pmod 4$. However, quadratic residues modulo 4 can only be 0 or 1. Thus, $x$ and $y$ must have opposite parity. Consequently, $z^2 = \text{odd} + \text{even} = \text{odd}$, rendering $z$ odd.</p>
+            <div class="qedsymbol">$\blacksquare$</div>
+        </div>
+
+        <div class="theorem">
+            <span class="theorem-title">Theorem 2.2 (Euclid's Formula)</span>
+            <p>Every primitive Pythagorean triple $(x, y, z)$ with $x$ even is parameterized by exactly one pair of relatively prime integers $m, n > 0$ of opposite parity, such that $m > n$, given by:</p>
+            $$x = 2mn, \quad y = m^2 - n^2, \quad z = m^2 + n^2$$
+        </div>
+
+        <div class="proof">
+            <p>From Lemma 2.1, $y$ and $z$ are both odd. We algebraically manipulate the equation $x^2 + y^2 = z^2$:</p>
+            $$x^2 = z^2 - y^2 = (z - y)(z + y) \implies \left(\frac{x}{2}\right)^2 = \left(\frac{z - y}{2}\right)\left(\frac{z + y}{2}\right)$$
+            <p>Since $y$ and $z$ are odd, $\frac{z-y}{2}$ and $\frac{z+y}{2}$ are integers. Let $d = \gcd\left(\frac{z-y}{2}, \frac{z+y}{2}\right)$. Then $d$ divides their sum $(z)$ and their difference $(y)$. Since $\gcd(y, z) = 1$ (from the PPT assumption), we conclude $d = 1$.</p>
+            <p>The product of two coprime positive integers is a perfect square if and only if each is a perfect square. Thus, there exist integers $m, n > 0$ such that:</p>
+            $$\frac{z+y}{2} = m^2 \quad \text{and} \quad \frac{z-y}{2} = n^2$$
+            <p>Solving this linear system for $y$ and $z$ yields $z = m^2 + n^2$ and $y = m^2 - n^2$. Substituting these back reveals $x = 2mn$. Coprimality of $m,n$ follows from $\gcd(y,z)=1$. Opposite parity of $m,n$ is mandated because if both were odd, $y$ and $z$ would be even, violating the PPT condition.</p>
+            <div class="qedsymbol">$\blacksquare$</div>
+        </div>
+    </section>
+
+    <section>
+        <h2>2. Fermat's Theorem on Sums of Two Squares</h2>
+        <p>We investigate the representation of integers by the quadratic form $f(x,y) = x^2 + y^2$. A fundamental result in number theory determines exactly which primes can be expressed in this manner.</p>
+
+        <div class="lemma">
+            <span class="lemma-title">Lemma 2.3 (Thue's Lemma)</span>
+            <p>Let $n$ be an integer $>1$ and let $a$ be an integer such that $\gcd(a, n) = 1$. There exist integers $x$ and $y$ satisfying $0 < |x| \le \lfloor\sqrt{n}\rfloor$ and $0 < |y| \le \lfloor\sqrt{n}\rfloor$ such that $ax \equiv y \pmod n$.</p>
+        </div>
+
+        <div class="theorem">
+            <span class="theorem-title">Theorem 2.4 (Fermat, 1640)</span>
+            <p>An odd prime $p$ can be expressed as the sum of two integer squares, $p = x^2 + y^2$, if and only if $p \equiv 1 \pmod 4$. This representation is uniquely determined up to sign and order.</p>
+        </div>
+
+        <div class="proof">
+            <p>($\implies$) Suppose $p = x^2 + y^2$. Since $p$ is odd, $\gcd(x,p) = \gcd(y,p) = 1$. We have $x^2 \equiv -y^2 \pmod p$. Multiplying by $(y^{-1})^2$, we obtain $(x y^{-1})^2 \equiv -1 \pmod p$. By Euler's Criterion, $\left(\frac{-1}{p}\right) = (-1)^{\frac{p-1}{2}} = 1$, which necessitates $p \equiv 1 \pmod 4$.</p>
+            <p>($\impliedby$) Assume $p \equiv 1 \pmod 4$. By Euler's Criterion, $-1$ is a quadratic residue modulo $p$. Hence, there exists an integer $a$ such that $a^2 \equiv -1 \pmod p$.</p>
+            <p>Apply Thue's Lemma (Lemma 2.3) to $a$ and $p$. There exist integers $x, y \in (0, \lfloor\sqrt{p}\rfloor]$ such that $ax \equiv y \pmod p$.</p>
+            <p>Squaring this congruence yields:</p>
+            $$y^2 \equiv a^2x^2 \equiv -x^2 \pmod p \implies x^2 + y^2 \equiv 0 \pmod p$$
+            <p>Since $x, y \le \lfloor\sqrt{p}\rfloor < \sqrt{p}$, we strictly bound the sum: $0 < x^2 + y^2 < (\sqrt{p})^2 + (\sqrt{p})^2 = 2p$.</p>
+            <p>The only multiple of $p$ strictly between $0$ and $2p$ is $p$ itself. Therefore, we rigidly conclude $x^2 + y^2 = p$.</p>
+            <div class="qedsymbol">$\blacksquare$</div>
+        </div>
+
+        <h3>2.1 Algorithmic Realization (Hermite's Algorithm)</h3>
+        <p>To explicitly compute $x, y$ such that $x^2+y^2=p$ for a prime $p \equiv 1 \pmod 4$, we first locate $a$ where $a^2 \equiv -1 \pmod p$ using a randomized search for a non-residue $z$ and raising it to the power of $(p-1)/4$. We then apply the Euclidean algorithm cascade down to the square root bound. Below is the $O(\log^3 p)$ expected time C++ implementation.</p>
+
+<pre><code>long long p(long long b,long long e,long long m){
+long long r=1;b%=m;
+while(e){if(e&1)r=r*b%m;b=b*b%m;e>>=1;}
+return r;
+}
+void f(long long m,long long&x,long long&y){
+long long z=2;
+while(p(z,(m-1)/2,m)!=m-1)z++;
+long long a=m,b=p(z,(m-1)/4,m);
+while(b*b>m){long long t=a%b;a=b;b=t;}
+x=b;
+long long s=m-x*x,l=0,r=s;
+while(l<=r){
+long long c=l+(r-l)/2;
+if(c*c==s){y=c;return;}
+if(c*c<s)l=c+1;else r=c-1;
+}
+}</code></pre>
+    </section>
+
+    <section>
+        <h2>3. Lagrange's Four-Square Theorem</h2>
+        <p>While the subset of primes representable by two squares is strictly governed by modulo 4 conditions, extending the quadratic form to four variables envelops the entirety of $\mathbb{Z}_{\ge 0}$.</p>
+
+        <div class="theorem">
+            <span class="theorem-title">Theorem 2.5 (Lagrange, 1770)</span>
+            <p>Every non-negative integer can be expressed as the sum of four integer squares: $n = a^2 + b^2 + c^2 + d^2$.</p>
+        </div>
+
+        <div class="proof">
+            <p>The proof structurally relies on Euler's Four-Square Identity, which establishes that the set of sums of four squares is closed under multiplication:</p>
+            $$(a_1^2 + a_2^2 + a_3^2 + a_4^2)(b_1^2 + b_2^2 + b_3^2 + b_4^2) = $$
+            $$(a_1b_1 - a_2b_2 - a_3b_3 - a_4b_4)^2 + (a_1b_2 + a_2b_1 + a_3b_4 - a_4b_3)^2 + $$
+            $$(a_1b_3 - a_2b_4 + a_3b_1 + a_4b_2)^2 + (a_1b_4 + a_2b_3 - a_3b_2 + a_4b_1)^2$$
+            <p>Due to this multiplicative closure, and noting $1=1^2+0^2+0^2+0^2$ and $2=1^2+1^2+0^2+0^2$, it suffices to prove the theorem for odd primes $p$.</p>
+            <p>By the Pigeonhole Principle on the finite field $\mathbb{F}_p$, the sets $A = \{a^2 \pmod p \mid 0 \le a \le (p-1)/2\}$ and $B = \{-b^2 - 1 \pmod p \mid 0 \le b \le (p-1)/2\}$ both possess $(p+1)/2$ elements. Since their sum $|A| + |B| = p + 1 > p$, they must intersect. Thus, there exist $a, b$ such that $a^2 \equiv -b^2 - 1 \pmod p$, or $a^2 + b^2 + 1^2 + 0^2 = mp$ for some $1 \le m < p$.</p>
+            <p>The proof proceeds via infinite descent: Assuming $mp$ is a sum of four squares, one algebraically manipulates the representation to construct a strictly smaller multiple $m'p$ (where $1 \le m' < m$) that is also a sum of four squares. This descent invariably terminates at $m=1$, demonstrating $p$ is a sum of four squares.</p>
+            <div class="qedsymbol">$\blacksquare$</div>
+        </div>
+    </section>
+
+</main>
+
+    <script src="../../styles/theme.js"></script>
+</body>
+</html>]],
+                displayMath: [['$', '$']],
+                processEscapes: true
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<header>
+    <h1>Module II: Non-Linear Equations and Sums of Squares</h1>
+    <p>Algorithmic Number Theory & Abstract Algebra • Advanced Undergraduate Sequence</p>
+</header>
+
+<main>
+    <section>
+        <h2>1. Primitive Pythagorean Triples</h2>
+        <p>We transition into non-linear analysis by classifying the integer solutions to the canonical quadratic Diophantine equation $x^2 + y^2 = z^2$. A triple $(x, y, z) \in \mathbb{Z}^3_{>0}$ is termed a <em>Primitive Pythagorean Triple</em> (PPT) if $\gcd(x, y, z) = 1$.</p>
+
+        <div class="lemma">
+            <span class="lemma-title">Lemma 2.1 (Parity Constraints)</span>
+            <p>If $(x,y,z)$ is a PPT, then exactly one of $x$ or $y$ is even, and $z$ is odd.</p>
+        </div>
+        
+        <div class="proof">
+            <p>If both $x$ and $y$ are even, then $2 \mid x$ and $2 \mid y \implies 4 \mid (x^2 + y^2) = z^2 \implies 2 \mid z$. This contradicts $\gcd(x,y,z)=1$.</p>
+            <p>If both $x$ and $y$ are odd, then $x^2 \equiv 1 \pmod 4$ and $y^2 \equiv 1 \pmod 4$. Thus, $z^2 = x^2 + y^2 \equiv 2 \pmod 4$. However, quadratic residues modulo 4 can only be 0 or 1. Thus, $x$ and $y$ must have opposite parity. Consequently, $z^2 = \text{odd} + \text{even} = \text{odd}$, rendering $z$ odd.</p>
+            <div class="qedsymbol">$\blacksquare$</div>
+        </div>
+
+        <div class="theorem">
+            <span class="theorem-title">Theorem 2.2 (Euclid's Formula)</span>
+            <p>Every primitive Pythagorean triple $(x, y, z)$ with $x$ even is parameterized by exactly one pair of relatively prime integers $m, n > 0$ of opposite parity, such that $m > n$, given by:</p>
+            $$x = 2mn, \quad y = m^2 - n^2, \quad z = m^2 + n^2$$
+        </div>
+
+        <div class="proof">
+            <p>From Lemma 2.1, $y$ and $z$ are both odd. We algebraically manipulate the equation $x^2 + y^2 = z^2$:</p>
+            $$x^2 = z^2 - y^2 = (z - y)(z + y) \implies \left(\frac{x}{2}\right)^2 = \left(\frac{z - y}{2}\right)\left(\frac{z + y}{2}\right)$$
+            <p>Since $y$ and $z$ are odd, $\frac{z-y}{2}$ and $\frac{z+y}{2}$ are integers. Let $d = \gcd\left(\frac{z-y}{2}, \frac{z+y}{2}\right)$. Then $d$ divides their sum $(z)$ and their difference $(y)$. Since $\gcd(y, z) = 1$ (from the PPT assumption), we conclude $d = 1$.</p>
+            <p>The product of two coprime positive integers is a perfect square if and only if each is a perfect square. Thus, there exist integers $m, n > 0$ such that:</p>
+            $$\frac{z+y}{2} = m^2 \quad \text{and} \quad \frac{z-y}{2} = n^2$$
+            <p>Solving this linear system for $y$ and $z$ yields $z = m^2 + n^2$ and $y = m^2 - n^2$. Substituting these back reveals $x = 2mn$. Coprimality of $m,n$ follows from $\gcd(y,z)=1$. Opposite parity of $m,n$ is mandated because if both were odd, $y$ and $z$ would be even, violating the PPT condition.</p>
+            <div class="qedsymbol">$\blacksquare$</div>
+        </div>
+    </section>
+
+    <section>
+        <h2>2. Fermat's Theorem on Sums of Two Squares</h2>
+        <p>We investigate the representation of integers by the quadratic form $f(x,y) = x^2 + y^2$. A fundamental result in number theory determines exactly which primes can be expressed in this manner.</p>
+
+        <div class="lemma">
+            <span class="lemma-title">Lemma 2.3 (Thue's Lemma)</span>
+            <p>Let $n$ be an integer $>1$ and let $a$ be an integer such that $\gcd(a, n) = 1$. There exist integers $x$ and $y$ satisfying $0 < |x| \le \lfloor\sqrt{n}\rfloor$ and $0 < |y| \le \lfloor\sqrt{n}\rfloor$ such that $ax \equiv y \pmod n$.</p>
+        </div>
+
+        <div class="theorem">
+            <span class="theorem-title">Theorem 2.4 (Fermat, 1640)</span>
+            <p>An odd prime $p$ can be expressed as the sum of two integer squares, $p = x^2 + y^2$, if and only if $p \equiv 1 \pmod 4$. This representation is uniquely determined up to sign and order.</p>
+        </div>
+
+        <div class="proof">
+            <p>($\implies$) Suppose $p = x^2 + y^2$. Since $p$ is odd, $\gcd(x,p) = \gcd(y,p) = 1$. We have $x^2 \equiv -y^2 \pmod p$. Multiplying by $(y^{-1})^2$, we obtain $(x y^{-1})^2 \equiv -1 \pmod p$. By Euler's Criterion, $\left(\frac{-1}{p}\right) = (-1)^{\frac{p-1}{2}} = 1$, which necessitates $p \equiv 1 \pmod 4$.</p>
+            <p>($\impliedby$) Assume $p \equiv 1 \pmod 4$. By Euler's Criterion, $-1$ is a quadratic residue modulo $p$. Hence, there exists an integer $a$ such that $a^2 \equiv -1 \pmod p$.</p>
+            <p>Apply Thue's Lemma (Lemma 2.3) to $a$ and $p$. There exist integers $x, y \in (0, \lfloor\sqrt{p}\rfloor]$ such that $ax \equiv y \pmod p$.</p>
+            <p>Squaring this congruence yields:</p>
+            $$y^2 \equiv a^2x^2 \equiv -x^2 \pmod p \implies x^2 + y^2 \equiv 0 \pmod p$$
+            <p>Since $x, y \le \lfloor\sqrt{p}\rfloor < \sqrt{p}$, we strictly bound the sum: $0 < x^2 + y^2 < (\sqrt{p})^2 + (\sqrt{p})^2 = 2p$.</p>
+            <p>The only multiple of $p$ strictly between $0$ and $2p$ is $p$ itself. Therefore, we rigidly conclude $x^2 + y^2 = p$.</p>
+            <div class="qedsymbol">$\blacksquare$</div>
+        </div>
+
+        <h3>2.1 Algorithmic Realization (Hermite's Algorithm)</h3>
+        <p>To explicitly compute $x, y$ such that $x^2+y^2=p$ for a prime $p \equiv 1 \pmod 4$, we first locate $a$ where $a^2 \equiv -1 \pmod p$ using a randomized search for a non-residue $z$ and raising it to the power of $(p-1)/4$. We then apply the Euclidean algorithm cascade down to the square root bound. Below is the $O(\log^3 p)$ expected time C++ implementation.</p>
+
+<pre><code>long long p(long long b,long long e,long long m){
+long long r=1;b%=m;
+while(e){if(e&1)r=r*b%m;b=b*b%m;e>>=1;}
+return r;
+}
+void f(long long m,long long&x,long long&y){
+long long z=2;
+while(p(z,(m-1)/2,m)!=m-1)z++;
+long long a=m,b=p(z,(m-1)/4,m);
+while(b*b>m){long long t=a%b;a=b;b=t;}
+x=b;
+long long s=m-x*x,l=0,r=s;
+while(l<=r){
+long long c=l+(r-l)/2;
+if(c*c==s){y=c;return;}
+if(c*c<s)l=c+1;else r=c-1;
+}
+}</code></pre>
+    </section>
+
+    <section>
+        <h2>3. Lagrange's Four-Square Theorem</h2>
+        <p>While the subset of primes representable by two squares is strictly governed by modulo 4 conditions, extending the quadratic form to four variables envelops the entirety of $\mathbb{Z}_{\ge 0}$.</p>
+
+        <div class="theorem">
+            <span class="theorem-title">Theorem 2.5 (Lagrange, 1770)</span>
+            <p>Every non-negative integer can be expressed as the sum of four integer squares: $n = a^2 + b^2 + c^2 + d^2$.</p>
+        </div>
+
+        <div class="proof">
+            <p>The proof structurally relies on Euler's Four-Square Identity, which establishes that the set of sums of four squares is closed under multiplication:</p>
+            $$(a_1^2 + a_2^2 + a_3^2 + a_4^2)(b_1^2 + b_2^2 + b_3^2 + b_4^2) = $$
+            $$(a_1b_1 - a_2b_2 - a_3b_3 - a_4b_4)^2 + (a_1b_2 + a_2b_1 + a_3b_4 - a_4b_3)^2 + $$
+            $$(a_1b_3 - a_2b_4 + a_3b_1 + a_4b_2)^2 + (a_1b_4 + a_2b_3 - a_3b_2 + a_4b_1)^2$$
+            <p>Due to this multiplicative closure, and noting $1=1^2+0^2+0^2+0^2$ and $2=1^2+1^2+0^2+0^2$, it suffices to prove the theorem for odd primes $p$.</p>
+            <p>By the Pigeonhole Principle on the finite field $\mathbb{F}_p$, the sets $A = \{a^2 \pmod p \mid 0 \le a \le (p-1)/2\}$ and $B = \{-b^2 - 1 \pmod p \mid 0 \le b \le (p-1)/2\}$ both possess $(p+1)/2$ elements. Since their sum $|A| + |B| = p + 1 > p$, they must intersect. Thus, there exist $a, b$ such that $a^2 \equiv -b^2 - 1 \pmod p$, or $a^2 + b^2 + 1^2 + 0^2 = mp$ for some $1 \le m < p$.</p>
+            <p>The proof proceeds via infinite descent: Assuming $mp$ is a sum of four squares, one algebraically manipulates the representation to construct a strictly smaller multiple $m'p$ (where $1 \le m' < m$) that is also a sum of four squares. This descent invariably terminates at $m=1$, demonstrating $p$ is a sum of four squares.</p>
+            <div class="qedsymbol">$\blacksquare$</div>
+        </div>
+    </section>
+
+</main>
+
+    <script src="../../styles/theme.js"></script>
 </body>
 </html>

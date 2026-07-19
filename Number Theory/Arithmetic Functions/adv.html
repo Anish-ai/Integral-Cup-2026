@@ -1,135 +1,299 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-topic="4" data-theme="dark">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Advanced Arithmetic Functions - Part 4</title>
-    <style>
-        :root {
-            --bg-color: #121212;
-            --text-color: #e0e0e0;
-            --heading-color: #ffffff;
-            --section-bg: #1e1e1e;
-            --border-color: #333333;
-            --accent-color: #bb86fc;
-            --code-bg: #000000;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: 'Georgia', serif;
-            line-height: 1.7;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-
-        h1,
-        h2,
-        h3,
-        h4 {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            color: var(--heading-color);
-            margin-top: 1.5em;
-        }
-
-        h1 {
-            border-bottom: 2px solid var(--accent-color);
-            padding-bottom: 10px;
-        }
-
-        h2 {
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 5px;
-        }
-
-        section {
-            background: var(--section-bg);
-            padding: 30px;
-            border-radius: 8px;
-            margin-bottom: 40px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        }
-
-        .theorem,
-        .definition,
-        .proof,
-        .example {
-            margin: 20px 0;
-            padding: 15px;
-            border-left: 4px solid;
-            background: rgba(255, 255, 255, 0.03);
-        }
-
-        .definition {
-            border-color: #03dac6;
-        }
-
-        .theorem {
-            border-color: var(--accent-color);
-        }
-
-        .proof {
-            border-color: #cf6679;
-            font-style: italic;
-        }
-
-        .example {
-            border-color: #ffb74d;
-        }
-
-        .label {
-            font-weight: bold;
-            font-style: normal;
-            display: block;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.85em;
-        }
-
-        .definition .label {
-            color: #03dac6;
-        }
-
-        .theorem .label {
-            color: var(--accent-color);
-        }
-
-        .proof .label {
-            color: #cf6679;
-        }
-
-        .example .label {
-            color: #ffb74d;
-        }
-
-        pre {
-            background: var(--code-bg);
-            padding: 15px;
-            border-radius: 5px;
-            overflow-x: auto;
-            font-family: 'Courier New', Courier, monospace;
-            color: #a5d6ff;
-            line-height: 1.2;
-        }
-
-        footer {
-            margin-top: 50px;
-            text-align: center;
-            font-size: 0.9em;
-            color: #888;
-            border-top: 1px solid var(--border-color);
-            padding-top: 20px;
-        }
-    </style>
+        
+    <link rel="stylesheet" href="../../styles/module.css">
     <script>
         MathJax = {
             tex: {
                 inlineMath: [['$', '$']],
                 displayMath: [['$$', '$$']],
+                processEscapes: true
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+    <header>
+        <h1>Module: Algorithmic Number Theory & Arithmetic Functions</h1>
+        <p><strong>Section D:</strong> Advanced Algorithmic Implementations</p>
+    </header>
+
+    <main>
+        <section id="linear-sieve">
+            <h2>1. The Linear Sieve for Multiplicative Functions</h2>
+            <p>While the classic Sieve of Eratosthenes operates in $O(n \log \log n)$, evaluating arithmetic functions
+                over large ranges requires strictly $O(n)$ time. This is achieved by ensuring every composite number is
+                visited exactly once—specifically, by its smallest prime factor (SPF).</p>
+
+            <div class="theorem">
+                <span class="label">Theorem 1.1: Unique Factorization by Minimum Prime</span>
+                Every integer $n > 1$ can be uniquely represented as $n = p \cdot k$, where $p$ is the smallest prime
+                factor of $n$, and $p \le \text{SPF}(k)$.
+            </div>
+
+            <div class="proof">
+                <span class="label">State Transition Logic</span>
+                For a current integer $i$ and prime $p_j$:
+                <br>1. If $p_j \nmid i$, then $\gcd(i, p_j) = 1$. By multiplicativity, $f(i \cdot p_j) = f(i)f(p_j)$.
+                <br>2. If $p_j \mid i$, then $p_j$ is the smallest prime factor of $i$. $i$ and $p_j$ share prime
+                factors, so we use function-specific prime power logic:
+                <ul>
+                    <li>$\phi(i \cdot p_j) = \phi(i) \cdot p_j$</li>
+                    <li>$\mu(i \cdot p_j) = 0$ (since $p_j^2$ divides the product)</li>
+                    <li>$\tau(i \cdot p_j) = \tau(i) / (e+1) \cdot (e+2)$, where $e$ is the exponent of $p_j$ in $i$.
+                    </li>
+                </ul>
+            </div>
+
+            <div class="example">
+                <span class="label">Highly Optimized $O(n)$ Linear Sieve</span>
+                <pre><code>int v[10000000],p[10000000],f[10000000],m[10000000],t[10000000],e[10000000],k;
+void s(int n){
+f[1]=m[1]=t[1]=1;
+for(int i=2;i<=n;++i){
+if(!v[i]){p[k++]=i;f[i]=i-1;m[i]=-1;t[i]=2;e[i]=1;}
+for(int j=0;j<k&&i*p[j]<=n;++j){
+v[i*p[j]]=1;
+if(i%p[j]==0){
+f[i*p[j]]=f[i]*p[j];
+m[i*p[j]]=0;
+e[i*p[j]]=e[i]+1;
+t[i*p[j]]=t[i]/(e[i]+1)*(e[i]+2);
+break;
+}
+f[i*p[j]]=f[i]*(p[j]-1);
+m[i*p[j]]=-m[i];
+e[i*p[j]]=1;
+t[i*p[j]]=t[i]*2;
+}
+}
+}</code></pre>
+            </div>
+        </section>
+
+        <section id="dirichlet-prefix">
+            <h2>2. Sublinear Time Execution: Dirichlet Prefix Sum (Mertens Trick)</h2>
+            <p>Evaluating the sum of a multiplicative function $\sum_{i=1}^n f(i)$ when $n \sim 10^{11}$ renders $O(n)$
+                sieves computationally unviable. The Dirichlet prefix sum trick leverages the ring properties of
+                convolution to compute this in $O(n^{3/4})$ or $O(n^{2/3})$ time.</p>
+
+            <div class="theorem">
+                <span class="label">Theorem 2.1: The Convolution Sum Identity</span>
+                Let $f$ and $g$ be arithmetic functions, and let $S_f(n) = \sum_{i=1}^n f(i)$. Then:
+                $$g(1)S_f(n) = \sum_{i=1}^n (f * g)(i) - \sum_{i=2}^n g(i) S_f\left(\lfloor \frac{n}{i} \rfloor\right)$$
+            </div>
+
+            <div class="proof">
+                <span class="label">Proof by Interchange of Summation</span>
+                $$\sum_{i=1}^n (f * g)(i) = \sum_{i=1}^n \sum_{d \mid i} g(d)f\left(\frac{i}{d}\right)$$
+                Setting $i = d \cdot c$, we rewrite the sum over the pairs $(d, c)$ such that $d \cdot c \le n$:
+                $$= \sum_{d=1}^n g(d) \sum_{c=1}^{\lfloor n/d \rfloor} f(c) = \sum_{d=1}^n g(d) S_f\left(\lfloor
+                \frac{n}{d} \rfloor\right)$$
+                Isolating the $d=1$ term yields:
+                $$\sum_{i=1}^n (f * g)(i) = g(1)S_f(n) + \sum_{d=2}^n g(d) S_f\left(\lfloor \frac{n}{d} \rfloor\right)$$
+                Rearranging terms provides the recurrence relation. $\blacksquare$
+            </div>
+
+            <div class="example">
+                <span class="label">Evaluating Mertens Function in Sublinear Time</span>
+                To find $M(n) = \sum_{i=1}^n \mu(i)$, we choose $f = \mu$ and $g = 1$. We know $(\mu * 1) = \epsilon$,
+                and $\sum_{i=1}^n \epsilon(i) = 1$. The recurrence simplifies to:
+                $$M(n) = 1 - \sum_{i=2}^n M\left(\lfloor \frac{n}{i} \rfloor\right)$$
+                By precomputing $M(k)$ up to $k = n^{2/3}$ using a linear sieve and memoizing larger states, the
+                complexity drops to $O(n^{2/3})$.
+                <pre><code>#include&lt;map&gt;
+using namespace std;
+map&lt;long long,long long&gt; u;
+long long a[10000000];
+long long w(long long n){
+if(n<10000000)return a[n];
+if(u.count(n))return u[n];
+long long r=1;
+for(long long i=2,j;i<=n;i=j+1){
+j=n/(n/i);
+r-=(j-i+1)*w(n/i);
+}
+return u[n]=r;
+}</code></pre>
+            </div>
+        </section>
+
+        <section id="min-25">
+            <h2>3. Advanced Addition: Min-25 Sieve (Lucy-Hedgehog)</h2>
+            <p>The Min-25 sieve extends the capability to sum multiplicative functions where $f(p)$ is a low-degree
+                polynomial, scaling up to $N = 10^{11}$ in $O(N^{3/4} / \log N)$ or $O(N^{1-\epsilon})$.</p>
+
+            <div class="definition">
+                <span class="label">Conceptual Framework</span>
+                The algorithm operates in two strictly separated phases:
+                <br><br>
+                <strong>Phase 1: Sum over Primes.</strong> Let $G_k(n)$ be the sum of $f(x)$ for all $x \le n$ such that
+                $x$ is prime OR the minimum prime factor of $x$ is greater than $p_k$. The transitions elegantly strip
+                away composite numbers defined by $p_k$:
+                $$G_k(n) = G_{k-1}(n) - f(p_k) \Big( G_{k-1}\left(\lfloor \frac{n}{p_k} \rfloor\right) -
+                G_{k-1}(p_{k-1}) \Big)$$
+                <strong>Phase 2: Sum over Composites.</strong> Using the evaluated prime sums up to $\sqrt{N}$, it
+                recursively integrates the prime powers by leveraging complete multiplicativity, building the total sum
+                bottom-up.
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>Module generated for Advanced Mathematics & Computing Curriculum.</p>
+    </footer>
+
+    <script src="../../styles/theme.js"></script>
+</body>
+
+</html>, '
+
+<body>
+
+    <header>
+        <h1>Module: Algorithmic Number Theory & Arithmetic Functions</h1>
+        <p><strong>Section D:</strong> Advanced Algorithmic Implementations</p>
+    </header>
+
+    <main>
+        <section id="linear-sieve">
+            <h2>1. The Linear Sieve for Multiplicative Functions</h2>
+            <p>While the classic Sieve of Eratosthenes operates in $O(n \log \log n)$, evaluating arithmetic functions
+                over large ranges requires strictly $O(n)$ time. This is achieved by ensuring every composite number is
+                visited exactly once—specifically, by its smallest prime factor (SPF).</p>
+
+            <div class="theorem">
+                <span class="label">Theorem 1.1: Unique Factorization by Minimum Prime</span>
+                Every integer $n > 1$ can be uniquely represented as $n = p \cdot k$, where $p$ is the smallest prime
+                factor of $n$, and $p \le \text{SPF}(k)$.
+            </div>
+
+            <div class="proof">
+                <span class="label">State Transition Logic</span>
+                For a current integer $i$ and prime $p_j$:
+                <br>1. If $p_j \nmid i$, then $\gcd(i, p_j) = 1$. By multiplicativity, $f(i \cdot p_j) = f(i)f(p_j)$.
+                <br>2. If $p_j \mid i$, then $p_j$ is the smallest prime factor of $i$. $i$ and $p_j$ share prime
+                factors, so we use function-specific prime power logic:
+                <ul>
+                    <li>$\phi(i \cdot p_j) = \phi(i) \cdot p_j$</li>
+                    <li>$\mu(i \cdot p_j) = 0$ (since $p_j^2$ divides the product)</li>
+                    <li>$\tau(i \cdot p_j) = \tau(i) / (e+1) \cdot (e+2)$, where $e$ is the exponent of $p_j$ in $i$.
+                    </li>
+                </ul>
+            </div>
+
+            <div class="example">
+                <span class="label">Highly Optimized $O(n)$ Linear Sieve</span>
+                <pre><code>int v[10000000],p[10000000],f[10000000],m[10000000],t[10000000],e[10000000],k;
+void s(int n){
+f[1]=m[1]=t[1]=1;
+for(int i=2;i<=n;++i){
+if(!v[i]){p[k++]=i;f[i]=i-1;m[i]=-1;t[i]=2;e[i]=1;}
+for(int j=0;j<k&&i*p[j]<=n;++j){
+v[i*p[j]]=1;
+if(i%p[j]==0){
+f[i*p[j]]=f[i]*p[j];
+m[i*p[j]]=0;
+e[i*p[j]]=e[i]+1;
+t[i*p[j]]=t[i]/(e[i]+1)*(e[i]+2);
+break;
+}
+f[i*p[j]]=f[i]*(p[j]-1);
+m[i*p[j]]=-m[i];
+e[i*p[j]]=1;
+t[i*p[j]]=t[i]*2;
+}
+}
+}</code></pre>
+            </div>
+        </section>
+
+        <section id="dirichlet-prefix">
+            <h2>2. Sublinear Time Execution: Dirichlet Prefix Sum (Mertens Trick)</h2>
+            <p>Evaluating the sum of a multiplicative function $\sum_{i=1}^n f(i)$ when $n \sim 10^{11}$ renders $O(n)$
+                sieves computationally unviable. The Dirichlet prefix sum trick leverages the ring properties of
+                convolution to compute this in $O(n^{3/4})$ or $O(n^{2/3})$ time.</p>
+
+            <div class="theorem">
+                <span class="label">Theorem 2.1: The Convolution Sum Identity</span>
+                Let $f$ and $g$ be arithmetic functions, and let $S_f(n) = \sum_{i=1}^n f(i)$. Then:
+                $$g(1)S_f(n) = \sum_{i=1}^n (f * g)(i) - \sum_{i=2}^n g(i) S_f\left(\lfloor \frac{n}{i} \rfloor\right)$$
+            </div>
+
+            <div class="proof">
+                <span class="label">Proof by Interchange of Summation</span>
+                $$\sum_{i=1}^n (f * g)(i) = \sum_{i=1}^n \sum_{d \mid i} g(d)f\left(\frac{i}{d}\right)$$
+                Setting $i = d \cdot c$, we rewrite the sum over the pairs $(d, c)$ such that $d \cdot c \le n$:
+                $$= \sum_{d=1}^n g(d) \sum_{c=1}^{\lfloor n/d \rfloor} f(c) = \sum_{d=1}^n g(d) S_f\left(\lfloor
+                \frac{n}{d} \rfloor\right)$$
+                Isolating the $d=1$ term yields:
+                $$\sum_{i=1}^n (f * g)(i) = g(1)S_f(n) + \sum_{d=2}^n g(d) S_f\left(\lfloor \frac{n}{d} \rfloor\right)$$
+                Rearranging terms provides the recurrence relation. $\blacksquare$
+            </div>
+
+            <div class="example">
+                <span class="label">Evaluating Mertens Function in Sublinear Time</span>
+                To find $M(n) = \sum_{i=1}^n \mu(i)$, we choose $f = \mu$ and $g = 1$. We know $(\mu * 1) = \epsilon$,
+                and $\sum_{i=1}^n \epsilon(i) = 1$. The recurrence simplifies to:
+                $$M(n) = 1 - \sum_{i=2}^n M\left(\lfloor \frac{n}{i} \rfloor\right)$$
+                By precomputing $M(k)$ up to $k = n^{2/3}$ using a linear sieve and memoizing larger states, the
+                complexity drops to $O(n^{2/3})$.
+                <pre><code>#include&lt;map&gt;
+using namespace std;
+map&lt;long long,long long&gt; u;
+long long a[10000000];
+long long w(long long n){
+if(n<10000000)return a[n];
+if(u.count(n))return u[n];
+long long r=1;
+for(long long i=2,j;i<=n;i=j+1){
+j=n/(n/i);
+r-=(j-i+1)*w(n/i);
+}
+return u[n]=r;
+}</code></pre>
+            </div>
+        </section>
+
+        <section id="min-25">
+            <h2>3. Advanced Addition: Min-25 Sieve (Lucy-Hedgehog)</h2>
+            <p>The Min-25 sieve extends the capability to sum multiplicative functions where $f(p)$ is a low-degree
+                polynomial, scaling up to $N = 10^{11}$ in $O(N^{3/4} / \log N)$ or $O(N^{1-\epsilon})$.</p>
+
+            <div class="definition">
+                <span class="label">Conceptual Framework</span>
+                The algorithm operates in two strictly separated phases:
+                <br><br>
+                <strong>Phase 1: Sum over Primes.</strong> Let $G_k(n)$ be the sum of $f(x)$ for all $x \le n$ such that
+                $x$ is prime OR the minimum prime factor of $x$ is greater than $p_k$. The transitions elegantly strip
+                away composite numbers defined by $p_k$:
+                $$G_k(n) = G_{k-1}(n) - f(p_k) \Big( G_{k-1}\left(\lfloor \frac{n}{p_k} \rfloor\right) -
+                G_{k-1}(p_{k-1}) \Big)$$
+                <strong>Phase 2: Sum over Composites.</strong> Using the evaluated prime sums up to $\sqrt{N}$, it
+                recursively integrates the prime powers by leveraging complete multiplicativity, building the total sum
+                bottom-up.
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>Module generated for Advanced Mathematics & Computing Curriculum.</p>
+    </footer>
+
+    <script src="../../styles/theme.js"></script>
+</body>
+
+</html>]],
+                displayMath: [['$', '$']],
                 processEscapes: true
             }
         };
@@ -270,6 +434,7 @@ return u[n]=r;
         <p>Module generated for Advanced Mathematics & Computing Curriculum.</p>
     </footer>
 
+    <script src="../../styles/theme.js"></script>
 </body>
 
 </html>

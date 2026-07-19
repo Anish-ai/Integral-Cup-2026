@@ -1,127 +1,561 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-topic="4" data-theme="dark">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Advanced Arithmetic Functions - Practice & Solutions</title>
-    <style>
-        :root {
-            --bg-color: #121212;
-            --text-color: #e0e0e0;
-            --heading-color: #ffffff;
-            --section-bg: #1e1e1e;
-            --border-color: #333333;
-            --accent-color: #bb86fc;
-            --code-bg: #000000;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: 'Georgia', serif;
-            line-height: 1.6;
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-
-        h1,
-        h2,
-        h3,
-        h4 {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            color: var(--heading-color);
-            margin-top: 1.5em;
-        }
-
-        h1 {
-            border-bottom: 2px solid var(--accent-color);
-            padding-bottom: 10px;
-        }
-
-        h2 {
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 5px;
-        }
-
-        section {
-            background: var(--section-bg);
-            padding: 30px;
-            border-radius: 8px;
-            margin-bottom: 40px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        }
-
-        .question,
-        .solution,
-        .proof {
-            margin: 15px 0;
-            padding: 15px;
-            border-left: 4px solid;
-            background: rgba(255, 255, 255, 0.03);
-        }
-
-        .question {
-            border-color: #ffb74d;
-        }
-
-        .solution {
-            border-color: #03dac6;
-        }
-
-        .proof {
-            border-color: #cf6679;
-            font-style: italic;
-        }
-
-        .label {
-            font-weight: bold;
-            font-style: normal;
-            display: block;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.85em;
-        }
-
-        .question .label {
-            color: #ffb74d;
-        }
-
-        .solution .label {
-            color: #03dac6;
-        }
-
-        .proof .label {
-            color: #cf6679;
-        }
-
-        pre {
-            background: var(--code-bg);
-            padding: 15px;
-            border-radius: 5px;
-            overflow-x: auto;
-            font-family: 'Courier New', Courier, monospace;
-            color: #a5d6ff;
-            line-height: 1.1;
-            font-size: 0.9em;
-        }
-
-        footer {
-            margin-top: 50px;
-            text-align: center;
-            font-size: 0.9em;
-            color: #888;
-            border-top: 1px solid var(--border-color);
-            padding-top: 20px;
-        }
-    </style>
+        
+    <link rel="stylesheet" href="../../styles/module.css">
     <script>
         MathJax = {
             tex: {
                 inlineMath: [['$', '$']],
                 displayMath: [['$$', '$$']],
+                processEscapes: true
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+    <header>
+        <h1>Module: Algorithmic Number Theory & Arithmetic Functions</h1>
+        <p><strong>Section E:</strong> Exhaustive Practice Questions & Solutions (Expanded 1-15)</p>
+    </header>
+
+    <main>
+        <section id="practice-questions">
+            <h2>Practice Questions</h2>
+            <p>These 15 problems synthesize abstract algebraic properties with algorithmic asymptotics. They are
+                strictly non-repetitive, demanding rigorous proofs and advanced state optimizations for sublinear
+                evaluation.</p>
+
+            <div class="question"><span class="label">Problem 1: Möbius Square-Free Indicator</span>Prove the identity:
+                $\sum_{d^2|n} \mu(d) = |\mu(n)|$. Establish how this provides an indicator function for square-free
+                numbers.</div>
+            <div class="question"><span class="label">Problem 2: Totient Convolution</span>Prove that for any integer $n
+                \ge 1$, $\sum_{d|n} \frac{\mu(d)}{d} = \frac{\phi(n)}{n}$. Use both an algebraic and a probabilistic
+                argument.</div>
+            <div class="question"><span class="label">Problem 3: Asymptotic Bound of $\sigma(n)$</span>Determine the
+                asymptotic formula for $\sum_{n \le x} \sigma(n)$. Show rigorously that it evaluates to
+                $\frac{\pi^2}{12}x^2 + O(x \log x)$.</div>
+            <div class="question"><span class="label">Problem 4: Sublinear Prefix Recurrence</span>Let $f(n) =
+                \sum_{d|n} d \cdot \mu(d)$. Derive the $O(n^{2/3})$ Dirichlet prefix recurrence for $S_f(x) =
+                \sum_{n=1}^x f(n)$.</div>
+            <div class="question"><span class="label">Problem 5: Multiplicativity of Composites</span>Let $f(n) =
+                \sum_{d|n} \mu(d)\phi(d)$. Prove that $f(n)$ is a multiplicative function and derive its explicit
+                evaluation for a prime power $p^k$.</div>
+            <div class="question"><span class="label">Problem 6: Prime Factor Algorithm</span>Let $\text{lpf}(n)$ denote
+                the largest prime factor of $n$ (with $\text{lpf}(1) = 0$). Design an $O(n)$ linear sieve algorithm to
+                compute $\sum_{i=1}^n \text{lpf}(i)$. Provide the optimized implementation.</div>
+            <div class="question"><span class="label">Problem 7: Sublinear Totient Implementation</span>Using the
+                Dirichlet prefix sum trick, provide the complete, optimized sublinear implementation to evaluate
+                $S_\phi(n) = \sum_{i=1}^n \phi(i)$ relying on a linear sieve base case.</div>
+            <div class="question"><span class="label">Problem 8: Divisor and Prime Power Identity</span>Let $\omega(n)$
+                represent the number of distinct prime factors of $n$. Prove the identity: $\sum_{d|n} 2^{\omega(d)} =
+                \tau(n^2)$.</div>
+            <div class="question"><span class="label">Problem 9: Liouville Indicator for Squares</span>Prove that
+                $\sum_{d|n} \lambda(d)$ equals $1$ if $n$ is a perfect square, and $0$ otherwise.</div>
+            <div class="question"><span class="label">Problem 10: Dirichlet Inverse of the Totient</span>Find the
+                Dirichlet inverse of Euler's totient function, denoted as $\phi^{-1}(n)$, such that $(\phi *
+                \phi^{-1})(n) = \epsilon(n)$. Express it as a simple convolution.</div>
+            <div class="question"><span class="label">Problem 11: Coprime Probability Asymptotics</span>Prove rigorously
+                that the average order of $\frac{\phi(n)}{n}$ leads to the sum $\sum_{n \le x} \frac{\phi(n)}{n} =
+                \frac{6}{\pi^2}x + O(\log x)$.</div>
+            <div class="question"><span class="label">Problem 12: Sublinear Multiplicative Inverse Trick</span>Let $f(n)
+                = n\mu(n)$. Formulate the Dirichlet prefix sum recurrence for $S_f(n) = \sum_{i=1}^n i\mu(i)$ and
+                provide a highly compact sublinear $O(n^{2/3})$ C++ implementation.</div>
+            <div class="question"><span class="label">Problem 13: Pillai's Arithmetical Function</span>Let $P(n) =
+                \sum_{k=1}^n \gcd(k, n)$. By grouping terms by their greatest common divisor with $n$, prove that $P(n)
+                = \sum_{d|n} d \phi(n/d)$.</div>
+            <div class="question"><span class="label">Problem 14: Logarithmic Möbius Inversion</span>Prove the analytic
+                identity $\Lambda(n) = -\sum_{d|n} \mu(d) \log d$, relying on the convolution $\Lambda * 1 = \log$.
+            </div>
+            <div class="question"><span class="label">Problem 15: The Number of Coprime Pairs</span>Let $C(n)$ be the
+                number of pairs $(i, j)$ such that $1 \le i, j \le n$ and $\gcd(i, j) = 1$. Prove that $C(n) =
+                2\sum_{i=1}^n \phi(i) - 1$ and establish its asymptotic upper bound.</div>
+        </section>
+
+        <section id="solutions">
+            <h2>Exhaustive Solutions</h2>
+
+            <div class="solution">
+                <span class="label">Solution 1</span>
+                Let $n = p_1^{a_1} p_2^{a_2} \cdots p_k^{a_k}$. If $n$ is square-free ($a_i = 1$), the condition $d^2 |
+                n$ strictly forces $d = 1$. The sum evaluates to $\mu(1) = 1 = |\mu(n)|$.
+                If $n$ is not square-free, let $n = q^2 m$, where $q > 1$ is the maximal integer whose square divides
+                $n$. The constraint $d^2 | n$ is equivalent to $d | q$. Thus, $\sum_{d^2|n} \mu(d) = \sum_{d|q} \mu(d) =
+                \epsilon(q) = 0$, matching $|\mu(n)| = 0$. $\blacksquare$
+            </div>
+
+            <div class="solution">
+                <span class="label">Solution 2</span>
+                <strong>Algebraic:</strong> Evaluate $f = \mu * \frac{1}{\text{Id}}$ at a prime power $p^k$:
+                $\sum_{j=0}^k \frac{\mu(p^j)}{p^j} = 1 - \frac{1}{p}$. Since $\phi(n)/n = \prod_{p|n} (1 - 1/p)$, the
+                multiplicative functions match on prime powers, hence everywhere.
+                <strong>Probabilistic:</strong> By Inclusion-Exclusion on the prime factors of $n$, the fraction of
+                integers in $[1, n]$ coprime to $n$ is formed by adding $1$, subtracting $1/p_i$, adding $1/(p_i p_j)$,
+                which is exactly $\sum_{d|n} \frac{\mu(d)}{d}$. $\blacksquare$
+            </div>
+
+            <div class="solution">
+                <span class="label">Solution 3</span>
+                $$S(x) = \sum_{q \le x} \sum_{d \le x/q} d = \sum_{q \le x} \left( \frac{x^2}{2q^2} +
+                O\left(\frac{x}{q}\right) \right) = \frac{x^2}{2} \sum_{q \le x} \frac{1}{q^2} + O\left( x \sum_{q \le
+                x} \frac{1}{q} \right)$$
+                Extending the converging sum: $\sum_{q=1}^\infty \frac{1}{q^2} = \zeta(2) = \frac{\pi^2}{6}$, bounded by
+                an error of $O(1/x)$.
+                $$S(x) = \frac{x^2}{2} \left( \frac{\pi^2}{6} - O(1/x) \right) + O(x \log x) = \frac{\pi^2}{12}x^2 + O(x
+                \log x)$$ $\blacksquare$
+            </div>
+
+            <div class="solution">
+                <span class="label">Solution 4</span>
+                Let $f = \text{Id} * \mu$. We convolute with $g = 1$: $f * 1 = \text{Id} * (\mu * 1) = \text{Id} *
+                \epsilon = \text{Id}$.
+                Applying the prefix sum identity: $1(1)S_f(x) = \sum_{i=1}^x \text{Id}(i) - \sum_{i=2}^x 1(i)
+                S_f\left(\lfloor x/i \rfloor\right)$.
+                Thus: $S_f(x) = \frac{x(x+1)}{2} - \sum_{i=2}^x S_f\left(\lfloor x/i \rfloor\right)$. $\blacksquare$
+            </div>
+
+            <div class="solution">
+                <span class="label">Solution 5</span>
+                $h(n) = \mu(n)\phi(n)$ is the product of two multiplicative functions, thus multiplicative. $f = h * 1$
+                is the convolution of multiplicative functions, thus multiplicative. Evaluating at $p^k$:
+                $$f(p^k) = \mu(1)\phi(1) + \mu(p)\phi(p) = 1 + (-1)(p - 1) = 2 - p$$ $\blacksquare$
+            </div>
+
+            <div class="solution">
+                <span class="label">Solution 6</span>
+                <pre><code>long long a=0;
+int p[10000000],v[10000000],l[10000000],k;
+void c(int n){
+for(int i=2;i<=n;++i){
+if(!v[i]){p[k++]=i;l[i]=i;}
+a+=l[i];
+for(int j=0;j<k&&i*p[j]<=n;++j){
+v[i*p[j]]=1;
+l[i*p[j]]=l[i];
+if(i%p[j]==0)break;
+}
+}
+}</code></pre>
+            </div>
+
+            <div class="solution">
+                <span class="label">Solution 7</span>
+                <pre><code>#include&lt;map&gt;
+std::map&lt;long long,long long&gt;m;
+long long a[10000000],p[10000000],v[10000000],k;
+void i(int n){
+a[1]=1;
+for(int i=2;i<=n;++i){
+if(!v[i]){p[k++]=i;a[i]=i-1;}
+for(int j=0;j<k&&i*p[j]<=n;++j){
+v[i*p[j]]=1;
+if(i%p[j]==0){a[i*p[j]]=a[i]*p[j];break;}
+a[i*p[j]]=a[i]*(p[j]-1);
+}
+a[i]+=a[i-1];
+}
+}
+long long s(long long n){
+if(n<10000000)return a[n];
+if(m.count(n))return m[n];
+long long r=n*(n+1)/2;
+for(long long i=2,j;i<=n;i=j+1){
+j=n/(n/i);
+r-=(j-i+1)*s(n/i);
+}
+return m[n]=r;
+}</code></pre>
+            </div>
+
+            <div class="solution">
+                <span class="label">Solution 8</span>
+                Both $f(n) = 2^{\omega(n)} * 1$ and $g(n) = \tau(n^2)$ are multiplicative.
+                At a prime power $p^k$: $g(p^k) = \tau(p^{2k}) = 2k + 1$.
+                The divisors of $p^k$ are $p^0, \dots, p^k$. $2^{\omega(1)} = 1$. For $j \ge 1$, $2^{\omega(p^j)} = 2^1
+                = 2$.
+                Summing yields: $1 + 2k$. Since the prime power evaluations are identical, the functions are equal.
+                $\blacksquare$
+            </div>
+
+            <div class="solution">
+                <span class="label">Solution 9</span>
+                Let $f(n) = \sum_{d|n} \lambda(d) = (\lambda * 1)(n)$. Since $\lambda(n)$ is completely multiplicative,
+                $f(n)$ is multiplicative. We evaluate $f(p^k) = \sum_{j=0}^k \lambda(p^j) = \sum_{j=0}^k (-1)^j$.
+                If $k$ is even, the sum is $1$. If $k$ is odd, the sum is $0$.
+                Therefore, $f(n) = 1$ if and only if all exponents in the prime factorization of $n$ are even, meaning
+                $n$ is a perfect square. $\blacksquare$
+            </div>
+
+            <div class="solution">
+                <span class="label">Solution 10</span>
+                We know $\phi = \text{Id} * \mu$. Taking the Dirichlet inverse of both sides: $\phi^{-1} =
+                \text{Id}^{-1} * \mu^{-1}$.
+                The inverse of $\mu$ is $1$. The inverse of $\text{Id}$ is $n\mu(n)$ (because $(\text{Id} * (n\mu))(n) =
+                \sum_{d|n} d \frac{n}{d} \mu(n/d) = n \sum_{d|n} \mu(d) = n\epsilon(n) = \epsilon(n)$).
+                Thus, $\phi^{-1}(n) = (n\mu * 1)(n) = \sum_{d|n} d\mu(d)$. $\blacksquare$
+            </div>
+
+            <div class="solution">
+                <span class="label">Solution 11</span>
+                $$\sum_{n \le x} \frac{\phi(n)}{n} = \sum_{n \le x} \sum_{d|n} \frac{\mu(d)}{d} = \sum_{d \le x}
+                \frac{\mu(d)}{d} \lfloor \frac{x}{d} \rfloor$$
+                Using $\lfloor x/d \rfloor = x/d - \{x/d\}$, we expand:
+                $$x \sum_{d \le x} \frac{\mu(d)}{d^2} - \sum_{d \le x} \frac{\mu(d)}{d} \{ \frac{x}{d} \}$$
+                The first sum approaches $\frac{x}{\zeta(2)} = \frac{6x}{\pi^2}$. The error term is bounded by $\sum_{d
+                \le x} \frac{1}{d} = O(\log x)$. Thus, the sum is $\frac{6}{\pi^2}x + O(\log x)$. $\blacksquare$
+            </div>
+
+            <div class="solution">
+                <span class="label">Solution 12</span>
+                Let $f(n) = n\mu(n)$. Convolution with $g(n) = n$ gives $(f * \text{Id})(n) = \sum_{d|n} d\mu(d)
+                \frac{n}{d} = n\epsilon(n) = \epsilon(n)$.
+                Prefix sum recurrence: $1 \cdot S_f(n) = 1 - \sum_{i=2}^n i \cdot S_f(\lfloor n/i \rfloor)$.
+                <pre><code>#include&lt;map&gt;
+std::map&lt;long long,long long&gt;m;
+long long a[10000000],p[10000000],v[10000000],k;
+void i(int n){
+a[1]=1;
+for(int i=2;i<=n;++i){
+if(!v[i]){p[k++]=i;a[i]=-i;}
+for(int j=0;j<k&&i*p[j]<=n;++j){
+v[i*p[j]]=1;
+if(i%p[j]==0){a[i*p[j]]=0;break;}
+a[i*p[j]]=-a[i]*p[j];
+}
+a[i]+=a[i-1];
+}
+}
+long long s(long long n){
+if(n<10000000)return a[n];
+if(m.count(n))return m[n];
+long long r=1;
+for(long long i=2,j;i<=n;i=j+1){
+j=n/(n/i);
+long long t=j-i+1,u=i+j;
+if(t%2==0)t/=2;else u/=2;
+r-=t*u*s(n/i);
+}
+return m[n]=r;
+}</code></pre>
+            </div>
+
+            <div class="solution">
+                <span class="label">Solution 13</span>
+                Let $P(n) = \sum_{k=1}^n \gcd(k, n)$. Group the terms by $d = \gcd(k, n)$.
+                The number of integers $k \in [1, n]$ such that $\gcd(k, n) = d$ is equivalent to the number of integers
+                $m \in [1, n/d]$ such that $\gcd(m, n/d) = 1$. By definition, this is exactly $\phi(n/d)$.
+                Summing the contribution $d$ across all divisors $d$ of $n$: $P(n) = \sum_{d|n} d \cdot \phi(n/d)$.
+                $\blacksquare$
+            </div>
+
+            <div class="solution">
+                <span class="label">Solution 14</span>
+                We know $\sum_{d|n} \Lambda(d) = \log n$, meaning $\Lambda * 1 = \log$. Applying Möbius inversion, we
+                immediately get $\Lambda = \log * \mu$, which is $\Lambda(n) = \sum_{d|n} \mu(d) \log(n/d)$.
+                Expanding the logarithm: $\sum_{d|n} \mu(d) (\log n - \log d) = \log n \sum_{d|n} \mu(d) - \sum_{d|n}
+                \mu(d) \log d$.
+                For $n > 1$, $\sum_{d|n} \mu(d) = 0$. Thus, the first term vanishes, yielding $\Lambda(n) = -\sum_{d|n}
+                \mu(d) \log d$. $\blacksquare$
+            </div>
+
+            <div class="solution">
+                <span class="label">Solution 15</span>
+                By symmetry, the grid of pairs can be split along the diagonal $i = j$.
+                $\sum_{i=1}^n \sum_{j=1}^n [\gcd(i, j) = 1] = 2\sum_{i=1}^n \sum_{j=1}^i [\gcd(i, j) = 1] - 1$
+                The inner sum $\sum_{j=1}^i [\gcd(i, j) = 1]$ is exactly $\phi(i)$.
+                Thus, $C(n) = 2\sum_{i=1}^n \phi(i) - 1$.
+                Since $\sum_{i=1}^n \phi(i) = \frac{3}{\pi^2}n^2 + O(n \log n)$, the asymptotic bound for $C(n)$ is
+                $\frac{6}{\pi^2}n^2 + O(n \log n)$, representing the probability $6/\pi^2$ that two randomly chosen
+                integers are coprime. $\blacksquare$
+            </div>
+
+        </section>
+    </main>
+
+    <footer>
+        <p>Module generated for Advanced Mathematics & Computing Curriculum.</p>
+    </footer>
+
+    <script src="../../styles/theme.js"></script>
+</body>
+
+</html>, '
+
+<body>
+
+    <header>
+        <h1>Module: Algorithmic Number Theory & Arithmetic Functions</h1>
+        <p><strong>Section E:</strong> Exhaustive Practice Questions & Solutions (Expanded 1-15)</p>
+    </header>
+
+    <main>
+        <section id="practice-questions">
+            <h2>Practice Questions</h2>
+            <p>These 15 problems synthesize abstract algebraic properties with algorithmic asymptotics. They are
+                strictly non-repetitive, demanding rigorous proofs and advanced state optimizations for sublinear
+                evaluation.</p>
+
+            <div class="question"><span class="label">Problem 1: Möbius Square-Free Indicator</span>Prove the identity:
+                $\sum_{d^2|n} \mu(d) = |\mu(n)|$. Establish how this provides an indicator function for square-free
+                numbers.</div>
+            <div class="question"><span class="label">Problem 2: Totient Convolution</span>Prove that for any integer $n
+                \ge 1$, $\sum_{d|n} \frac{\mu(d)}{d} = \frac{\phi(n)}{n}$. Use both an algebraic and a probabilistic
+                argument.</div>
+            <div class="question"><span class="label">Problem 3: Asymptotic Bound of $\sigma(n)$</span>Determine the
+                asymptotic formula for $\sum_{n \le x} \sigma(n)$. Show rigorously that it evaluates to
+                $\frac{\pi^2}{12}x^2 + O(x \log x)$.</div>
+            <div class="question"><span class="label">Problem 4: Sublinear Prefix Recurrence</span>Let $f(n) =
+                \sum_{d|n} d \cdot \mu(d)$. Derive the $O(n^{2/3})$ Dirichlet prefix recurrence for $S_f(x) =
+                \sum_{n=1}^x f(n)$.</div>
+            <div class="question"><span class="label">Problem 5: Multiplicativity of Composites</span>Let $f(n) =
+                \sum_{d|n} \mu(d)\phi(d)$. Prove that $f(n)$ is a multiplicative function and derive its explicit
+                evaluation for a prime power $p^k$.</div>
+            <div class="question"><span class="label">Problem 6: Prime Factor Algorithm</span>Let $\text{lpf}(n)$ denote
+                the largest prime factor of $n$ (with $\text{lpf}(1) = 0$). Design an $O(n)$ linear sieve algorithm to
+                compute $\sum_{i=1}^n \text{lpf}(i)$. Provide the optimized implementation.</div>
+            <div class="question"><span class="label">Problem 7: Sublinear Totient Implementation</span>Using the
+                Dirichlet prefix sum trick, provide the complete, optimized sublinear implementation to evaluate
+                $S_\phi(n) = \sum_{i=1}^n \phi(i)$ relying on a linear sieve base case.</div>
+            <div class="question"><span class="label">Problem 8: Divisor and Prime Power Identity</span>Let $\omega(n)$
+                represent the number of distinct prime factors of $n$. Prove the identity: $\sum_{d|n} 2^{\omega(d)} =
+                \tau(n^2)$.</div>
+            <div class="question"><span class="label">Problem 9: Liouville Indicator for Squares</span>Prove that
+                $\sum_{d|n} \lambda(d)$ equals $1$ if $n$ is a perfect square, and $0$ otherwise.</div>
+            <div class="question"><span class="label">Problem 10: Dirichlet Inverse of the Totient</span>Find the
+                Dirichlet inverse of Euler's totient function, denoted as $\phi^{-1}(n)$, such that $(\phi *
+                \phi^{-1})(n) = \epsilon(n)$. Express it as a simple convolution.</div>
+            <div class="question"><span class="label">Problem 11: Coprime Probability Asymptotics</span>Prove rigorously
+                that the average order of $\frac{\phi(n)}{n}$ leads to the sum $\sum_{n \le x} \frac{\phi(n)}{n} =
+                \frac{6}{\pi^2}x + O(\log x)$.</div>
+            <div class="question"><span class="label">Problem 12: Sublinear Multiplicative Inverse Trick</span>Let $f(n)
+                = n\mu(n)$. Formulate the Dirichlet prefix sum recurrence for $S_f(n) = \sum_{i=1}^n i\mu(i)$ and
+                provide a highly compact sublinear $O(n^{2/3})$ C++ implementation.</div>
+            <div class="question"><span class="label">Problem 13: Pillai's Arithmetical Function</span>Let $P(n) =
+                \sum_{k=1}^n \gcd(k, n)$. By grouping terms by their greatest common divisor with $n$, prove that $P(n)
+                = \sum_{d|n} d \phi(n/d)$.</div>
+            <div class="question"><span class="label">Problem 14: Logarithmic Möbius Inversion</span>Prove the analytic
+                identity $\Lambda(n) = -\sum_{d|n} \mu(d) \log d$, relying on the convolution $\Lambda * 1 = \log$.
+            </div>
+            <div class="question"><span class="label">Problem 15: The Number of Coprime Pairs</span>Let $C(n)$ be the
+                number of pairs $(i, j)$ such that $1 \le i, j \le n$ and $\gcd(i, j) = 1$. Prove that $C(n) =
+                2\sum_{i=1}^n \phi(i) - 1$ and establish its asymptotic upper bound.</div>
+        </section>
+
+        <section id="solutions">
+            <h2>Exhaustive Solutions</h2>
+
+            <div class="solution">
+                <span class="label">Solution 1</span>
+                Let $n = p_1^{a_1} p_2^{a_2} \cdots p_k^{a_k}$. If $n$ is square-free ($a_i = 1$), the condition $d^2 |
+                n$ strictly forces $d = 1$. The sum evaluates to $\mu(1) = 1 = |\mu(n)|$.
+                If $n$ is not square-free, let $n = q^2 m$, where $q > 1$ is the maximal integer whose square divides
+                $n$. The constraint $d^2 | n$ is equivalent to $d | q$. Thus, $\sum_{d^2|n} \mu(d) = \sum_{d|q} \mu(d) =
+                \epsilon(q) = 0$, matching $|\mu(n)| = 0$. $\blacksquare$
+            </div>
+
+            <div class="solution">
+                <span class="label">Solution 2</span>
+                <strong>Algebraic:</strong> Evaluate $f = \mu * \frac{1}{\text{Id}}$ at a prime power $p^k$:
+                $\sum_{j=0}^k \frac{\mu(p^j)}{p^j} = 1 - \frac{1}{p}$. Since $\phi(n)/n = \prod_{p|n} (1 - 1/p)$, the
+                multiplicative functions match on prime powers, hence everywhere.
+                <strong>Probabilistic:</strong> By Inclusion-Exclusion on the prime factors of $n$, the fraction of
+                integers in $[1, n]$ coprime to $n$ is formed by adding $1$, subtracting $1/p_i$, adding $1/(p_i p_j)$,
+                which is exactly $\sum_{d|n} \frac{\mu(d)}{d}$. $\blacksquare$
+            </div>
+
+            <div class="solution">
+                <span class="label">Solution 3</span>
+                $$S(x) = \sum_{q \le x} \sum_{d \le x/q} d = \sum_{q \le x} \left( \frac{x^2}{2q^2} +
+                O\left(\frac{x}{q}\right) \right) = \frac{x^2}{2} \sum_{q \le x} \frac{1}{q^2} + O\left( x \sum_{q \le
+                x} \frac{1}{q} \right)$$
+                Extending the converging sum: $\sum_{q=1}^\infty \frac{1}{q^2} = \zeta(2) = \frac{\pi^2}{6}$, bounded by
+                an error of $O(1/x)$.
+                $$S(x) = \frac{x^2}{2} \left( \frac{\pi^2}{6} - O(1/x) \right) + O(x \log x) = \frac{\pi^2}{12}x^2 + O(x
+                \log x)$$ $\blacksquare$
+            </div>
+
+            <div class="solution">
+                <span class="label">Solution 4</span>
+                Let $f = \text{Id} * \mu$. We convolute with $g = 1$: $f * 1 = \text{Id} * (\mu * 1) = \text{Id} *
+                \epsilon = \text{Id}$.
+                Applying the prefix sum identity: $1(1)S_f(x) = \sum_{i=1}^x \text{Id}(i) - \sum_{i=2}^x 1(i)
+                S_f\left(\lfloor x/i \rfloor\right)$.
+                Thus: $S_f(x) = \frac{x(x+1)}{2} - \sum_{i=2}^x S_f\left(\lfloor x/i \rfloor\right)$. $\blacksquare$
+            </div>
+
+            <div class="solution">
+                <span class="label">Solution 5</span>
+                $h(n) = \mu(n)\phi(n)$ is the product of two multiplicative functions, thus multiplicative. $f = h * 1$
+                is the convolution of multiplicative functions, thus multiplicative. Evaluating at $p^k$:
+                $$f(p^k) = \mu(1)\phi(1) + \mu(p)\phi(p) = 1 + (-1)(p - 1) = 2 - p$$ $\blacksquare$
+            </div>
+
+            <div class="solution">
+                <span class="label">Solution 6</span>
+                <pre><code>long long a=0;
+int p[10000000],v[10000000],l[10000000],k;
+void c(int n){
+for(int i=2;i<=n;++i){
+if(!v[i]){p[k++]=i;l[i]=i;}
+a+=l[i];
+for(int j=0;j<k&&i*p[j]<=n;++j){
+v[i*p[j]]=1;
+l[i*p[j]]=l[i];
+if(i%p[j]==0)break;
+}
+}
+}</code></pre>
+            </div>
+
+            <div class="solution">
+                <span class="label">Solution 7</span>
+                <pre><code>#include&lt;map&gt;
+std::map&lt;long long,long long&gt;m;
+long long a[10000000],p[10000000],v[10000000],k;
+void i(int n){
+a[1]=1;
+for(int i=2;i<=n;++i){
+if(!v[i]){p[k++]=i;a[i]=i-1;}
+for(int j=0;j<k&&i*p[j]<=n;++j){
+v[i*p[j]]=1;
+if(i%p[j]==0){a[i*p[j]]=a[i]*p[j];break;}
+a[i*p[j]]=a[i]*(p[j]-1);
+}
+a[i]+=a[i-1];
+}
+}
+long long s(long long n){
+if(n<10000000)return a[n];
+if(m.count(n))return m[n];
+long long r=n*(n+1)/2;
+for(long long i=2,j;i<=n;i=j+1){
+j=n/(n/i);
+r-=(j-i+1)*s(n/i);
+}
+return m[n]=r;
+}</code></pre>
+            </div>
+
+            <div class="solution">
+                <span class="label">Solution 8</span>
+                Both $f(n) = 2^{\omega(n)} * 1$ and $g(n) = \tau(n^2)$ are multiplicative.
+                At a prime power $p^k$: $g(p^k) = \tau(p^{2k}) = 2k + 1$.
+                The divisors of $p^k$ are $p^0, \dots, p^k$. $2^{\omega(1)} = 1$. For $j \ge 1$, $2^{\omega(p^j)} = 2^1
+                = 2$.
+                Summing yields: $1 + 2k$. Since the prime power evaluations are identical, the functions are equal.
+                $\blacksquare$
+            </div>
+
+            <div class="solution">
+                <span class="label">Solution 9</span>
+                Let $f(n) = \sum_{d|n} \lambda(d) = (\lambda * 1)(n)$. Since $\lambda(n)$ is completely multiplicative,
+                $f(n)$ is multiplicative. We evaluate $f(p^k) = \sum_{j=0}^k \lambda(p^j) = \sum_{j=0}^k (-1)^j$.
+                If $k$ is even, the sum is $1$. If $k$ is odd, the sum is $0$.
+                Therefore, $f(n) = 1$ if and only if all exponents in the prime factorization of $n$ are even, meaning
+                $n$ is a perfect square. $\blacksquare$
+            </div>
+
+            <div class="solution">
+                <span class="label">Solution 10</span>
+                We know $\phi = \text{Id} * \mu$. Taking the Dirichlet inverse of both sides: $\phi^{-1} =
+                \text{Id}^{-1} * \mu^{-1}$.
+                The inverse of $\mu$ is $1$. The inverse of $\text{Id}$ is $n\mu(n)$ (because $(\text{Id} * (n\mu))(n) =
+                \sum_{d|n} d \frac{n}{d} \mu(n/d) = n \sum_{d|n} \mu(d) = n\epsilon(n) = \epsilon(n)$).
+                Thus, $\phi^{-1}(n) = (n\mu * 1)(n) = \sum_{d|n} d\mu(d)$. $\blacksquare$
+            </div>
+
+            <div class="solution">
+                <span class="label">Solution 11</span>
+                $$\sum_{n \le x} \frac{\phi(n)}{n} = \sum_{n \le x} \sum_{d|n} \frac{\mu(d)}{d} = \sum_{d \le x}
+                \frac{\mu(d)}{d} \lfloor \frac{x}{d} \rfloor$$
+                Using $\lfloor x/d \rfloor = x/d - \{x/d\}$, we expand:
+                $$x \sum_{d \le x} \frac{\mu(d)}{d^2} - \sum_{d \le x} \frac{\mu(d)}{d} \{ \frac{x}{d} \}$$
+                The first sum approaches $\frac{x}{\zeta(2)} = \frac{6x}{\pi^2}$. The error term is bounded by $\sum_{d
+                \le x} \frac{1}{d} = O(\log x)$. Thus, the sum is $\frac{6}{\pi^2}x + O(\log x)$. $\blacksquare$
+            </div>
+
+            <div class="solution">
+                <span class="label">Solution 12</span>
+                Let $f(n) = n\mu(n)$. Convolution with $g(n) = n$ gives $(f * \text{Id})(n) = \sum_{d|n} d\mu(d)
+                \frac{n}{d} = n\epsilon(n) = \epsilon(n)$.
+                Prefix sum recurrence: $1 \cdot S_f(n) = 1 - \sum_{i=2}^n i \cdot S_f(\lfloor n/i \rfloor)$.
+                <pre><code>#include&lt;map&gt;
+std::map&lt;long long,long long&gt;m;
+long long a[10000000],p[10000000],v[10000000],k;
+void i(int n){
+a[1]=1;
+for(int i=2;i<=n;++i){
+if(!v[i]){p[k++]=i;a[i]=-i;}
+for(int j=0;j<k&&i*p[j]<=n;++j){
+v[i*p[j]]=1;
+if(i%p[j]==0){a[i*p[j]]=0;break;}
+a[i*p[j]]=-a[i]*p[j];
+}
+a[i]+=a[i-1];
+}
+}
+long long s(long long n){
+if(n<10000000)return a[n];
+if(m.count(n))return m[n];
+long long r=1;
+for(long long i=2,j;i<=n;i=j+1){
+j=n/(n/i);
+long long t=j-i+1,u=i+j;
+if(t%2==0)t/=2;else u/=2;
+r-=t*u*s(n/i);
+}
+return m[n]=r;
+}</code></pre>
+            </div>
+
+            <div class="solution">
+                <span class="label">Solution 13</span>
+                Let $P(n) = \sum_{k=1}^n \gcd(k, n)$. Group the terms by $d = \gcd(k, n)$.
+                The number of integers $k \in [1, n]$ such that $\gcd(k, n) = d$ is equivalent to the number of integers
+                $m \in [1, n/d]$ such that $\gcd(m, n/d) = 1$. By definition, this is exactly $\phi(n/d)$.
+                Summing the contribution $d$ across all divisors $d$ of $n$: $P(n) = \sum_{d|n} d \cdot \phi(n/d)$.
+                $\blacksquare$
+            </div>
+
+            <div class="solution">
+                <span class="label">Solution 14</span>
+                We know $\sum_{d|n} \Lambda(d) = \log n$, meaning $\Lambda * 1 = \log$. Applying Möbius inversion, we
+                immediately get $\Lambda = \log * \mu$, which is $\Lambda(n) = \sum_{d|n} \mu(d) \log(n/d)$.
+                Expanding the logarithm: $\sum_{d|n} \mu(d) (\log n - \log d) = \log n \sum_{d|n} \mu(d) - \sum_{d|n}
+                \mu(d) \log d$.
+                For $n > 1$, $\sum_{d|n} \mu(d) = 0$. Thus, the first term vanishes, yielding $\Lambda(n) = -\sum_{d|n}
+                \mu(d) \log d$. $\blacksquare$
+            </div>
+
+            <div class="solution">
+                <span class="label">Solution 15</span>
+                By symmetry, the grid of pairs can be split along the diagonal $i = j$.
+                $\sum_{i=1}^n \sum_{j=1}^n [\gcd(i, j) = 1] = 2\sum_{i=1}^n \sum_{j=1}^i [\gcd(i, j) = 1] - 1$
+                The inner sum $\sum_{j=1}^i [\gcd(i, j) = 1]$ is exactly $\phi(i)$.
+                Thus, $C(n) = 2\sum_{i=1}^n \phi(i) - 1$.
+                Since $\sum_{i=1}^n \phi(i) = \frac{3}{\pi^2}n^2 + O(n \log n)$, the asymptotic bound for $C(n)$ is
+                $\frac{6}{\pi^2}n^2 + O(n \log n)$, representing the probability $6/\pi^2$ that two randomly chosen
+                integers are coprime. $\blacksquare$
+            </div>
+
+        </section>
+    </main>
+
+    <footer>
+        <p>Module generated for Advanced Mathematics & Computing Curriculum.</p>
+    </footer>
+
+    <script src="../../styles/theme.js"></script>
+</body>
+
+</html>]],
+                displayMath: [['$', '$']],
                 processEscapes: true
             }
         };
@@ -393,6 +827,7 @@ return m[n]=r;
         <p>Module generated for Advanced Mathematics & Computing Curriculum.</p>
     </footer>
 
+    <script src="../../styles/theme.js"></script>
 </body>
 
 </html>

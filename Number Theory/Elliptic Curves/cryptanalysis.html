@@ -1,94 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-topic="7" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Elliptic Curves and Cryptography - Module 2</title>
-    
+        
+    <link rel="stylesheet" href="../../styles/module.css">
     <script>
         MathJax = {
             tex: {
                 inlineMath: [['$', '$']],
                 displayMath: [['$$', '$$']],
-                packages: {'[+]': ['ams']}
-            },
-            svg: {
-                fontCache: 'global'
+                processEscapes: true
             }
         };
     </script>
-    <script type="text/javascript" id="MathJax-script" async
-        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
-    </script>
-
-    <style>
-        :root {
-            --bg-color: #121212;
-            --text-color: #e0e0e0;
-            --heading-color: #ffffff;
-            --accent-color: #bb86fc;
-            --code-bg: #1e1e1e;
-            --border-color: #333333;
-        }
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: 'Charter', 'Georgia', serif;
-            line-height: 1.6;
-            max-width: 850px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-        h1, h2, h3 {
-            color: var(--heading-color);
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            margin-top: 1.5em;
-        }
-        h1 {
-            border-bottom: 2px solid var(--accent-color);
-            padding-bottom: 10px;
-        }
-        h2 {
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 5px;
-        }
-        pre {
-            background-color: var(--code-bg);
-            padding: 15px;
-            border-radius: 5px;
-            overflow-x: auto;
-            font-family: 'Fira Code', 'Consolas', monospace;
-            font-size: 0.9em;
-            border: 1px solid var(--border-color);
-        }
-        code {
-            font-family: 'Fira Code', 'Consolas', monospace;
-            background-color: var(--code-bg);
-            padding: 2px 4px;
-            border-radius: 3px;
-        }
-        .theorem {
-            background-color: rgba(187, 134, 252, 0.05);
-            border-left: 4px solid var(--accent-color);
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 0 5px 5px 0;
-        }
-        .proof {
-            font-style: italic;
-            margin-bottom: 20px;
-        }
-        .proof::before {
-            content: "Proof. ";
-            font-weight: bold;
-            font-style: normal;
-        }
-        .proof::after {
-            content: " ■";
-            font-style: normal;
-            float: right;
-        }
-    </style>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
 
@@ -199,5 +126,237 @@ long long pollard(long long number, long long bound) {
         <p><em>Module 3 will cover Elliptic Curves over continuous and finite fields, including the geometric group law and algebraic point addition.</em></p>
     </footer>
 
+    <script src="../../styles/theme.js"></script>
+</body>
+</html>, '
+<body>
+
+    <header>
+        <h1>Elliptic Curves and Cryptography</h1>
+        <p><em>Module 2: Diffie-Hellman & Advanced Cryptanalysis</em></p>
+    </header>
+
+    <article>
+        <section id="diffie-hellman">
+            <h2>3. The Diffie-Hellman Key Exchange</h2>
+            <p>While RSA provides a mechanism for asymmetric encryption, the Diffie-Hellman protocol was designed specifically for secure key exchange over an insecure channel. Its security is inextricably linked to the algebraic structure of finite cyclic groups.</p>
+            
+            <h3>3.1 The Protocol and Cyclic Groups</h3>
+            <p>Let $G$ be a finite cyclic group of order $q$, and let $g \in G$ be a generator. Thus, every element $h \in G$ can be written as $h = g^x$ for some integer $x \in \{0, 1, \dots, q-1\}$.</p>
+            <ol>
+                <li>Alice and Bob publicly agree on the group $G$ and the generator $g$. In classical implementations, $G = (\mathbb{Z}/p\mathbb{Z})^\times$ for a large prime $p$.</li>
+                <li>Alice uniformly samples a secret integer $a \leftarrow \mathbb{Z}_q$. She computes $A = g^a$ and transmits $A$ to Bob.</li>
+                <li>Bob uniformly samples a secret integer $b \leftarrow \mathbb{Z}_q$. He computes $B = g^b$ and transmits $B$ to Alice.</li>
+                <li>Alice computes the shared secret as $K = B^a = (g^b)^a = g^{ab}$.</li>
+                <li>Bob computes the shared secret as $K = A^b = (g^a)^b = g^{ab}$.</li>
+            </ol>
+
+            <div class="theorem">
+                <strong>Theorem (Correctness of Diffie-Hellman).</strong> Both parties derive the exact same group element $K$.
+            </div>
+            <div class="proof">
+                By the axioms of group exponentiation, $(g^b)^a = g^{b \cdot a} = g^{a \cdot b} = (g^a)^b$. Hence, Alice's computed value $B^a$ is strictly equal to Bob's computed value $A^b$.
+            </div>
+
+            <h3>3.2 Security Assumptions</h3>
+            <p>The security of the exchange relies on two foundational hardness assumptions:</p>
+            <ul>
+                <li><strong>Discrete Logarithm Problem (DLP):</strong> Given $g$ and $h \in G$, it is computationally intractable to find an integer $x$ such that $g^x = h$.</li>
+                <li><strong>Computational Diffie-Hellman (CDH) Assumption:</strong> Given $g, g^a, g^b \in G$, it is computationally intractable to compute $g^{ab}$.</li>
+            </ul>
+        </section>
+
+        <section id="rsa-attacks">
+            <h2>4. Advanced Addition: Attacks on RSA</h2>
+            <p>Choosing RSA parameters naively renders the cryptosystem vulnerable to mathematically sophisticated attacks. We analyze two pivotal cryptanalytic techniques: Wiener's Attack and Pollard's $p-1$ Algorithm.</p>
+
+            <h3>4.1 Wiener's Attack via Continued Fractions</h3>
+            <p>Wiener's attack demonstrates that choosing a small private key $d$ for decryption efficiency leads to total system compromise. It exploits the rational approximation of $e/n$.</p>
+            
+            <div class="theorem">
+                <strong>Theorem (Wiener, 1990).</strong> Let $n = pq$ with $q < p < 2q$. Let $d < \frac{1}{3} n^{1/4}$. Given the public key $(n, e)$ with $ed \equiv 1 \pmod{\phi(n)}$, an attacker can efficiently recover $d$.
+            </div>
+            <div class="proof">
+                Since $ed \equiv 1 \pmod{\phi(n)}$, there exists an integer $k$ such that $ed - k\phi(n) = 1$. Dividing by $d\phi(n)$ yields:
+                $$ \left| \frac{e}{\phi(n)} - \frac{k}{d} \right| = \frac{1}{d\phi(n)} $$
+                Since $\phi(n) = n - p - q + 1$ and $p, q \approx \sqrt{n}$, we approximate $\phi(n) \approx n$. The relation transforms to:
+                $$ \left| \frac{e}{n} - \frac{k}{d} \right| \approx \frac{1}{dn} $$
+                Under the strict bound $d < \frac{1}{3} n^{1/4}$, we can bound the distance as:
+                $$ \left| \frac{e}{n} - \frac{k}{d} \right| < \frac{1}{2d^2} $$
+                By Legendre's Theorem on continued fractions, if a rational number $x$ satisfies $|x - a/b| < 1 / (2b^2)$, then $a/b$ must be one of the principal convergents of the continued fraction expansion of $x$. Thus, computing the continued fraction of $e/n$ efficiently yields $k/d$ in lowest terms, immediately exposing $d$.
+            </div>
+
+            <h3>4.2 Pollard's $p-1$ Factorization Algorithm</h3>
+            <p>Pollard's $p-1$ algorithm is a specialized integer factorization method that quickly factors $n = pq$ if one of the prime factors has the property that $p-1$ is $B$-smooth (i.e., all prime factors of $p-1$ are less than or equal to a bound $B$).</p>
+            <p>By Fermat's Little Theorem, for any base $a$ coprime to $p$, $a^{p-1} \equiv 1 \pmod p$. If $p-1$ divides a highly composite number $L = B!$, then $L = k(p-1)$ for some integer $k$. Consequently:</p>
+            <p>$$ a^L = a^{k(p-1)} = (a^{p-1})^k \equiv 1^k \equiv 1 \pmod p $$</p>
+            <p>This implies $p \mid (a^L - 1)$. Since $p \mid n$, the prime factor $p$ can be extracted by computing $\gcd(a^L - 1, n)$.</p>
+
+            <h3>4.3 Algorithmic Implementation</h3>
+            <p>The following routine implements Pollard's $p-1$ algorithm. The logic iteratively computes $a^{j!} \pmod n$ for sequentially increasing $j$, effectively checking the smooth condition incrementally.</p>
+
+<pre><code>#include &lt;iostream&gt;
+#include &lt;cmath&gt;
+
+long long gcd(long long alpha, long long beta) {
+    while (beta > 0) {
+        long long temp = alpha % beta;
+        alpha = beta;
+        beta = temp;
+    }
+    return alpha;
+}
+
+long long power(long long base, long long exponent, long long modulus) {
+    long long result = 1;
+    base %= modulus;
+    while (exponent > 0) {
+        if (exponent % 2 == 1) {
+            result = (result * base) % modulus;
+        }
+        base = (base * base) % modulus;
+        exponent /= 2;
+    }
+    return result;
+}
+
+long long pollard(long long number, long long bound) {
+    long long base = 2;
+    for (long long step = 2; step <= bound; ++step) {
+        base = power(base, step, number);
+        long long factor = gcd(std::abs(base - 1), number);
+        if (factor > 1 && factor < number) {
+            return factor;
+        }
+    }
+    return 1;
+}</code></pre>
+        </section>
+    </article>
+
+    <footer>
+        <p><em>Module 3 will cover Elliptic Curves over continuous and finite fields, including the geometric group law and algebraic point addition.</em></p>
+    </footer>
+
+    <script src="../../styles/theme.js"></script>
+</body>
+</html>]],
+                displayMath: [['$', '$']],
+                processEscapes: true
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+    <header>
+        <h1>Elliptic Curves and Cryptography</h1>
+        <p><em>Module 2: Diffie-Hellman & Advanced Cryptanalysis</em></p>
+    </header>
+
+    <article>
+        <section id="diffie-hellman">
+            <h2>3. The Diffie-Hellman Key Exchange</h2>
+            <p>While RSA provides a mechanism for asymmetric encryption, the Diffie-Hellman protocol was designed specifically for secure key exchange over an insecure channel. Its security is inextricably linked to the algebraic structure of finite cyclic groups.</p>
+            
+            <h3>3.1 The Protocol and Cyclic Groups</h3>
+            <p>Let $G$ be a finite cyclic group of order $q$, and let $g \in G$ be a generator. Thus, every element $h \in G$ can be written as $h = g^x$ for some integer $x \in \{0, 1, \dots, q-1\}$.</p>
+            <ol>
+                <li>Alice and Bob publicly agree on the group $G$ and the generator $g$. In classical implementations, $G = (\mathbb{Z}/p\mathbb{Z})^\times$ for a large prime $p$.</li>
+                <li>Alice uniformly samples a secret integer $a \leftarrow \mathbb{Z}_q$. She computes $A = g^a$ and transmits $A$ to Bob.</li>
+                <li>Bob uniformly samples a secret integer $b \leftarrow \mathbb{Z}_q$. He computes $B = g^b$ and transmits $B$ to Alice.</li>
+                <li>Alice computes the shared secret as $K = B^a = (g^b)^a = g^{ab}$.</li>
+                <li>Bob computes the shared secret as $K = A^b = (g^a)^b = g^{ab}$.</li>
+            </ol>
+
+            <div class="theorem">
+                <strong>Theorem (Correctness of Diffie-Hellman).</strong> Both parties derive the exact same group element $K$.
+            </div>
+            <div class="proof">
+                By the axioms of group exponentiation, $(g^b)^a = g^{b \cdot a} = g^{a \cdot b} = (g^a)^b$. Hence, Alice's computed value $B^a$ is strictly equal to Bob's computed value $A^b$.
+            </div>
+
+            <h3>3.2 Security Assumptions</h3>
+            <p>The security of the exchange relies on two foundational hardness assumptions:</p>
+            <ul>
+                <li><strong>Discrete Logarithm Problem (DLP):</strong> Given $g$ and $h \in G$, it is computationally intractable to find an integer $x$ such that $g^x = h$.</li>
+                <li><strong>Computational Diffie-Hellman (CDH) Assumption:</strong> Given $g, g^a, g^b \in G$, it is computationally intractable to compute $g^{ab}$.</li>
+            </ul>
+        </section>
+
+        <section id="rsa-attacks">
+            <h2>4. Advanced Addition: Attacks on RSA</h2>
+            <p>Choosing RSA parameters naively renders the cryptosystem vulnerable to mathematically sophisticated attacks. We analyze two pivotal cryptanalytic techniques: Wiener's Attack and Pollard's $p-1$ Algorithm.</p>
+
+            <h3>4.1 Wiener's Attack via Continued Fractions</h3>
+            <p>Wiener's attack demonstrates that choosing a small private key $d$ for decryption efficiency leads to total system compromise. It exploits the rational approximation of $e/n$.</p>
+            
+            <div class="theorem">
+                <strong>Theorem (Wiener, 1990).</strong> Let $n = pq$ with $q < p < 2q$. Let $d < \frac{1}{3} n^{1/4}$. Given the public key $(n, e)$ with $ed \equiv 1 \pmod{\phi(n)}$, an attacker can efficiently recover $d$.
+            </div>
+            <div class="proof">
+                Since $ed \equiv 1 \pmod{\phi(n)}$, there exists an integer $k$ such that $ed - k\phi(n) = 1$. Dividing by $d\phi(n)$ yields:
+                $$ \left| \frac{e}{\phi(n)} - \frac{k}{d} \right| = \frac{1}{d\phi(n)} $$
+                Since $\phi(n) = n - p - q + 1$ and $p, q \approx \sqrt{n}$, we approximate $\phi(n) \approx n$. The relation transforms to:
+                $$ \left| \frac{e}{n} - \frac{k}{d} \right| \approx \frac{1}{dn} $$
+                Under the strict bound $d < \frac{1}{3} n^{1/4}$, we can bound the distance as:
+                $$ \left| \frac{e}{n} - \frac{k}{d} \right| < \frac{1}{2d^2} $$
+                By Legendre's Theorem on continued fractions, if a rational number $x$ satisfies $|x - a/b| < 1 / (2b^2)$, then $a/b$ must be one of the principal convergents of the continued fraction expansion of $x$. Thus, computing the continued fraction of $e/n$ efficiently yields $k/d$ in lowest terms, immediately exposing $d$.
+            </div>
+
+            <h3>4.2 Pollard's $p-1$ Factorization Algorithm</h3>
+            <p>Pollard's $p-1$ algorithm is a specialized integer factorization method that quickly factors $n = pq$ if one of the prime factors has the property that $p-1$ is $B$-smooth (i.e., all prime factors of $p-1$ are less than or equal to a bound $B$).</p>
+            <p>By Fermat's Little Theorem, for any base $a$ coprime to $p$, $a^{p-1} \equiv 1 \pmod p$. If $p-1$ divides a highly composite number $L = B!$, then $L = k(p-1)$ for some integer $k$. Consequently:</p>
+            <p>$$ a^L = a^{k(p-1)} = (a^{p-1})^k \equiv 1^k \equiv 1 \pmod p $$</p>
+            <p>This implies $p \mid (a^L - 1)$. Since $p \mid n$, the prime factor $p$ can be extracted by computing $\gcd(a^L - 1, n)$.</p>
+
+            <h3>4.3 Algorithmic Implementation</h3>
+            <p>The following routine implements Pollard's $p-1$ algorithm. The logic iteratively computes $a^{j!} \pmod n$ for sequentially increasing $j$, effectively checking the smooth condition incrementally.</p>
+
+<pre><code>#include &lt;iostream&gt;
+#include &lt;cmath&gt;
+
+long long gcd(long long alpha, long long beta) {
+    while (beta > 0) {
+        long long temp = alpha % beta;
+        alpha = beta;
+        beta = temp;
+    }
+    return alpha;
+}
+
+long long power(long long base, long long exponent, long long modulus) {
+    long long result = 1;
+    base %= modulus;
+    while (exponent > 0) {
+        if (exponent % 2 == 1) {
+            result = (result * base) % modulus;
+        }
+        base = (base * base) % modulus;
+        exponent /= 2;
+    }
+    return result;
+}
+
+long long pollard(long long number, long long bound) {
+    long long base = 2;
+    for (long long step = 2; step <= bound; ++step) {
+        base = power(base, step, number);
+        long long factor = gcd(std::abs(base - 1), number);
+        if (factor > 1 && factor < number) {
+            return factor;
+        }
+    }
+    return 1;
+}</code></pre>
+        </section>
+    </article>
+
+    <footer>
+        <p><em>Module 3 will cover Elliptic Curves over continuous and finite fields, including the geometric group law and algebraic point addition.</em></p>
+    </footer>
+
+    <script src="../../styles/theme.js"></script>
 </body>
 </html>

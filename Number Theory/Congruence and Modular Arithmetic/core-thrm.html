@@ -1,78 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-topic="2" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Congruences and Modular Arithmetic - Section B</title>
-    <style>
-        :root {
-            --bg-color: #0d1117;
-            --text-color: #c9d1d9;
-            --heading-color: #58a6ff;
-            --accent-color: #8b949e;
-            --code-bg: #161b22;
-            --border-color: #30363d;
-            --link-color: #79c0ff;
-        }
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-        }
-        main {
-            max-width: 900px;
-            padding: 2rem;
-            width: 100%;
-        }
-        header {
-            border-bottom: 1px solid var(--border-color);
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-        }
-        h1, h2, h3, h4 {
-            color: var(--heading-color);
-            margin-top: 2rem;
-        }
-        h1 { font-size: 2.25rem; }
-        h2 { font-size: 1.75rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.3em; }
-        h3 { font-size: 1.25rem; }
-        p { margin: 1rem 0; font-size: 1.05rem; }
-        .theorem, .definition, .proof, .example {
-            background-color: var(--code-bg);
-            border-left: 4px solid var(--heading-color);
-            padding: 1rem;
-            margin: 1.5rem 0;
-            border-radius: 0 8px 8px 0;
-        }
-        .proof { border-left-color: var(--accent-color); font-style: italic; }
-        .example { border-left-color: #3fb950; }
-        .label { font-weight: bold; font-style: normal; display: block; margin-bottom: 0.5rem; color: var(--text-color); }
-        pre {
-            background-color: var(--code-bg);
-            border: 1px solid var(--border-color);
-            padding: 1rem;
-            border-radius: 6px;
-            overflow-x: auto;
-        }
-        code {
-            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-            font-size: 0.9em;
-            color: #a5d6ff;
-        }
-        footer {
-            margin-top: 3rem;
-            border-top: 1px solid var(--border-color);
-            padding-top: 1rem;
-            text-align: center;
-            color: var(--accent-color);
-            font-size: 0.9rem;
-        }
-    </style>
+        
+    <link rel="stylesheet" href="../../styles/module.css">
     <script>
         MathJax = {
             tex: {
@@ -82,7 +15,7 @@
             }
         };
     </script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
     <main>
@@ -235,5 +168,324 @@ l g(l n) {
             <p>End of Section B. Awaiting instructor protocol to proceed to Section C (Linear Congruences).</p>
         </footer>
     </main>
+
+    <script src="../../styles/theme.js"></script>
+</body>
+</html>, '
+<body>
+    <main>
+        <header>
+            <h1>Congruences and Modular Arithmetic</h1>
+            <p><strong>Module 2:</strong> Core Theorems</p>
+        </header>
+
+        <section>
+            <article>
+                <h2>1. Fermat's Little Theorem (FLT)</h2>
+                
+                <p>Fermat's Little Theorem is the cornerstone of prime fields $\mathbb{F}_p$, asserting a fundamental cyclical property of exponents modulo a prime. We provide two distinct proofs: one emphasizing combinatorics, the other abstract algebra.</p>
+
+                <div class="theorem">
+                    <span class="label">Theorem 2.1 (Fermat's Little Theorem)</span>
+                    If $p$ is a prime number and $a$ is an integer not divisible by $p$, then:
+                    $$a^{p-1} \equiv 1 \pmod p$$
+                    An equivalent formulation, valid for all integers $a$, is $a^p \equiv a \pmod p$.
+                </div>
+
+                <div class="proof">
+                    <span class="label">Proof 1: Combinatorial (Necklace Counting)</span>
+                    Consider the number of distinct ways to color a circular necklace of $p$ beads using $a$ available colors. The total number of linear strings of $p$ beads is $a^p$. Out of these, exactly $a$ strings are monochromatic (all beads the same color). The remaining $a^p - a$ strings are polychromatic.
+                    <br><br>
+                    Because $p$ is prime, any circular shift of a polychromatic string produces a distinct linear sequence until it returns to its original configuration after exactly $p$ shifts. Thus, the polychromatic strings can be partitioned into equivalence classes (necklaces) of size exactly $p$. Since the set of $a^p - a$ strings is partitioned into disjoint sets of size $p$, it must be that $p$ divides $a^p - a$. Therefore, $a^p \equiv a \pmod p$. Assuming $\gcd(a, p) = 1$, we can cancel $a$ to yield $a^{p-1} \equiv 1 \pmod p$. $\blacksquare$
+                </div>
+
+                <div class="proof">
+                    <span class="label">Proof 2: Group-Theoretic</span>
+                    Consider the set of non-zero residue classes modulo $p$, denoted $(\mathbb{Z}/p\mathbb{Z})^\times$. Since $p$ is prime, this set forms a group under multiplication. The order of this group is $|\mathbb{Z}/p\mathbb{Z}^\times| = p-1$.
+                    <br><br>
+                    By Lagrange's Theorem from group theory, the order of any element in a finite group divides the order of the group. If $k$ is the order of $a$, then $k \mid (p-1)$. Since $a^k \equiv 1 \pmod p$ and $p-1 = k \cdot q$ for some integer $q$, we have:
+                    $$a^{p-1} = a^{kq} = (a^k)^q \equiv 1^q \equiv 1 \pmod p$$ $\blacksquare$
+                </div>
+            </article>
+
+            <article>
+                <h2>2. Euler's Totient Theorem</h2>
+
+                <p>Euler extended Fermat's Little Theorem to composite moduli $n$. This theorem dictates the behavior of the multiplicative group of integers modulo $n$, which is fundamental to public-key cryptosystems like RSA.</p>
+
+                <div class="theorem">
+                    <span class="label">Theorem 2.2 (Euler's Totient Theorem)</span>
+                    If $n$ is a positive integer and $a$ is an integer coprime to $n$, then:
+                    $$a^{\phi(n)} \equiv 1 \pmod n$$
+                    where $\phi(n)$ is Euler's totient function, representing the number of integers in $\{1, 2, \dots, n\}$ that are coprime to $n$.
+                </div>
+
+                <div class="proof">
+                    <span class="label">Proof using Reduced Residue Systems:</span>
+                    Let $R = \{r_1, r_2, \dots, r_{\phi(n)}\}$ be a reduced residue system (RRS) modulo $n$.
+                    Consider the set $R' = \{ar_1, ar_2, \dots, ar_{\phi(n)}\}$. Because $\gcd(a, n) = 1$, multiplication by $a$ is a bijection on the RRS. Thus, $R'$ is merely a permutation of $R$ modulo $n$.
+                    <br><br>
+                    Taking the product of elements in both sets modulo $n$:
+                    $$\prod_{i=1}^{\phi(n)} (a r_i) \equiv \prod_{i=1}^{\phi(n)} r_i \pmod n$$
+                    $$a^{\phi(n)} \prod_{i=1}^{\phi(n)} r_i \equiv \prod_{i=1}^{\phi(n)} r_i \pmod n$$
+                    Since each $r_i$ is coprime to $n$, their product is also coprime to $n$. We can therefore multiply both sides by the modular inverse of the product, yielding $a^{\phi(n)} \equiv 1 \pmod n$. $\blacksquare$
+                </div>
+            </article>
+
+            <article>
+                <h2>3. Wilson's Theorem</h2>
+
+                <p>While Fermat and Euler theorems test primality probabilistically, Wilson's Theorem provides a definitive, albeit computationally infeasible $O(p)$, deterministic criterion for primality.</p>
+
+                <div class="theorem">
+                    <span class="label">Theorem 2.3 (Wilson's Theorem)</span>
+                    An integer $p > 1$ is a prime if and only if:
+                    $$(p-1)! \equiv -1 \pmod p$$
+                </div>
+
+                <div class="proof">
+                    <span class="label">Proof (Pairing Inverses modulo $p$):</span>
+                    If $p=2$, $(2-1)! = 1 \equiv -1 \pmod 2$, which holds. Assume $p$ is an odd prime. In the field $\mathbb{Z}/p\mathbb{Z}$, every non-zero element $x \in \{1, 2, \dots, p-1\}$ has a unique multiplicative inverse $x^{-1}$ such that $x \cdot x^{-1} \equiv 1 \pmod p$.
+                    <br><br>
+                    An element is its own inverse if and only if $x^2 \equiv 1 \pmod p$. This implies $p \mid (x^2 - 1) = (x-1)(x+1)$. Since $p$ is prime, $p \mid (x-1)$ or $p \mid (x+1)$. Thus, the only elements that are their own inverses are $x \equiv 1 \pmod p$ and $x \equiv -1 \equiv p-1 \pmod p$.
+                    <br><br>
+                    The remaining $p-3$ elements in $\{2, 3, \dots, p-2\}$ can be grouped into disjoint pairs $(x, x^{-1})$ whose product is $1 \pmod p$. Thus:
+                    $$(p-1)! = 1 \cdot \left( \prod_{x=2}^{p-2} x \right) \cdot (p-1) \equiv 1 \cdot 1 \cdot (-1) \equiv -1 \pmod p$$
+                    The converse relies on the fact that if $n$ is composite, it has a proper factor $d \mid n$ with $1 < d < n$, meaning $d$ appears in the factorial product, so $(n-1)! \equiv 0 \pmod d$, making it impossible for $(n-1)! \equiv -1 \pmod n$. $\blacksquare$
+                </div>
+            </article>
+
+            <article>
+                <h2>4. Advanced Addition: Carmichael's Function $\lambda(n)$ and Primitive Roots</h2>
+
+                <p>Euler's totient function provides an exponent that yields the identity, but it is not always the <em>smallest</em> such exponent. We define Carmichael's function $\lambda(n)$ to bound the maximal order of elements in $(\mathbb{Z}/n\mathbb{Z})^\times$.</p>
+
+                <div class="definition">
+                    <span class="label">Definition 2.4 (Carmichael's Function)</span>
+                    $\lambda(n)$ is defined as the smallest positive integer $m$ such that $a^m \equiv 1 \pmod n$ for all $a$ coprime to $n$.
+                </div>
+
+                <p>For prime powers, $\lambda$ is evaluated as follows:
+                <br>1. $\lambda(p^k) = \phi(p^k) = p^{k-1}(p-1)$ for odd primes $p$ or for $p=2, k \in \{1, 2\}$.
+                <br>2. $\lambda(2^k) = \frac{1}{2}\phi(2^k) = 2^{k-2}$ for $k \ge 3$.
+                <br>For a general integer $n = \prod p_i^{k_i}$, $\lambda(n) = \text{lcm}(\lambda(p_1^{k_1}), \dots, \lambda(p_r^{k_r}))$.</p>
+
+                <div class="theorem">
+                    <span class="label">Theorem 2.5 (Primitive Root Existence)</span>
+                    A primitive root modulo $n$ (an element of order $\phi(n)$) exists if and only if $\lambda(n) = \phi(n)$. This condition holds strictly when $n \in \{2, 4, p^k, 2p^k\}$ where $p$ is an odd prime and $k \ge 1$.
+                </div>
+
+                <p>Algorithmically, to find a primitive root modulo $p$, we iterate through candidates $g \in \{2, \dots, p-1\}$. For a candidate $g$ to be a primitive root, its order must be exactly $p-1$. By Lagrange's Theorem, we only need to verify that $g^{(p-1)/q} \not\equiv 1 \pmod p$ for all prime factors $q$ of $p-1$.</p>
+
+<pre><code>using l = long long;
+
+l p(l x, l y, l m) {
+    l r = 1; x %= m;
+    while(y) {
+        if(y & 1) r = (l)((__int128)r * x % m);
+        x = (l)((__int128)x * x % m);
+        y >>= 1;
+    }
+    return r;
+}
+
+l g(l n) {
+    if (n == 2) return 1;
+    l f = n - 1;
+    l t = f;
+    l v[100]; 
+    int c = 0;
+    
+    for (l i = 2; i * i <= t; ++i) {
+        if (t % i == 0) {
+            v[c++] = i;
+            while (t % i == 0) t /= i;
+        }
+    }
+    if (t > 1) v[c++] = t;
+    
+    for (l r = 2; r <= n; ++r) {
+        bool k = true;
+        for (int i = 0; i < c; ++i) {
+            if (p(r, f / v[i], n) == 1) {
+                k = false;
+                break;
+            }
+        }
+        if (k) return r;
+    }
+    return -1;
+}</code></pre>
+            </article>
+        </section>
+
+        <footer>
+            <p>End of Section B. Awaiting instructor protocol to proceed to Section C (Linear Congruences).</p>
+        </footer>
+    </main>
+
+    <script src="../../styles/theme.js"></script>
+</body>
+</html>]],
+                displayMath: [['$', '$']],
+                processEscapes: true
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+    <main>
+        <header>
+            <h1>Congruences and Modular Arithmetic</h1>
+            <p><strong>Module 2:</strong> Core Theorems</p>
+        </header>
+
+        <section>
+            <article>
+                <h2>1. Fermat's Little Theorem (FLT)</h2>
+                
+                <p>Fermat's Little Theorem is the cornerstone of prime fields $\mathbb{F}_p$, asserting a fundamental cyclical property of exponents modulo a prime. We provide two distinct proofs: one emphasizing combinatorics, the other abstract algebra.</p>
+
+                <div class="theorem">
+                    <span class="label">Theorem 2.1 (Fermat's Little Theorem)</span>
+                    If $p$ is a prime number and $a$ is an integer not divisible by $p$, then:
+                    $$a^{p-1} \equiv 1 \pmod p$$
+                    An equivalent formulation, valid for all integers $a$, is $a^p \equiv a \pmod p$.
+                </div>
+
+                <div class="proof">
+                    <span class="label">Proof 1: Combinatorial (Necklace Counting)</span>
+                    Consider the number of distinct ways to color a circular necklace of $p$ beads using $a$ available colors. The total number of linear strings of $p$ beads is $a^p$. Out of these, exactly $a$ strings are monochromatic (all beads the same color). The remaining $a^p - a$ strings are polychromatic.
+                    <br><br>
+                    Because $p$ is prime, any circular shift of a polychromatic string produces a distinct linear sequence until it returns to its original configuration after exactly $p$ shifts. Thus, the polychromatic strings can be partitioned into equivalence classes (necklaces) of size exactly $p$. Since the set of $a^p - a$ strings is partitioned into disjoint sets of size $p$, it must be that $p$ divides $a^p - a$. Therefore, $a^p \equiv a \pmod p$. Assuming $\gcd(a, p) = 1$, we can cancel $a$ to yield $a^{p-1} \equiv 1 \pmod p$. $\blacksquare$
+                </div>
+
+                <div class="proof">
+                    <span class="label">Proof 2: Group-Theoretic</span>
+                    Consider the set of non-zero residue classes modulo $p$, denoted $(\mathbb{Z}/p\mathbb{Z})^\times$. Since $p$ is prime, this set forms a group under multiplication. The order of this group is $|\mathbb{Z}/p\mathbb{Z}^\times| = p-1$.
+                    <br><br>
+                    By Lagrange's Theorem from group theory, the order of any element in a finite group divides the order of the group. If $k$ is the order of $a$, then $k \mid (p-1)$. Since $a^k \equiv 1 \pmod p$ and $p-1 = k \cdot q$ for some integer $q$, we have:
+                    $$a^{p-1} = a^{kq} = (a^k)^q \equiv 1^q \equiv 1 \pmod p$$ $\blacksquare$
+                </div>
+            </article>
+
+            <article>
+                <h2>2. Euler's Totient Theorem</h2>
+
+                <p>Euler extended Fermat's Little Theorem to composite moduli $n$. This theorem dictates the behavior of the multiplicative group of integers modulo $n$, which is fundamental to public-key cryptosystems like RSA.</p>
+
+                <div class="theorem">
+                    <span class="label">Theorem 2.2 (Euler's Totient Theorem)</span>
+                    If $n$ is a positive integer and $a$ is an integer coprime to $n$, then:
+                    $$a^{\phi(n)} \equiv 1 \pmod n$$
+                    where $\phi(n)$ is Euler's totient function, representing the number of integers in $\{1, 2, \dots, n\}$ that are coprime to $n$.
+                </div>
+
+                <div class="proof">
+                    <span class="label">Proof using Reduced Residue Systems:</span>
+                    Let $R = \{r_1, r_2, \dots, r_{\phi(n)}\}$ be a reduced residue system (RRS) modulo $n$.
+                    Consider the set $R' = \{ar_1, ar_2, \dots, ar_{\phi(n)}\}$. Because $\gcd(a, n) = 1$, multiplication by $a$ is a bijection on the RRS. Thus, $R'$ is merely a permutation of $R$ modulo $n$.
+                    <br><br>
+                    Taking the product of elements in both sets modulo $n$:
+                    $$\prod_{i=1}^{\phi(n)} (a r_i) \equiv \prod_{i=1}^{\phi(n)} r_i \pmod n$$
+                    $$a^{\phi(n)} \prod_{i=1}^{\phi(n)} r_i \equiv \prod_{i=1}^{\phi(n)} r_i \pmod n$$
+                    Since each $r_i$ is coprime to $n$, their product is also coprime to $n$. We can therefore multiply both sides by the modular inverse of the product, yielding $a^{\phi(n)} \equiv 1 \pmod n$. $\blacksquare$
+                </div>
+            </article>
+
+            <article>
+                <h2>3. Wilson's Theorem</h2>
+
+                <p>While Fermat and Euler theorems test primality probabilistically, Wilson's Theorem provides a definitive, albeit computationally infeasible $O(p)$, deterministic criterion for primality.</p>
+
+                <div class="theorem">
+                    <span class="label">Theorem 2.3 (Wilson's Theorem)</span>
+                    An integer $p > 1$ is a prime if and only if:
+                    $$(p-1)! \equiv -1 \pmod p$$
+                </div>
+
+                <div class="proof">
+                    <span class="label">Proof (Pairing Inverses modulo $p$):</span>
+                    If $p=2$, $(2-1)! = 1 \equiv -1 \pmod 2$, which holds. Assume $p$ is an odd prime. In the field $\mathbb{Z}/p\mathbb{Z}$, every non-zero element $x \in \{1, 2, \dots, p-1\}$ has a unique multiplicative inverse $x^{-1}$ such that $x \cdot x^{-1} \equiv 1 \pmod p$.
+                    <br><br>
+                    An element is its own inverse if and only if $x^2 \equiv 1 \pmod p$. This implies $p \mid (x^2 - 1) = (x-1)(x+1)$. Since $p$ is prime, $p \mid (x-1)$ or $p \mid (x+1)$. Thus, the only elements that are their own inverses are $x \equiv 1 \pmod p$ and $x \equiv -1 \equiv p-1 \pmod p$.
+                    <br><br>
+                    The remaining $p-3$ elements in $\{2, 3, \dots, p-2\}$ can be grouped into disjoint pairs $(x, x^{-1})$ whose product is $1 \pmod p$. Thus:
+                    $$(p-1)! = 1 \cdot \left( \prod_{x=2}^{p-2} x \right) \cdot (p-1) \equiv 1 \cdot 1 \cdot (-1) \equiv -1 \pmod p$$
+                    The converse relies on the fact that if $n$ is composite, it has a proper factor $d \mid n$ with $1 < d < n$, meaning $d$ appears in the factorial product, so $(n-1)! \equiv 0 \pmod d$, making it impossible for $(n-1)! \equiv -1 \pmod n$. $\blacksquare$
+                </div>
+            </article>
+
+            <article>
+                <h2>4. Advanced Addition: Carmichael's Function $\lambda(n)$ and Primitive Roots</h2>
+
+                <p>Euler's totient function provides an exponent that yields the identity, but it is not always the <em>smallest</em> such exponent. We define Carmichael's function $\lambda(n)$ to bound the maximal order of elements in $(\mathbb{Z}/n\mathbb{Z})^\times$.</p>
+
+                <div class="definition">
+                    <span class="label">Definition 2.4 (Carmichael's Function)</span>
+                    $\lambda(n)$ is defined as the smallest positive integer $m$ such that $a^m \equiv 1 \pmod n$ for all $a$ coprime to $n$.
+                </div>
+
+                <p>For prime powers, $\lambda$ is evaluated as follows:
+                <br>1. $\lambda(p^k) = \phi(p^k) = p^{k-1}(p-1)$ for odd primes $p$ or for $p=2, k \in \{1, 2\}$.
+                <br>2. $\lambda(2^k) = \frac{1}{2}\phi(2^k) = 2^{k-2}$ for $k \ge 3$.
+                <br>For a general integer $n = \prod p_i^{k_i}$, $\lambda(n) = \text{lcm}(\lambda(p_1^{k_1}), \dots, \lambda(p_r^{k_r}))$.</p>
+
+                <div class="theorem">
+                    <span class="label">Theorem 2.5 (Primitive Root Existence)</span>
+                    A primitive root modulo $n$ (an element of order $\phi(n)$) exists if and only if $\lambda(n) = \phi(n)$. This condition holds strictly when $n \in \{2, 4, p^k, 2p^k\}$ where $p$ is an odd prime and $k \ge 1$.
+                </div>
+
+                <p>Algorithmically, to find a primitive root modulo $p$, we iterate through candidates $g \in \{2, \dots, p-1\}$. For a candidate $g$ to be a primitive root, its order must be exactly $p-1$. By Lagrange's Theorem, we only need to verify that $g^{(p-1)/q} \not\equiv 1 \pmod p$ for all prime factors $q$ of $p-1$.</p>
+
+<pre><code>using l = long long;
+
+l p(l x, l y, l m) {
+    l r = 1; x %= m;
+    while(y) {
+        if(y & 1) r = (l)((__int128)r * x % m);
+        x = (l)((__int128)x * x % m);
+        y >>= 1;
+    }
+    return r;
+}
+
+l g(l n) {
+    if (n == 2) return 1;
+    l f = n - 1;
+    l t = f;
+    l v[100]; 
+    int c = 0;
+    
+    for (l i = 2; i * i <= t; ++i) {
+        if (t % i == 0) {
+            v[c++] = i;
+            while (t % i == 0) t /= i;
+        }
+    }
+    if (t > 1) v[c++] = t;
+    
+    for (l r = 2; r <= n; ++r) {
+        bool k = true;
+        for (int i = 0; i < c; ++i) {
+            if (p(r, f / v[i], n) == 1) {
+                k = false;
+                break;
+            }
+        }
+        if (k) return r;
+    }
+    return -1;
+}</code></pre>
+            </article>
+        </section>
+
+        <footer>
+            <p>End of Section B. Awaiting instructor protocol to proceed to Section C (Linear Congruences).</p>
+        </footer>
+    </main>
+
+    <script src="../../styles/theme.js"></script>
 </body>
 </html>

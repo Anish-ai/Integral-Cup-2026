@@ -1,112 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-topic="3" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Advanced Number Theory: Diophantine Equations - Part 3</title>
-    
+        
+    <link rel="stylesheet" href="../../styles/module.css">
     <script>
-        window.MathJax = {
+        MathJax = {
             tex: {
-                inlineMath: [['$', '$'], ['\\(', '\\)']],
-                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                inlineMath: [['$', '$']],
+                displayMath: [['$$', '$$']],
                 processEscapes: true
             }
         };
     </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
-    <style>
-        :root {
-            --bg-color: #121212;
-            --text-color: #e0e0e0;
-            --accent-color: #64ffda;
-            --secondary-bg: #1e1e1e;
-            --border-color: #333;
-        }
-        
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: 'Georgia', serif;
-            line-height: 1.7;
-            margin: 0;
-            padding: 40px 20px;
-            max-width: 900px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        h1, h2, h3, h4 {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            color: var(--accent-color);
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 5px;
-        }
-
-        .theorem, .lemma, .definition {
-            background-color: var(--secondary-bg);
-            border-left: 4px solid var(--accent-color);
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 0 4px 4px 0;
-        }
-
-        .theorem-title, .lemma-title, .definition-title {
-            font-weight: bold;
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            text-transform: uppercase;
-            font-size: 0.9em;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        .proof {
-            margin: 20px 0;
-            padding-left: 20px;
-            border-left: 2px dashed var(--border-color);
-        }
-
-        .proof::before {
-            content: "Proof.";
-            font-style: italic;
-            font-weight: bold;
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        .qedsymbol {
-            float: right;
-            font-size: 1.2em;
-        }
-
-        pre {
-            background-color: #0a0a0a;
-            color: #a6accd;
-            padding: 15px;
-            border-radius: 5px;
-            overflow-x: auto;
-            font-family: 'Fira Code', 'Courier New', monospace;
-            font-size: 14px;
-            border: 1px solid var(--border-color);
-        }
-
-        code {
-            font-family: 'Fira Code', 'Courier New', monospace;
-            color: #ff9e64;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        header p {
-            font-style: italic;
-            color: #888;
-        }
-    </style>
 </head>
 <body>
 
@@ -202,5 +111,207 @@ h0=h1;h1=h2;k0=k1;k1=k2;
     </section>
 </main>
 
+    <script src="../../styles/theme.js"></script>
+</body>
+</html>, '
+<body>
+
+<header>
+    <h1>Module III: Pell's Equation</h1>
+    <p>Algorithmic Number Theory & Abstract Algebra • Advanced Undergraduate Sequence</p>
+</header>
+
+<main>
+    <section>
+        <h2>1. The Continued Fraction Expansion of Quadratic Irrationals</h2>
+        <p>Pell's equation is a canonical non-linear Diophantine equation of the form $x^2 - dy^2 = 1$, where $d$ is a non-square positive integer. Solving it relies intimately on the simple continued fraction expansion of $\sqrt{d}$.</p>
+
+        <div class="definition">
+            <span class="definition-title">Definition 3.1 (Simple Continued Fraction)</span>
+            <p>The sequence of partial quotients $[a_0; a_1, a_2, a_3, \dots]$ denotes a continued fraction. For a quadratic irrational $\sqrt{d}$, this expansion is purely periodic after the initial term: $\sqrt{d} = [a_0; \overline{a_1, a_2, \dots, a_{r-1}, 2a_0}]$, where $r$ is the period length.</p>
+        </div>
+
+        <div class="theorem">
+            <span class="theorem-title">Theorem 3.2 (Fundamental Solution)</span>
+            <p>Let $h_k / k_k$ denote the $k$-th convergent of the continued fraction expansion of $\sqrt{d}$. The minimal positive (fundamental) solution $(x_1, y_1)$ to $x^2 - dy^2 = 1$ is uniquely determined by the convergents just preceding the end of the period:</p>
+            <ul>
+                <li>If the period $r$ is even, $(x_1, y_1) = (h_{r-1}, k_{r-1})$.</li>
+                <li>If the period $r$ is odd, $(x_1, y_1) = (h_{2r-1}, k_{2r-1})$.</li>
+            </ul>
+        </div>
+
+        <div class="proof">
+            <p>By the theory of continued fractions, the convergents $h_n/k_n$ satisfy the fundamental recurrence relation $h_n k_{n-1} - h_{n-1} k_n = (-1)^{n-1}$. For $\sqrt{d}$, one can prove algebraically that the quantity $h_n^2 - d k_n^2$ oscillates but assumes the value of $(-1)^{n-1} q_{n+1}$ where $q_{n+1}$ is the denominator of the complete quotient.</p>
+            <p>At the end of a period $n = r - 1$, the complete quotient implies $q_r = 1$. Consequently:</p>
+            $$h_{r-1}^2 - d k_{r-1}^2 = (-1)^{r}$$
+            <p>If $r$ is even, $(-1)^r = 1$, yielding the fundamental solution $x = h_{r-1}, y = k_{r-1}$. If $r$ is odd, $(-1)^r = -1$, giving a solution to the negative Pell equation. To obtain a solution to $+1$, we must span a second period, checking $n = 2r - 1$. Since $2r$ is always even, $(-1)^{2r} = 1$, thus $x = h_{2r-1}, y = k_{2r-1}$ perfectly satisfies $x^2 - dy^2 = 1$. By properties of best rational approximations, this is structurally guaranteed to be minimal.</p>
+            <div class="qedsymbol">$\blacksquare$</div>
+        </div>
+
+        <h3>1.1 Algorithmic Realization (Convergent Expansion)</h3>
+        <p>The following zero-allocation C++ implementation leverages the exact integer recurrence to iterate the continued fraction of $\sqrt{d}$ without floating-point inaccuracies, halting instantly when the fundamental solution is reached.</p>
+
+<pre><code>void p(long long d,long long&x,long long&y){
+long long a=sqrt(d);
+if(a*a==d){x=1;y=0;return;}
+long long m=0,k=1,a0=a,c=a;
+long long h0=0,h1=1,h2,k0=1,k1=0,k2;
+while(1){
+h2=c*h1+h0;k2=c*k1+k0;
+if(h2*h2-d*k2*k2==1){x=h2;y=k2;return;}
+m=c*k-m;k=(d-m*m)/k;c=(a0+m)/k;
+h0=h1;h1=h2;k0=k1;k1=k2;
+}
+}</code></pre>
+    </section>
+
+    <section>
+        <h2>2. Generating the Infinite Family of Solutions</h2>
+        <p>Once the fundamental solution $(x_1, y_1)$ is obtained, Pell's equation exhibits a group-like algebraic structure permitting the extraction of infinitely many distinct solutions.</p>
+
+        <div class="theorem">
+            <span class="theorem-title">Theorem 3.3 (Recurrence Relation for Solutions)</span>
+            <p>If $(x_1, y_1)$ is the fundamental positive solution to $x^2 - dy^2 = 1$, then every positive solution $(x_n, y_n)$ for $n \in \mathbb{Z}_{>0}$ is generated by the algebraic expansion:</p>
+            $$x_n + y_n\sqrt{d} = (x_1 + y_1\sqrt{d})^n$$
+        </div>
+
+        <div class="proof">
+            <p>Let $(x_1, y_1)$ solve $x^2 - dy^2 = 1$. Consider the norm map in the ring $\mathbb{Z}[\sqrt{d}]$, defined by $N(u + v\sqrt{d}) = u^2 - dv^2$. This norm is strictly multiplicative:</p>
+            $$N(\alpha \beta) = N(\alpha)N(\beta)$$
+            <p>Let $\alpha = x_1 + y_1\sqrt{d}$. By assumption, $N(\alpha) = 1$. Consider $\alpha^n = (x_1 + y_1\sqrt{d})^n = x_n + y_n\sqrt{d}$ for some integers $x_n, y_n$. Using the multiplicativity of the norm:</p>
+            $$N(\alpha^n) = (N(\alpha))^n = 1^n = 1$$
+            <p>Therefore, $x_n^2 - dy_n^2 = 1$. This proves that $(x_n, y_n)$ is indeed a solution. To prove these are <em>all</em> the positive solutions, assume for contradiction there exists a solution $(u, v)$ not in this sequence, such that $\alpha^k < u + v\sqrt{d} < \alpha^{k+1}$ for some integer $k$. Multiplying the inequality by $\alpha^{-k} = x_k - y_k\sqrt{d}$ (since the norm is 1) yields:</p>
+            $$1 < (u + v\sqrt{d})(x_k - y_k\sqrt{d}) < \alpha$$
+            <p>This creates a new solution $(X, Y)$ strictly between $1$ and $x_1 + y_1\sqrt{d}$, implying $0 < X < x_1$. But $x_1$ was defined as the minimal positive solution, thereby yielding a strict contradiction.</p>
+            <div class="qedsymbol">$\blacksquare$</div>
+        </div>
+        
+        <p>Equivalently, expanding the binomial allows formulation as a linear matrix recurrence, an optimal form for binary exponentiation in competitive programming:</p>
+        $$\begin{pmatrix} x_{n} \\ y_{n} \end{pmatrix} = \begin{pmatrix} x_1 & d y_1 \\ y_1 & x_1 \end{pmatrix} \begin{pmatrix} x_{n-1} \\ y_{n-1} \end{pmatrix}$$
+    </section>
+
+    <section>
+        <h2>3. Advanced Addition: The Negative Pell Equation</h2>
+        <p>A natural variant questions the solvability of $x^2 - dy^2 = -1$. Unlike the positive counterpart which universally possesses solutions for any non-square $d$, the negative Pell equation acts as a strict quadratic filter.</p>
+
+        <div class="theorem">
+            <span class="theorem-title">Theorem 3.4 (Criteria for Negative Solvability)</span>
+            <p>The equation $x^2 - dy^2 = -1$ has integer solutions if and only if the period length $r$ of the continued fraction expansion of $\sqrt{d}$ is strictly odd.</p>
+        </div>
+
+        <div class="proof">
+            <p>Revisiting the structural logic from Theorem 3.2, the sequence $h_n^2 - d k_n^2$ reaches $\pm 1$ precisely at the end of the continued fraction period. Specifically, $h_{r-1}^2 - d k_{r-1}^2 = (-1)^r$.</p>
+            <p>If $r$ is odd, $(-1)^r = -1$, yielding an explicit solution $(x_1, y_1) = (h_{r-1}, k_{r-1})$ to $x^2 - d y^2 = -1$.</p>
+            <p>If $r$ is even, all odd periods terminate in $+1$, and the recurrence never yields $-1$. A deeper algebraic implication of solvability is that if $x^2 - dy^2 = -1$ has a solution, any prime divisor $p$ of $d$ must satisfy $x^2 \equiv -1 \pmod p$. By Euler's criterion, this necessitates that all odd prime divisors of $d$ must strictly be $\equiv 1 \pmod 4$. If even a single prime factor of $d$ is $\equiv 3 \pmod 4$, the period $r$ is guaranteed to be even, and no solution exists.</p>
+            <div class="qedsymbol">$\blacksquare$</div>
+        </div>
+    </section>
+</main>
+
+    <script src="../../styles/theme.js"></script>
+</body>
+</html>]],
+                displayMath: [['$', '$']],
+                processEscapes: true
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<header>
+    <h1>Module III: Pell's Equation</h1>
+    <p>Algorithmic Number Theory & Abstract Algebra • Advanced Undergraduate Sequence</p>
+</header>
+
+<main>
+    <section>
+        <h2>1. The Continued Fraction Expansion of Quadratic Irrationals</h2>
+        <p>Pell's equation is a canonical non-linear Diophantine equation of the form $x^2 - dy^2 = 1$, where $d$ is a non-square positive integer. Solving it relies intimately on the simple continued fraction expansion of $\sqrt{d}$.</p>
+
+        <div class="definition">
+            <span class="definition-title">Definition 3.1 (Simple Continued Fraction)</span>
+            <p>The sequence of partial quotients $[a_0; a_1, a_2, a_3, \dots]$ denotes a continued fraction. For a quadratic irrational $\sqrt{d}$, this expansion is purely periodic after the initial term: $\sqrt{d} = [a_0; \overline{a_1, a_2, \dots, a_{r-1}, 2a_0}]$, where $r$ is the period length.</p>
+        </div>
+
+        <div class="theorem">
+            <span class="theorem-title">Theorem 3.2 (Fundamental Solution)</span>
+            <p>Let $h_k / k_k$ denote the $k$-th convergent of the continued fraction expansion of $\sqrt{d}$. The minimal positive (fundamental) solution $(x_1, y_1)$ to $x^2 - dy^2 = 1$ is uniquely determined by the convergents just preceding the end of the period:</p>
+            <ul>
+                <li>If the period $r$ is even, $(x_1, y_1) = (h_{r-1}, k_{r-1})$.</li>
+                <li>If the period $r$ is odd, $(x_1, y_1) = (h_{2r-1}, k_{2r-1})$.</li>
+            </ul>
+        </div>
+
+        <div class="proof">
+            <p>By the theory of continued fractions, the convergents $h_n/k_n$ satisfy the fundamental recurrence relation $h_n k_{n-1} - h_{n-1} k_n = (-1)^{n-1}$. For $\sqrt{d}$, one can prove algebraically that the quantity $h_n^2 - d k_n^2$ oscillates but assumes the value of $(-1)^{n-1} q_{n+1}$ where $q_{n+1}$ is the denominator of the complete quotient.</p>
+            <p>At the end of a period $n = r - 1$, the complete quotient implies $q_r = 1$. Consequently:</p>
+            $$h_{r-1}^2 - d k_{r-1}^2 = (-1)^{r}$$
+            <p>If $r$ is even, $(-1)^r = 1$, yielding the fundamental solution $x = h_{r-1}, y = k_{r-1}$. If $r$ is odd, $(-1)^r = -1$, giving a solution to the negative Pell equation. To obtain a solution to $+1$, we must span a second period, checking $n = 2r - 1$. Since $2r$ is always even, $(-1)^{2r} = 1$, thus $x = h_{2r-1}, y = k_{2r-1}$ perfectly satisfies $x^2 - dy^2 = 1$. By properties of best rational approximations, this is structurally guaranteed to be minimal.</p>
+            <div class="qedsymbol">$\blacksquare$</div>
+        </div>
+
+        <h3>1.1 Algorithmic Realization (Convergent Expansion)</h3>
+        <p>The following zero-allocation C++ implementation leverages the exact integer recurrence to iterate the continued fraction of $\sqrt{d}$ without floating-point inaccuracies, halting instantly when the fundamental solution is reached.</p>
+
+<pre><code>void p(long long d,long long&x,long long&y){
+long long a=sqrt(d);
+if(a*a==d){x=1;y=0;return;}
+long long m=0,k=1,a0=a,c=a;
+long long h0=0,h1=1,h2,k0=1,k1=0,k2;
+while(1){
+h2=c*h1+h0;k2=c*k1+k0;
+if(h2*h2-d*k2*k2==1){x=h2;y=k2;return;}
+m=c*k-m;k=(d-m*m)/k;c=(a0+m)/k;
+h0=h1;h1=h2;k0=k1;k1=k2;
+}
+}</code></pre>
+    </section>
+
+    <section>
+        <h2>2. Generating the Infinite Family of Solutions</h2>
+        <p>Once the fundamental solution $(x_1, y_1)$ is obtained, Pell's equation exhibits a group-like algebraic structure permitting the extraction of infinitely many distinct solutions.</p>
+
+        <div class="theorem">
+            <span class="theorem-title">Theorem 3.3 (Recurrence Relation for Solutions)</span>
+            <p>If $(x_1, y_1)$ is the fundamental positive solution to $x^2 - dy^2 = 1$, then every positive solution $(x_n, y_n)$ for $n \in \mathbb{Z}_{>0}$ is generated by the algebraic expansion:</p>
+            $$x_n + y_n\sqrt{d} = (x_1 + y_1\sqrt{d})^n$$
+        </div>
+
+        <div class="proof">
+            <p>Let $(x_1, y_1)$ solve $x^2 - dy^2 = 1$. Consider the norm map in the ring $\mathbb{Z}[\sqrt{d}]$, defined by $N(u + v\sqrt{d}) = u^2 - dv^2$. This norm is strictly multiplicative:</p>
+            $$N(\alpha \beta) = N(\alpha)N(\beta)$$
+            <p>Let $\alpha = x_1 + y_1\sqrt{d}$. By assumption, $N(\alpha) = 1$. Consider $\alpha^n = (x_1 + y_1\sqrt{d})^n = x_n + y_n\sqrt{d}$ for some integers $x_n, y_n$. Using the multiplicativity of the norm:</p>
+            $$N(\alpha^n) = (N(\alpha))^n = 1^n = 1$$
+            <p>Therefore, $x_n^2 - dy_n^2 = 1$. This proves that $(x_n, y_n)$ is indeed a solution. To prove these are <em>all</em> the positive solutions, assume for contradiction there exists a solution $(u, v)$ not in this sequence, such that $\alpha^k < u + v\sqrt{d} < \alpha^{k+1}$ for some integer $k$. Multiplying the inequality by $\alpha^{-k} = x_k - y_k\sqrt{d}$ (since the norm is 1) yields:</p>
+            $$1 < (u + v\sqrt{d})(x_k - y_k\sqrt{d}) < \alpha$$
+            <p>This creates a new solution $(X, Y)$ strictly between $1$ and $x_1 + y_1\sqrt{d}$, implying $0 < X < x_1$. But $x_1$ was defined as the minimal positive solution, thereby yielding a strict contradiction.</p>
+            <div class="qedsymbol">$\blacksquare$</div>
+        </div>
+        
+        <p>Equivalently, expanding the binomial allows formulation as a linear matrix recurrence, an optimal form for binary exponentiation in competitive programming:</p>
+        $$\begin{pmatrix} x_{n} \\ y_{n} \end{pmatrix} = \begin{pmatrix} x_1 & d y_1 \\ y_1 & x_1 \end{pmatrix} \begin{pmatrix} x_{n-1} \\ y_{n-1} \end{pmatrix}$$
+    </section>
+
+    <section>
+        <h2>3. Advanced Addition: The Negative Pell Equation</h2>
+        <p>A natural variant questions the solvability of $x^2 - dy^2 = -1$. Unlike the positive counterpart which universally possesses solutions for any non-square $d$, the negative Pell equation acts as a strict quadratic filter.</p>
+
+        <div class="theorem">
+            <span class="theorem-title">Theorem 3.4 (Criteria for Negative Solvability)</span>
+            <p>The equation $x^2 - dy^2 = -1$ has integer solutions if and only if the period length $r$ of the continued fraction expansion of $\sqrt{d}$ is strictly odd.</p>
+        </div>
+
+        <div class="proof">
+            <p>Revisiting the structural logic from Theorem 3.2, the sequence $h_n^2 - d k_n^2$ reaches $\pm 1$ precisely at the end of the continued fraction period. Specifically, $h_{r-1}^2 - d k_{r-1}^2 = (-1)^r$.</p>
+            <p>If $r$ is odd, $(-1)^r = -1$, yielding an explicit solution $(x_1, y_1) = (h_{r-1}, k_{r-1})$ to $x^2 - d y^2 = -1$.</p>
+            <p>If $r$ is even, all odd periods terminate in $+1$, and the recurrence never yields $-1$. A deeper algebraic implication of solvability is that if $x^2 - dy^2 = -1$ has a solution, any prime divisor $p$ of $d$ must satisfy $x^2 \equiv -1 \pmod p$. By Euler's criterion, this necessitates that all odd prime divisors of $d$ must strictly be $\equiv 1 \pmod 4$. If even a single prime factor of $d$ is $\equiv 3 \pmod 4$, the period $r$ is guaranteed to be even, and no solution exists.</p>
+            <div class="qedsymbol">$\blacksquare$</div>
+        </div>
+    </section>
+</main>
+
+    <script src="../../styles/theme.js"></script>
 </body>
 </html>

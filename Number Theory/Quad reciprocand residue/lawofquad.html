@@ -1,76 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-topic="5" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quadratic Residues and Reciprocity: Part C</title>
+        
+    <link rel="stylesheet" href="../../styles/module.css">
     <script>
-        window.MathJax = {
+        MathJax = {
             tex: {
                 inlineMath: [['$', '$']],
-                displayMath: [['$$', '$$']]
-            },
-            svg: {
-                fontCache: 'global'
+                displayMath: [['$$', '$$']],
+                processEscapes: true
             }
         };
     </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <style>
-        :root {
-            --bg-color: #fcfcfc;
-            --text-color: #222222;
-            --accent-color: #0b5394;
-            --box-bg: #f4f6f8;
-            --border-color: #cbd5e1;
-        }
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-color: #1a1a2e;
-                --text-color: #e2e8f0;
-                --accent-color: #64b5f6;
-                --box-bg: #16213e;
-                --border-color: #0f3460;
-            }
-        }
-        body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.7;
-            color: var(--text-color);
-            background-color: var(--bg-color);
-            max-width: 960px;
-            margin: 0 auto;
-            padding: 2rem;
-            transition: all 0.3s ease;
-        }
-        header {
-            border-bottom: 2px solid var(--accent-color);
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-        }
-        h1, h2, h3 {
-            color: var(--accent-color);
-        }
-        .block {
-            background-color: var(--box-bg);
-            border-left: 4px solid var(--accent-color);
-            padding: 1rem 1.5rem;
-            margin: 1.5rem 0;
-            border-radius: 0 4px 4px 0;
-        }
-        .block-title {
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            display: block;
-            text-transform: uppercase;
-            font-size: 0.9em;
-            letter-spacing: 0.05em;
-        }
-        .proof-title {
-            font-style: italic;
-            font-weight: 600;
-        }
-    </style>
 </head>
 <body>
     <header>
@@ -175,5 +120,228 @@
             </div>
         </section>
     </article>
+
+    <script src="../../styles/theme.js"></script>
+</body>
+</html>, '
+<body>
+    <header>
+        <h1>Advanced Algorithmic Number Theory</h1>
+        <h2>Module: Quadratic Residues and Reciprocity</h2>
+        <p><strong>Part C: The Law of Quadratic Reciprocity</strong></p>
+    </header>
+
+    <article>
+        <section>
+            <p>We now arrive at the vertex of classical number theory. Gauss referred to this theorem as the <em>Theorema Aureum</em> (the Golden Theorem). It provides a deep, unexpected symmetry between distinct primes, transforming the evaluation of quadratic residues from an isolated $O(\log p)$ modular exponentiation into a mutually recursive mapping.</p>
+        </section>
+
+        <section>
+            <h2>1. Statement of the Main Theorem</h2>
+            
+            <div class="block">
+                <span class="block-title">Theorem 3.1: The Law of Quadratic Reciprocity</span>
+                Let $p$ and $q$ be distinct odd primes. Then:
+                $$ \left(\frac{p}{q}\right) \left(\frac{q}{p}\right) = (-1)^{\frac{p-1}{2} \cdot \frac{q-1}{2}} $$
+                Equivalently, $\left(\frac{p}{q}\right) = \left(\frac{q}{p}\right)$ unless both $p \equiv 3 \pmod{4}$ and $q \equiv 3 \pmod{4}$, in which case $\left(\frac{p}{q}\right) = -\left(\frac{q}{p}\right)$.
+            </div>
+
+            <p>The Supplementary Laws, which we proved rigorously in Part B using Euler's Criterion and Gauss's Lemma, complete the computational framework for any integer $a$ factored into prime powers:</p>
+            <ul>
+                <li><strong>First Supplementary Law:</strong> $\left(\frac{-1}{p}\right) = (-1)^{\frac{p-1}{2}}$</li>
+                <li><strong>Second Supplementary Law:</strong> $\left(\frac{2}{p}\right) = (-1)^{\frac{p^2-1}{8}}$</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>2. Eisenstein's Geometric Proof</h2>
+            <p>While Gauss published several algebraic proofs, Gotthold Eisenstein provided a strikingly elegant combinatorial argument rooted in lattice point geometry. This proof is highly instructive as it maps a purely algebraic congruence into a geometric counting problem.</p>
+
+            <div class="block">
+                <span class="block-title">Proof of Theorem 3.1 (Eisenstein)</span>
+                Consider the Cartesian plane and the open rectangle $R$ defined by $0 < x < \frac{p}{2}$ and $0 < y < \frac{q}{2}$. Let us count the number of integer lattice points $(x,y)$ strictly inside this rectangle.
+                <br><br>
+                The total number of lattice points in $R$ is clearly:
+                $$ T = \left(\frac{p-1}{2}\right)\left(\frac{q-1}{2}\right) $$
+                <br>
+                Draw the diagonal line $L$ with the equation $y = \frac{q}{p}x$. Because $p$ and $q$ are distinct primes, no integer lattice points lie exactly on this line (since $py = qx$ would imply $p \mid x$, which is impossible for $0 < x < \frac{p}{2}$).
+                <br><br>
+                Thus, the lattice points in $R$ are partitioned into two sets: those below $L$ and those above $L$.
+                <br><br>
+                <strong>Points below $L$:</strong>
+                For a fixed integer $x \in [1, \frac{p-1}{2}]$, the $y$-coordinates of the lattice points strictly below $L$ satisfy $1 \le y < \frac{q}{p}x$. The number of such points is precisely $\lfloor \frac{qx}{p} \rfloor$.
+                Summing over all possible $x$, the total number of points below $L$ is:
+                $$ N_1 = \sum_{x=1}^{\frac{p-1}{2}} \left\lfloor \frac{qx}{p} \right\rfloor $$
+                <br>
+                <strong>Points above $L$:</strong>
+                By symmetrically swapping the axes, the number of lattice points in $R$ above $L$ (which is equivalent to points below $x = \frac{p}{q}y$) is:
+                $$ N_2 = \sum_{y=1}^{\frac{q-1}{2}} \left\lfloor \frac{py}{q} \right\rfloor $$
+                <br>
+                Since $T = N_1 + N_2$, we have:
+                $$ N_1 + N_2 = \frac{p-1}{2} \cdot \frac{q-1}{2} $$
+                <br>
+                We now connect $N_1$ to Gauss's Lemma. Recall that to compute $\left(\frac{q}{p}\right)$, we examine the multiples $qx$ for $x \in [1, \frac{p-1}{2}]$. Using division algorithm, $qx = p \cdot \lfloor \frac{qx}{p} \rfloor + r_x$, where $r_x$ is the least positive residue.
+                Let $u_i$ be residues $< \frac{p}{2}$ and $v_j$ be residues $> \frac{p}{2}$. The number of $v_j$'s is $n$, and by Gauss's Lemma, $\left(\frac{q}{p}\right) = (-1)^n$.
+                <br><br>
+                Summing $qx$ over all $x$:
+                $$ \sum qx = p \sum \left\lfloor \frac{qx}{p} \right\rfloor + \sum u_i + \sum v_j $$
+                $$ q \sum x = p N_1 + \sum u_i + \sum v_j $$
+                Recall from our proof of Gauss's Lemma that the set $\{u_i\} \cup \{p - v_j\}$ is exactly the set of integers $\{1, 2, \dots, \frac{p-1}{2}\}$. Summing these gives:
+                $$ \sum x = \sum u_i + np - \sum v_j $$
+                Subtracting the two equations yields:
+                $$ (q-1) \sum x = p N_1 - np + 2 \sum v_j $$
+                Taking this modulo 2:
+                $$ 0 \equiv N_1 - n \pmod{2} \implies N_1 \equiv n \pmod{2} $$
+                Therefore, $\left(\frac{q}{p}\right) = (-1)^{N_1}$. By identical logic, $\left(\frac{p}{q}\right) = (-1)^{N_2}$.
+                <br><br>
+                Multiplying them together:
+                $$ \left(\frac{q}{p}\right)\left(\frac{p}{q}\right) = (-1)^{N_1 + N_2} = (-1)^{\frac{p-1}{2} \cdot \frac{q-1}{2}} $$
+                $\blacksquare$
+            </div>
+        </section>
+
+        <section>
+            <h2>3. Advanced Addition: The Algebraic Proof via Gauss Sums</h2>
+            <p>For modern algorithmic analysis and generalizations to higher reciprocity laws (like cubic and biquadratic), we rely on characters of finite fields. Here is an outline of the proof using Gauss sums.</p>
+
+            <div class="block">
+                <span class="block-title">Algebraic Framework</span>
+                Let $\zeta = e^{2\pi i / p}$ be a primitive $p$-th root of unity. The quadratic Gauss sum is defined as:
+                $$ g = \sum_{a=1}^{p-1} \left(\frac{a}{p}\right) \zeta^a $$
+                It is a standard property of Gauss sums that $g^2 = (-1)^{\frac{p-1}{2}} p$. Let us denote this integer by $p^*$.
+                <br><br>
+                We evaluate $g^q$ modulo $q$ in the ring of algebraic integers.
+                By the multinomial theorem, since $q$ is prime, $(A+B)^q \equiv A^q + B^q \pmod{q}$. Applying this to the sum:
+                $$ g^q \equiv \sum_{a=1}^{p-1} \left(\frac{a}{p}\right)^q \zeta^{aq} \pmod{q} $$
+                Since $q$ is odd, $\left(\frac{a}{p}\right)^q = \left(\frac{a}{p}\right)$. We can rewrite the sum by factoring out $\left(\frac{q}{p}\right)$:
+                $$ g^q \equiv \left(\frac{q}{p}\right)^{-1} \sum_{a=1}^{p-1} \left(\frac{aq}{p}\right) \zeta^{aq} \equiv \left(\frac{q}{p}\right) g \pmod{q} $$
+                Alternatively, we can compute $g^q$ using $g^2$:
+                $$ g^q = g(g^2)^{\frac{q-1}{2}} = g(p^*)^{\frac{q-1}{2}} $$
+                By Euler's Criterion, $(p^*)^{\frac{q-1}{2}} \equiv \left(\frac{p^*}{q}\right) \pmod{q}$.
+                <br><br>
+                Equating the two results:
+                $$ g \left(\frac{p^*}{q}\right) \equiv g \left(\frac{q}{p}\right) \pmod{q} $$
+                Multiplying by $g$ isolates the Legendre symbols, confirming that:
+                $$ \left(\frac{q}{p}\right) = \left(\frac{p^*}{q}\right) = \left(\frac{(-1)^{\frac{p-1}{2}} p}{q}\right) = \left(\frac{-1}{q}\right)^{\frac{p-1}{2}} \left(\frac{p}{q}\right) = (-1)^{\frac{p-1}{2} \cdot \frac{q-1}{2}} \left(\frac{p}{q}\right) $$
+                This elegantly re-establishes the theorem through field extensions.
+            </div>
+        </section>
+    </article>
+
+    <script src="../../styles/theme.js"></script>
+</body>
+</html>]],
+                displayMath: [['$', '$']],
+                processEscapes: true
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Advanced Algorithmic Number Theory</h1>
+        <h2>Module: Quadratic Residues and Reciprocity</h2>
+        <p><strong>Part C: The Law of Quadratic Reciprocity</strong></p>
+    </header>
+
+    <article>
+        <section>
+            <p>We now arrive at the vertex of classical number theory. Gauss referred to this theorem as the <em>Theorema Aureum</em> (the Golden Theorem). It provides a deep, unexpected symmetry between distinct primes, transforming the evaluation of quadratic residues from an isolated $O(\log p)$ modular exponentiation into a mutually recursive mapping.</p>
+        </section>
+
+        <section>
+            <h2>1. Statement of the Main Theorem</h2>
+            
+            <div class="block">
+                <span class="block-title">Theorem 3.1: The Law of Quadratic Reciprocity</span>
+                Let $p$ and $q$ be distinct odd primes. Then:
+                $$ \left(\frac{p}{q}\right) \left(\frac{q}{p}\right) = (-1)^{\frac{p-1}{2} \cdot \frac{q-1}{2}} $$
+                Equivalently, $\left(\frac{p}{q}\right) = \left(\frac{q}{p}\right)$ unless both $p \equiv 3 \pmod{4}$ and $q \equiv 3 \pmod{4}$, in which case $\left(\frac{p}{q}\right) = -\left(\frac{q}{p}\right)$.
+            </div>
+
+            <p>The Supplementary Laws, which we proved rigorously in Part B using Euler's Criterion and Gauss's Lemma, complete the computational framework for any integer $a$ factored into prime powers:</p>
+            <ul>
+                <li><strong>First Supplementary Law:</strong> $\left(\frac{-1}{p}\right) = (-1)^{\frac{p-1}{2}}$</li>
+                <li><strong>Second Supplementary Law:</strong> $\left(\frac{2}{p}\right) = (-1)^{\frac{p^2-1}{8}}$</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>2. Eisenstein's Geometric Proof</h2>
+            <p>While Gauss published several algebraic proofs, Gotthold Eisenstein provided a strikingly elegant combinatorial argument rooted in lattice point geometry. This proof is highly instructive as it maps a purely algebraic congruence into a geometric counting problem.</p>
+
+            <div class="block">
+                <span class="block-title">Proof of Theorem 3.1 (Eisenstein)</span>
+                Consider the Cartesian plane and the open rectangle $R$ defined by $0 < x < \frac{p}{2}$ and $0 < y < \frac{q}{2}$. Let us count the number of integer lattice points $(x,y)$ strictly inside this rectangle.
+                <br><br>
+                The total number of lattice points in $R$ is clearly:
+                $$ T = \left(\frac{p-1}{2}\right)\left(\frac{q-1}{2}\right) $$
+                <br>
+                Draw the diagonal line $L$ with the equation $y = \frac{q}{p}x$. Because $p$ and $q$ are distinct primes, no integer lattice points lie exactly on this line (since $py = qx$ would imply $p \mid x$, which is impossible for $0 < x < \frac{p}{2}$).
+                <br><br>
+                Thus, the lattice points in $R$ are partitioned into two sets: those below $L$ and those above $L$.
+                <br><br>
+                <strong>Points below $L$:</strong>
+                For a fixed integer $x \in [1, \frac{p-1}{2}]$, the $y$-coordinates of the lattice points strictly below $L$ satisfy $1 \le y < \frac{q}{p}x$. The number of such points is precisely $\lfloor \frac{qx}{p} \rfloor$.
+                Summing over all possible $x$, the total number of points below $L$ is:
+                $$ N_1 = \sum_{x=1}^{\frac{p-1}{2}} \left\lfloor \frac{qx}{p} \right\rfloor $$
+                <br>
+                <strong>Points above $L$:</strong>
+                By symmetrically swapping the axes, the number of lattice points in $R$ above $L$ (which is equivalent to points below $x = \frac{p}{q}y$) is:
+                $$ N_2 = \sum_{y=1}^{\frac{q-1}{2}} \left\lfloor \frac{py}{q} \right\rfloor $$
+                <br>
+                Since $T = N_1 + N_2$, we have:
+                $$ N_1 + N_2 = \frac{p-1}{2} \cdot \frac{q-1}{2} $$
+                <br>
+                We now connect $N_1$ to Gauss's Lemma. Recall that to compute $\left(\frac{q}{p}\right)$, we examine the multiples $qx$ for $x \in [1, \frac{p-1}{2}]$. Using division algorithm, $qx = p \cdot \lfloor \frac{qx}{p} \rfloor + r_x$, where $r_x$ is the least positive residue.
+                Let $u_i$ be residues $< \frac{p}{2}$ and $v_j$ be residues $> \frac{p}{2}$. The number of $v_j$'s is $n$, and by Gauss's Lemma, $\left(\frac{q}{p}\right) = (-1)^n$.
+                <br><br>
+                Summing $qx$ over all $x$:
+                $$ \sum qx = p \sum \left\lfloor \frac{qx}{p} \right\rfloor + \sum u_i + \sum v_j $$
+                $$ q \sum x = p N_1 + \sum u_i + \sum v_j $$
+                Recall from our proof of Gauss's Lemma that the set $\{u_i\} \cup \{p - v_j\}$ is exactly the set of integers $\{1, 2, \dots, \frac{p-1}{2}\}$. Summing these gives:
+                $$ \sum x = \sum u_i + np - \sum v_j $$
+                Subtracting the two equations yields:
+                $$ (q-1) \sum x = p N_1 - np + 2 \sum v_j $$
+                Taking this modulo 2:
+                $$ 0 \equiv N_1 - n \pmod{2} \implies N_1 \equiv n \pmod{2} $$
+                Therefore, $\left(\frac{q}{p}\right) = (-1)^{N_1}$. By identical logic, $\left(\frac{p}{q}\right) = (-1)^{N_2}$.
+                <br><br>
+                Multiplying them together:
+                $$ \left(\frac{q}{p}\right)\left(\frac{p}{q}\right) = (-1)^{N_1 + N_2} = (-1)^{\frac{p-1}{2} \cdot \frac{q-1}{2}} $$
+                $\blacksquare$
+            </div>
+        </section>
+
+        <section>
+            <h2>3. Advanced Addition: The Algebraic Proof via Gauss Sums</h2>
+            <p>For modern algorithmic analysis and generalizations to higher reciprocity laws (like cubic and biquadratic), we rely on characters of finite fields. Here is an outline of the proof using Gauss sums.</p>
+
+            <div class="block">
+                <span class="block-title">Algebraic Framework</span>
+                Let $\zeta = e^{2\pi i / p}$ be a primitive $p$-th root of unity. The quadratic Gauss sum is defined as:
+                $$ g = \sum_{a=1}^{p-1} \left(\frac{a}{p}\right) \zeta^a $$
+                It is a standard property of Gauss sums that $g^2 = (-1)^{\frac{p-1}{2}} p$. Let us denote this integer by $p^*$.
+                <br><br>
+                We evaluate $g^q$ modulo $q$ in the ring of algebraic integers.
+                By the multinomial theorem, since $q$ is prime, $(A+B)^q \equiv A^q + B^q \pmod{q}$. Applying this to the sum:
+                $$ g^q \equiv \sum_{a=1}^{p-1} \left(\frac{a}{p}\right)^q \zeta^{aq} \pmod{q} $$
+                Since $q$ is odd, $\left(\frac{a}{p}\right)^q = \left(\frac{a}{p}\right)$. We can rewrite the sum by factoring out $\left(\frac{q}{p}\right)$:
+                $$ g^q \equiv \left(\frac{q}{p}\right)^{-1} \sum_{a=1}^{p-1} \left(\frac{aq}{p}\right) \zeta^{aq} \equiv \left(\frac{q}{p}\right) g \pmod{q} $$
+                Alternatively, we can compute $g^q$ using $g^2$:
+                $$ g^q = g(g^2)^{\frac{q-1}{2}} = g(p^*)^{\frac{q-1}{2}} $$
+                By Euler's Criterion, $(p^*)^{\frac{q-1}{2}} \equiv \left(\frac{p^*}{q}\right) \pmod{q}$.
+                <br><br>
+                Equating the two results:
+                $$ g \left(\frac{p^*}{q}\right) \equiv g \left(\frac{q}{p}\right) \pmod{q} $$
+                Multiplying by $g$ isolates the Legendre symbols, confirming that:
+                $$ \left(\frac{q}{p}\right) = \left(\frac{p^*}{q}\right) = \left(\frac{(-1)^{\frac{p-1}{2}} p}{q}\right) = \left(\frac{-1}{q}\right)^{\frac{p-1}{2}} \left(\frac{p}{q}\right) = (-1)^{\frac{p-1}{2} \cdot \frac{q-1}{2}} \left(\frac{p}{q}\right) $$
+                This elegantly re-establishes the theorem through field extensions.
+            </div>
+        </section>
+    </article>
+
+    <script src="../../styles/theme.js"></script>
 </body>
 </html>
