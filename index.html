@@ -144,12 +144,67 @@ html,body{height:100%;font-family:'Inter',system-ui,sans-serif;background:var(--
 .welcome .stat .num{font-size:1.5rem;font-weight:700;color:var(--accent)}
 .welcome .stat .label{font-size:.7rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.05em;margin-top:2px}
 
-/* RESPONSIVE */
+/* RESPONSIVE — MOBILE */
 @media(max-width:768px){
-  .sidebar{position:fixed;left:0;top:0;height:100vh;box-shadow:4px 0 24px rgba(0,0,0,.5)}
-  .sidebar.collapsed{margin-left:calc(-1 * var(--sidebar-w))}
-  .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:5}
-  .overlay.show{display:block}
+  :root{--sidebar-w:85vw}
+
+  .sidebar{
+    position:fixed;left:0;top:0;height:100vh;width:var(--sidebar-w);min-width:auto;
+    max-width:320px;
+    transform:translateX(-100%);
+    margin-left:0 !important;
+    box-shadow:4px 0 30px rgba(0,0,0,.6);
+    transition:transform .3s cubic-bezier(.4,0,.2,1),background .3s ease;
+    z-index:100;
+  }
+  .sidebar.open-mobile{
+    transform:translateX(0);
+  }
+  .sidebar.collapsed{
+    transform:translateX(-100%);
+  }
+
+  .sidebar-header{padding:16px 16px 12px}
+  .sidebar-header h1{font-size:1rem}
+  .sidebar-header h1 .icon{width:28px;height:28px;font-size:.8rem}
+  .sidebar-header p{font-size:.65rem}
+
+  .search-box{padding:8px 12px}
+  .search-box input{padding:8px 10px 8px 30px;font-size:.8rem}
+  .search-box::before{left:22px;font-size:.85rem}
+
+  .topic-btn{padding:10px 14px 10px 12px;font-size:.8rem}
+  .sub-btn{padding:8px 14px 8px 36px;font-size:.76rem}
+
+  /* Overlay behind sidebar */
+  .overlay{
+    display:none;position:fixed;inset:0;
+    background:rgba(0,0,0,.55);
+    z-index:50;
+    opacity:0;
+    transition:opacity .3s ease;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .overlay.show{display:block;opacity:1}
+
+  /* Topbar */
+  .topbar{height:44px;padding:0 10px;gap:8px}
+  .topbar .toggle-btn{
+    width:36px;height:36px;font-size:1.2rem;
+    border:none;background:none;
+  }
+  .breadcrumb{
+    font-size:.72rem;flex:1;min-width:0;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+
+  /* Welcome screen */
+  .welcome{padding:24px}
+  .welcome .logo{width:60px;height:60px;font-size:1.5rem;border-radius:14px}
+  .welcome h2{font-size:1.25rem}
+  .welcome p{font-size:.82rem}
+  .welcome .stats{gap:20px}
+  .welcome .stat .num{font-size:1.2rem}
 }
 </style>
 </head>
@@ -318,9 +373,62 @@ function loadContent(btn, topicName, subName) {
 function toggleSidebar() {
   const sb = document.getElementById("sidebar");
   const ov = document.getElementById("overlay");
-  sb.classList.toggle("collapsed");
-  ov.classList.toggle("show");
+  const isMobile = window.innerWidth < 768;
+
+  if (isMobile) {
+    const isOpen = sb.classList.contains("open-mobile");
+    if (isOpen) {
+      sb.classList.remove("open-mobile");
+      sb.classList.add("collapsed");
+      ov.classList.remove("show");
+    } else {
+      sb.classList.remove("collapsed");
+      sb.classList.add("open-mobile");
+      ov.classList.add("show");
+    }
+  } else {
+    sb.classList.toggle("collapsed");
+    ov.classList.toggle("show");
+  }
 }
+
+// ── Mobile: start with sidebar closed ──
+if (window.innerWidth < 768) {
+  document.getElementById("sidebar").classList.add("collapsed");
+}
+
+// ── Swipe gestures for mobile sidebar ──
+(function() {
+  let touchStartX = 0;
+  let touchStartY = 0;
+  const SWIPE_THRESHOLD = 50;
+  const EDGE_ZONE = 30; // px from left edge to trigger open
+
+  document.addEventListener('touchstart', function(e) {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+  }, { passive: true });
+
+  document.addEventListener('touchend', function(e) {
+    if (window.innerWidth >= 768) return;
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    const dy = e.changedTouches[0].clientY - touchStartY;
+    // Only register horizontal swipes (not vertical scrolling)
+    if (Math.abs(dx) < SWIPE_THRESHOLD || Math.abs(dy) > Math.abs(dx)) return;
+
+    const sb = document.getElementById("sidebar");
+    const isOpen = sb.classList.contains("open-mobile");
+
+    // Swipe right from left edge → open sidebar
+    if (dx > 0 && touchStartX < EDGE_ZONE && !isOpen) {
+      toggleSidebar();
+    }
+    // Swipe left → close sidebar
+    if (dx < 0 && isOpen) {
+      toggleSidebar();
+    }
+  }, { passive: true });
+})();
 
 function filterTopics(q) {
   q = q.toLowerCase().trim();
