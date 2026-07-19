@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 1: Primitive Roots and Discrete Logarithms</title>
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$']],
+                displayMath: [['$$', '$$']],
+                packages: {'[+]': ['amsfonts', 'amssymb', 'amsthm']}
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+    </script>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #e2e8f0;
+            --heading-color: #38bdf8;
+            --accent-color: #818cf8;
+            --surface-color: #1e293b;
+            --border-color: #334155;
+            --code-bg: #0b1120;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+        }
+
+        h1, h2, h3, h4 {
+            color: var(--heading-color);
+            margin-top: 2rem;
+        }
+
+        h1 { font-size: 2.25rem; }
+        h2 { font-size: 1.75rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; }
+        h3 { font-size: 1.25rem; color: var(--accent-color); }
+
+        .theorem, .definition, .proof, .example {
+            background-color: var(--surface-color);
+            border-left: 4px solid var(--accent-color);
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+            border-radius: 0 0.5rem 0.5rem 0;
+        }
+
+        .theorem-title, .definition-title, .example-title {
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .proof {
+            border-left-color: #94a3b8;
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+        }
+
+        .proof-title {
+            font-style: italic;
+            color: #94a3b8;
+        }
+
+        .qedsymbol {
+            float: right;
+        }
+
+        code {
+            font-family: "Fira Code", monospace;
+            background-color: var(--code-bg);
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+            font-size: 0.9em;
+        }
+
+        pre code {
+            display: block;
+            padding: 1rem;
+            overflow-x: auto;
+            border: 1px solid var(--border-color);
+        }
+    </style>
+</head>
+<body>
+
+<main>
+    <header>
+        <h1>Algorithmic Number Theory</h1>
+        <p><strong>Module:</strong> Primitive Roots and Discrete Logarithms</p>
+        <p><strong>Target:</strong> Mathematical Rigor & Algorithmic Efficiency</p>
+    </header>
+
+    <article id="part-A">
+        <h2>A. Order of an Integer</h2>
+        
+        <p>Before studying generators of multiplicative groups (primitive roots), we must formally establish the cyclical behavior of integers under modular multiplication. We operate within the multiplicative group of integers modulo $n$, denoted as $(\mathbb{Z}/n\mathbb{Z})^\times$, which consists of all integers coprime to $n$.</p>
+
+        <div class="definition">
+            <span class="definition-title">Definition 1: Multiplicative Order</span>
+            Let $n > 1$ be an integer and $a$ be an integer such that $\gcd(a, n) = 1$. The <em>multiplicative order</em> of $a$ modulo $n$, denoted as $\text{ord}_n(a)$, is the smallest positive integer $k$ such that:
+            $$a^k \equiv 1 \pmod n$$
+        </div>
+
+        <p>By Euler's Totient Theorem, we know that $a^{\phi(n)} \equiv 1 \pmod n$, which guarantees that the set of integers $k$ satisfying $a^k \equiv 1 \pmod n$ is non-empty. Therefore, by the Well-Ordering Principle, the minimum positive integer $\text{ord}_n(a)$ always exists.</p>
+
+        <div class="theorem">
+            <span class="theorem-title">Theorem 1.1: Order Divides the Exponent</span>
+            Let $\gcd(a, n) = 1$. If $a^k \equiv 1 \pmod n$ for some positive integer $k$, then $\text{ord}_n(a) \mid k$.
+        </div>
+
+        <div class="proof">
+            <span class="proof-title">Proof.</span><br>
+            Let $h = \text{ord}_n(a)$. By the division algorithm, there exist unique integers $q$ and $r$ such that:
+            $$k = qh + r, \quad 0 \le r < h$$
+            We can rewrite $a^k$ as follows:
+            $$a^k = a^{qh + r} = (a^h)^q \cdot a^r$$
+            Taking both sides modulo $n$:
+            $$a^k \equiv (1)^q \cdot a^r \equiv a^r \pmod n$$
+            We are given that $a^k \equiv 1 \pmod n$, which implies $a^r \equiv 1 \pmod n$. <br><br>
+            If $r > 0$, this contradicts the minimality of $h$ as the order of $a$ modulo $n$, since $r < h$. Therefore, we must have $r = 0$. <br>
+            This implies $k = qh$, meaning $h \mid k$. <span class="qedsymbol">$\blacksquare$</span>
+        </div>
+
+        <div class="theorem">
+            <span class="theorem-title">Corollary 1.2</span>
+            For any $a$ coprime to $n$, $\text{ord}_n(a) \mid \phi(n)$.
+        </div>
+
+        <div class="example">
+            <span class="example-title">Example: Computing the Order</span>
+            Let $n = 7$. $\phi(7) = 6$. The elements of $(\mathbb{Z}/7\mathbb{Z})^\times$ are $\{1, 2, 3, 4, 5, 6\}$. Let us find $\text{ord}_7(2)$.<br>
+            The possible orders must divide $6$, so they are $1, 2, 3, \text{or } 6$.
+            <ul>
+                <li>$2^1 \equiv 2 \pmod 7$</li>
+                <li>$2^2 \equiv 4 \pmod 7$</li>
+                <li>$2^3 \equiv 8 \equiv 1 \pmod 7$</li>
+            </ul>
+            Thus, $\text{ord}_7(2) = 3$. Notice that $3 \mid 6$.
+        </div>
+
+        <h3>Advanced Addition: The Carmichael Function $\lambda(n)$</h3>
+        
+        <p>While Euler's theorem states that $a^{\phi(n)} \equiv 1 \pmod n$, $\phi(n)$ is not always the <em>smallest</em> universal exponent for the group $(\mathbb{Z}/n\mathbb{Z})^\times$. The smallest universal exponent is given by the Carmichael function, $\lambda(n)$.</p>
+
+        <div class="definition">
+            <span class="definition-title">Definition 2: The Carmichael Function</span>
+            For a positive integer $n$, $\lambda(n)$ is defined recursively using its prime factorization.
+            <br><br>
+            For prime powers:
+            <ul>
+                <li>$\lambda(p^\alpha) = \phi(p^\alpha) = p^{\alpha-1}(p-1)$ for an odd prime $p$, or for $p=2$ with $\alpha \le 2$.</li>
+                <li>$\lambda(2^\alpha) = \frac{1}{2}\phi(2^\alpha) = 2^{\alpha-2}$ for $\alpha \ge 3$.</li>
+            </ul>
+            For a general integer $n = p_1^{\alpha_1} p_2^{\alpha_2} \cdots p_k^{\alpha_k}$:
+            $$\lambda(n) = \text{lcm}(\lambda(p_1^{\alpha_1}), \lambda(p_2^{\alpha_2}), \dots, \lambda(p_k^{\alpha_k}))$$
+        </div>
+
+        <div class="theorem">
+            <span class="theorem-title">Theorem 1.3: Carmichael's Theorem</span>
+            For any $a$ coprime to $n$, $a^{\lambda(n)} \equiv 1 \pmod n$, and $\lambda(n)$ is the smallest positive integer with this property for all $a \in (\mathbb{Z}/n\mathbb{Z})^\times$.
+        </div>
+
+        <p><strong>Algorithmic Note:</strong> In competitive programming, evaluating congruences $a^K \pmod n$ for astronomically large $K$ is typically reduced using $K \bmod \phi(n)$. However, substituting $\phi(n)$ with $\lambda(n)$ provides a tighter bound, which is particularly critical when building cryptographic algorithms or optimizing index-calculus reductions.</p>
+
+        <p>The condition under which the group is cyclic (meaning it has a primitive root) is exactly when the maximal order equals the group size: $\lambda(n) = \phi(n)$. We will explore the rigorous classification of such moduli in Part B.</p>
+    </article>
+
+</main>
+
+</body>
+</html>

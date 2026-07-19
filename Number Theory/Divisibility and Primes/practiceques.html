@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Divisibility and Primes - Practice Questions and Solutions</title>
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$']],
+                displayMath: [['$$', '$$']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --text-main: #c9d1d9;
+            --text-heading: #ffffff;
+            --accent-thm: #58a6ff;
+            --accent-prf: #3fb950;
+            --accent-def: #d2a8ff;
+            --accent-prob: #f0883e;
+            --code-bg: #161b22;
+            --border: #30363d;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: system-ui, -apple-system, sans-serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 2rem;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            color: var(--text-heading);
+            margin-top: 2.5rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+        }
+
+        h2 {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+
+        .box {
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 6px;
+            background-color: #0f141a;
+        }
+
+        .problem {
+            border-left: 4px solid var(--accent-prob);
+        }
+
+        .proof {
+            border-left: 4px solid var(--accent-prf);
+        }
+
+        .box-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+        }
+
+        .problem .box-title {
+            color: var(--accent-prob);
+        }
+
+        .proof .box-title {
+            color: var(--accent-prf);
+            font-style: italic;
+            text-transform: none;
+        }
+
+        pre {
+            background-color: var(--code-bg);
+            padding: 1rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            border: 1px solid var(--border);
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .sol-header {
+            font-size: 1.1rem;
+            color: var(--accent-prob);
+            font-weight: 600;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <header>
+            <h1>Module 1: Divisibility and Primes</h1>
+            <p><strong>Part E: Practice Questions and Solutions</strong></p>
+            <p><em>Curated from the rigorous paradigms of Hardy & Wright, Niven/Zuckerman/Montgomery, and Ireland &
+                    Rosen. Code snippets adhere strictly to competitive programming standards (no comments, lowercase
+                    single-character variables).</em></p>
+        </header>
+
+        <section>
+            <h2>I. Practice Questions</h2>
+
+            <article class="box problem">
+                <div class="box-title">Problem 1 (Algebraic Divisibility)</div>
+                <p>Let $a > 1$ and $m, n > 0$ be integers. Prove that $\gcd(a^m - 1, a^n - 1) = a^{\gcd(m,n)} - 1$.</p>
+            </article>
+
+            <article class="box problem">
+                <div class="box-title">Problem 2 (Euler's Totient Application)</div>
+                <p>Prove that for any integer $a > 1$ and $n > 0$, $n \mid \phi(a^n - 1)$.</p>
+            </article>
+
+            <article class="box problem">
+                <div class="box-title">Problem 3 (Fermat Numbers & Primes)</div>
+                <p>Let $F_k = 2^{2^k} + 1$. Prove that for any $m \neq n$, $\gcd(F_m, F_n) = 1$. Use this to deduce an
+                    independent proof of the infinitude of primes.</p>
+            </article>
+
+            <article class="box problem">
+                <div class="box-title">Problem 4 (Chebyshev's Bound - PNT Context)</div>
+                <p>Prove that for any integer $n \ge 2$, the product of all primes $p \le n$ is strictly less than
+                    $4^n$.</p>
+            </article>
+
+            <article class="box problem">
+                <div class="box-title">Problem 5 (Legendre's Formula)</div>
+                <p>Let $v_p(x)$ denote the exponent of the highest power of prime $p$ dividing $x$. Prove that $v_p(n!)
+                    = \frac{n - s_p(n)}{p-1}$, where $s_p(n)$ is the sum of the digits of $n$ when expressed in base
+                    $p$.</p>
+            </article>
+
+            <article class="box problem">
+                <div class="box-title">Problem 6 (Quadratic Reciprocity Prelude)</div>
+                <p>Prove that for any integer $n$, the expression $n^2 + n + 1$ has no prime factors of the form $q
+                    \equiv 2 \pmod 3$.</p>
+            </article>
+
+            <article class="box problem">
+                <div class="box-title">Problem 7 (Dirichlet's Theorem Context)</div>
+                <p>Prove that there are infinitely many primes of the form $6k + 5$.</p>
+            </article>
+
+            <article class="box problem">
+                <div class="box-title">Problem 8 (Diophantine Impossibility)</div>
+                <p>Prove that the equation $x^4 + y^4 = z^2$ has no solutions in strictly positive integers.</p>
+            </article>
+
+            <article class="box problem">
+                <div class="box-title">Problem 9 (Combinatorial Congruences)</div>
+                <p>Prove that for any arbitrarily large integer $k$, there exists a sequence of $k$ consecutive integers
+                    such that each integer is divisible by the square of some prime number.</p>
+            </article>
+
+            <article class="box problem">
+                <div class="box-title">Problem 10 (Möbius Inversion Limit)</div>
+                <p>Let $\mu(n)$ be the Möbius function. Prove algebraically that $\sum_{d \mid n} \mu(d) = \lfloor
+                    \frac{1}{n} \rfloor$ for all $n \ge 1$.</p>
+            </article>
+
+            <article class="box problem">
+                <div class="box-title">Problem 11 (Algorithmic: Pillai's Arithmetical Function)</div>
+                <p>Given $N \le 10^{12}$, write an optimal algorithm to compute $\sum_{i=1}^N \gcd(i, N)$. Provide the
+                    $O(\sqrt{N})$ time complexity implementation.</p>
+            </article>
+
+            <article class="box problem">
+                <div class="box-title">Problem 12 (Algorithmic: Factorial Fractions)</div>
+                <p>Compute the number of ordered pairs of positive integers $(x, y)$ satisfying $\frac{1}{x} +
+                    \frac{1}{y} = \frac{1}{N!}$ for a given $N \le 10^6$. Output the answer modulo $10^9+7$. Provide the
+                    algorithm.</p>
+            </article>
+
+            <article class="box problem">
+                <div class="box-title">Problem 13 (Algorithmic: LCM Summation)</div>
+                <p>Let $S(n) = \sum_{i=1}^n \text{lcm}(i, n)$. Derive a closed-form formula in terms of Euler's totient
+                    function that computes $S(n)$ in $O(\sqrt{n})$ time.</p>
+            </article>
+
+            <article class="box problem">
+                <div class="box-title">Problem 14 (Algorithmic: Highly Composite Divisors)</div>
+                <p>Given $N \le 10^{18}$, write an algorithm to find the maximum number of divisors a number $X \le N$
+                    can have, and find the smallest $X$ achieving this maximum (a Highly Composite Number). Use
+                    backtracking.</p>
+            </article>
+
+            <article class="box problem">
+                <div class="box-title">Problem 15 (Algorithmic: Linear Sieve extension)</div>
+                <p>Write an $O(N)$ algorithm using a linear sieve to compute an array $F$ where $F[i] = i^k \cdot
+                    \phi(i) \pmod{10^9+7}$ for all $1 \le i \le N$ ($N \le 10^7$).</p>
+            </article>
+        </section>
+
+        <section>
+            <h2>II. Solutions and Proofs</h2>
+
+            <div class="sol-header">Solution to Problem 1</div>
+            <article class="box proof">
+                <div class="box-title">Proof</div>
+                <p>Let $d = \gcd(m, n)$ and let $D = \gcd(a^m - 1, a^n - 1)$. We want to show $D = a^d - 1$.</p>
+                <p>First, since $d \mid m$, we have $m = kd$. Then $a^m - 1 = (a^d)^k - 1 = (a^d - 1)(a^{d(k-1)} + \dots
+                    + 1)$. Thus, $(a^d - 1) \mid (a^m - 1)$. Symmetrically, $(a^d - 1) \mid (a^n - 1)$. Therefore, $(a^d
+                    - 1) \mid D$, meaning $a^d - 1 \le D$.</p>
+                <p>Next, by Bézout's Identity, there exist integers $x, y$ such that $mx + ny = d$. Assume without loss
+                    of generality that $x > 0$ and $y < 0$ (so we write $mx - n|y|=d$). We know $D \mid (a^m - 1)$, so
+                        $a^m \equiv 1 \pmod D$. Raising both sides to $x$ yields $a^{mx} \equiv 1 \pmod D$. Similarly,
+                        $a^{n|y|} \equiv 1 \pmod D$.</p>
+                        <p>Consider $a^d = a^{mx - n|y|}$. We have $a^{mx} = a^d a^{n|y|}$. Modulo $D$, this becomes $1
+                            \equiv a^d \cdot 1 \pmod D$. Therefore, $a^d \equiv 1 \pmod D$, which implies $D \mid (a^d -
+                            1)$.</p>
+                        <p>Since $(a^d - 1) \mid D$ and $D \mid (a^d - 1)$, we conclude $D = a^d - 1$. $\blacksquare$
+                        </p>
+            </article>
+
+            <div class="sol-header">Solution to Problem 2</div>
+            <article class="box proof">
+                <div class="box-title">Proof</div>
+                <p>Consider the multiplicative group of integers modulo $(a^n - 1)$, denoted as $(\mathbb{Z} /
+                    (a^n-1)\mathbb{Z})^\times$. Since $\gcd(a, a^n-1) = 1$, $a$ is an element of this group.</p>
+                <p>The order of $a$ modulo $(a^n - 1)$ is the smallest positive integer $k$ such that $a^k \equiv 1
+                    \pmod{a^n-1}$. Clearly, $a^n - 1 \equiv 0 \pmod{a^n-1}$, so $a^n \equiv 1 \pmod{a^n-1}$. For any $k
+                    < n$, $a^k - 1 < a^n - 1$, so it cannot be a multiple of $a^n - 1$. Thus, the order of $a$ is
+                        exactly $n$.</p>
+                        <p>By Euler's Totient Theorem, $a^{\phi(a^n-1)} \equiv 1 \pmod{a^n-1}$. A fundamental property
+                            of group theory (Lagrange's Theorem applied to cyclic subgroups) states that the order of an
+                            element must divide any exponent that yields the identity. Therefore, $n \mid \phi(a^n -
+                            1)$. $\blacksquare$</p>
+            </article>
+
+            <div class="sol-header">Solution to Problem 3</div>
+            <article class="box proof">
+                <div class="box-title">Proof</div>
+                <p>We first establish a recurrence relation for Fermat numbers: $\prod_{i=0}^{n-1} F_i = F_n - 2$. We
+                    prove this by induction. Base case $n=1$: $F_0 = 3 = F_1 - 2 = 5 - 2$. Assume true for $n=k$. For
+                    $k+1$, $\prod_{i=0}^k F_i = (\prod_{i=0}^{k-1} F_i) F_k = (F_k - 2)F_k = (2^{2^k} - 1)(2^{2^k} + 1)
+                    = 2^{2^{k+1}} - 1 = F_{k+1} - 2$.</p>
+                <p>Now, let $m < n$ and let $d=\gcd(F_m, F_n)$. Since $d \mid F_m$, $d$ must divide the product
+                        $\prod_{i=0}^{n-1} F_i$. Since $d \mid F_n$ as well, $d$ must divide their difference: $d \mid
+                        (F_n - (F_n - 2)) \implies d \mid 2$.</p>
+                        <p>Since all Fermat numbers are odd, $d$ cannot be even. The only positive odd divisor of $2$ is
+                            $1$. Thus, $\gcd(F_m, F_n) = 1$.</p>
+                        <p>Because the sequence $F_n$ is infinite and all elements are pairwise coprime, there exists an
+                            infinite sequence of mutually coprime integers $>1$. Choosing one prime factor from each
+                            yields an infinite number of distinct primes. $\blacksquare$</p>
+            </article>
+
+            <div class="sol-header">Solution to Problem 4</div>
+            <article class="box proof">
+                <div class="box-title">Proof</div>
+                <p>We proceed by strong induction on $n$. Let $P(n) = \prod_{p \le n} p$. Base cases for small $n$ hold
+                    ($P(2) = 2 < 16$). Assume the bound holds for all integers $< n$.</p>
+                        <p>If $n$ is even, $n$ is not prime (for $n>2$), so $P(n) = P(n-1) < 4^{n-1} < 4^n$.</p>
+                                <p>If $n$ is odd, let $n = 2m+1$. Consider the binomial coefficient $\binom{2m+1}{m} =
+                                    \frac{(2m+1)!}{m!(m+1)!}$. Every prime $p$ such that $m+1 < p \le 2m+1$ divides the
+                                        numerator but not the denominator, hence it divides the binomial coefficient.
+                                        Therefore, $\prod_{m+1 < p \le 2m+1} p \le \binom{2m+1}{m}$.</p>
+                                        <p>Notice that $\binom{2m+1}{m} + \binom{2m+1}{m+1} \le (1+1)^{2m+1} =
+                                            2^{2m+1}$. Since the two coefficients are equal, $\binom{2m+1}{m} <
+                                                2^{2m}$.</p>
+                                                <p>We can now bound $P(2m+1)$:
+                                                    $$P(2m+1) = P(m+1) \prod_{m+1 < p \le 2m+1} p \le P(m+1) 2^{2m}$$ By
+                                                        the inductive hypothesis, $P(m+1) < 4^{m+1}$. Thus: $$P(2m+1) <
+                                                        4^{m+1} 2^{2m}=2^{2m+2} 2^{2m}=2^{4m+2}=4^{2m+1}=4^n$$ This
+                                                        completes the induction. $\blacksquare$</p>
+            </article>
+
+            <div class="sol-header">Solution to Problem 5</div>
+            <article class="box proof">
+                <div class="box-title">Proof</div>
+                <p>By definition, the number of multiples of $p^k$ up to $n$ is $\lfloor \frac{n}{p^k} \rfloor$. Thus,
+                    $v_p(n!) = \sum_{k=1}^\infty \lfloor \frac{n}{p^k} \rfloor$.</p>
+                <p>Express $n$ in base $p$: $n = a_0 + a_1 p + a_2 p^2 + \dots + a_m p^m$, where $0 \le a_i < p$. The
+                        sum of its digits is $s_p(n)=\sum_{i=0}^m a_i$.</p>
+                        <p>Evaluate $\lfloor \frac{n}{p^k} \rfloor$: this simply shifts the base-$p$ representation
+                            right by $k$ places, discarding the fractional part. So, $\lfloor \frac{n}{p^k} \rfloor =
+                            a_k + a_{k+1} p + \dots + a_m p^{m-k}$.</p>
+                        <p>Summing these over all $k \ge 1$:</p>
+                        $$v_p(n!) = a_1 (1) + a_2 (1 + p) + a_3 (1 + p + p^2) + \dots + a_m (1 + p + \dots + p^{m-1})$$
+                        <p>Using the geometric series sum formula $1 + p + \dots + p^{i-1} = \frac{p^i - 1}{p-1}$, we
+                            substitute:</p>
+                        $$v_p(n!) = \sum_{i=1}^m a_i \left( \frac{p^i - 1}{p-1} \right) = \frac{1}{p-1} \left(
+                        \sum_{i=1}^m a_i p^i - \sum_{i=1}^m a_i \right)$$
+                        <p>Notice that $\sum_{i=1}^m a_i p^i = n - a_0$, and $\sum_{i=1}^m a_i = s_p(n) - a_0$.
+                            Substituting these in yields:</p>
+                        $$v_p(n!) = \frac{(n - a_0) - (s_p(n) - a_0)}{p-1} = \frac{n - s_p(n)}{p-1} \quad \blacksquare$$
+            </article>
+
+            <div class="sol-header">Solution to Problem 6</div>
+            <article class="box proof">
+                <div class="box-title">Proof</div>
+                <p>Suppose for contradiction there is a prime $q \equiv 2 \pmod 3$ such that $q \mid (n^2 + n + 1)$. We
+                    rewrite the expression by completing the square (multiplying by 4):</p>
+                $$4(n^2 + n + 1) = (2n+1)^2 + 3$$
+                <p>If $q \mid (n^2 + n + 1)$, then $q \mid ((2n+1)^2 + 3)$. This means $(2n+1)^2 \equiv -3 \pmod q$.
+                    Thus, $-3$ must be a quadratic residue modulo $q$, requiring the Legendre symbol
+                    $\left(\frac{-3}{q}\right) = 1$.</p>
+                <p>Using the multiplicative property and Euler's Criterion: $\left(\frac{-3}{q}\right) =
+                    \left(\frac{-1}{q}\right)\left(\frac{3}{q}\right) = (-1)^{\frac{q-1}{2}} \left(\frac{3}{q}\right)$.
+                </p>
+                <p>By Quadratic Reciprocity, $\left(\frac{3}{q}\right)\left(\frac{q}{3}\right) =
+                    (-1)^{\frac{q-1}{2}\frac{3-1}{2}} = (-1)^{\frac{q-1}{2}}$.</p>
+                <p>Substituting this back: $\left(\frac{-3}{q}\right) = (-1)^{\frac{q-1}{2}} (-1)^{\frac{q-1}{2}}
+                    \left(\frac{q}{3}\right) = \left(\frac{q}{3}\right)$.</p>
+                <p>Since $q \equiv 2 \pmod 3$, $\left(\frac{q}{3}\right) = \left(\frac{2}{3}\right)$. The quadratic
+                    residues modulo 3 are only $0$ and $1$. $2$ is a non-residue, so $\left(\frac{2}{3}\right) = -1$.
+                </p>
+                <p>Thus, $\left(\frac{-3}{q}\right) = -1$, meaning the congruence $(2n+1)^2 \equiv -3 \pmod q$ has no
+                    solutions, contradicting our assumption. $\blacksquare$</p>
+            </article>
+
+            <div class="sol-header">Solution to Problem 7</div>
+            <article class="box proof">
+                <div class="box-title">Proof</div>
+                <p>Assume for contradiction there are finitely many primes of the form $6k+5$. Let them be $p_1, p_2,
+                    \dots, p_n$. Construct the number:</p>
+                $$N = 6(p_1 p_2 \dots p_n) - 1$$
+                <p>Clearly, $N \equiv 5 \pmod 6$. Furthermore, $N > p_i$ for all $i$. By the FTA, $N$ factors into
+                    primes. None of the primes $2$ or $3$ divide $N$, as $N$ is odd and not a multiple of 3. Thus, all
+                    prime factors of $N$ are of the form $6k+1$ or $6k+5$.</p>
+                <p>If all prime factors of $N$ were of the form $6k+1$, their product would also be of the form $6k+1$,
+                    since $(6a+1)(6b+1) = 36ab + 6a + 6b + 1 \equiv 1 \pmod 6$. But $N \equiv 5 \pmod 6$. Therefore, $N$
+                    must have at least one prime factor $q \equiv 5 \pmod 6$.</p>
+                <p>This prime $q$ must be in our finite list, so $q = p_i$ for some $i$. Thus $q \mid (p_1 \dots p_n)$,
+                    implying $q \mid (6(p_1 \dots p_n))$. Since $q \mid N$, it must divide the difference: $q \mid
+                    (6(p_1 \dots p_n) - N) \implies q \mid 1$, which is impossible. Thus, the set is infinite.
+                    $\blacksquare$</p>
+            </article>
+
+            <div class="sol-header">Solution to Problem 8</div>
+            <article class="box proof">
+                <div class="box-title">Proof</div>
+                <p>We use Fermat's Method of Infinite Descent. Assume $(x, y, z)$ is a strictly positive integer
+                    solution. We can assume $\gcd(x, y) = 1$, as any common factor could be divided out. The equation is
+                    $(x^2)^2 + (y^2)^2 = z^2$, making $(x^2, y^2, z)$ a primitive Pythagorean triple.</p>
+                <p>Without loss of generality, let $x$ be even. The parametrization of primitive triples dictates there
+                    exist coprime integers $m > n > 0$ of opposite parity such that:</p>
+                $$x^2 = 2mn, \quad y^2 = m^2 - n^2, \quad z = m^2 + n^2$$
+                <p>From $y^2 + n^2 = m^2$, $(y, n, m)$ is another primitive Pythagorean triple. Since $y$ is odd, $n$
+                    must be even (as $m$ and $n$ have opposite parity and $m^2$ is a sum of an odd and even square, so
+                    $m$ is odd). Thus, there exist coprime integers $u > v > 0$ such that:</p>
+                $$n = 2uv, \quad y = u^2 - v^2, \quad m = u^2 + v^2$$
+                <p>Substitute $m$ and $n$ back into $x^2 = 2mn$:</p>
+                $$x^2 = 2(u^2 + v^2)(2uv) = 4uv(u^2 + v^2) \implies (x/2)^2 = uv(u^2 + v^2)$$
+                <p>Since $\gcd(u, v) = 1$, all three factors $u, v, (u^2+v^2)$ are mutually coprime. For their product
+                    to be a perfect square, each must independently be a perfect square:</p>
+                $$u = a^2, \quad v = b^2, \quad u^2 + v^2 = c^2$$
+                <p>Substituting $a^2$ and $b^2$ into the third equation yields:</p>
+                $$(a^2)^2 + (b^2)^2 = c^2 \implies a^4 + b^4 = c^2$$
+                <p>We have constructed a new solution $(a, b, c)$ to the original equation. We observe $c \le c^2 = u^2
+                    + v^2 = m < m^2 + n^2=z$. Thus, $c < z$. Given any positive integer solution, we can construct a
+                        strictly smaller positive integer solution. Since there are no infinite descending sequences of
+                        positive integers, no such solution can exist. $\blacksquare$</p>
+            </article>
+
+            <div class="sol-header">Solution to Problem 9</div>
+            <article class="box proof">
+                <div class="box-title">Proof</div>
+                <p>Let $p_1, p_2, \dots, p_k$ be $k$ distinct prime numbers. We seek an integer $x$ such that for every
+                    $i \in \{1, 2, \dots, k\}$, the number $x + i$ is divisible by $p_i^2$.</p>
+                <p>This translates to a system of linear congruences:</p>
+                $$x \equiv -1 \pmod{p_1^2}$$
+                $$x \equiv -2 \pmod{p_2^2}$$
+                $$\dots$$
+                $$x \equiv -k \pmod{p_k^2}$$
+                <p>Since the moduli $p_i^2$ are squares of distinct primes, they are pairwise coprime (i.e.,
+                    $\gcd(p_i^2, p_j^2) = 1$ for all $i \neq j$). By the Chinese Remainder Theorem, this system of
+                    congruences possesses a unique solution modulo $\prod_{i=1}^k p_i^2$, and hence infinitely many
+                    positive integer solutions $x$. For any such $x$, the sequence $x+1, x+2, \dots, x+k$ satisfies the
+                    condition. $\blacksquare$</p>
+            </article>
+
+            <div class="sol-header">Solution to Problem 10</div>
+            <article class="box proof">
+                <div class="box-title">Proof</div>
+                <p>Let $f(n) = \sum_{d \mid n} \mu(d)$. The Möbius function $\mu(n)$ is a multiplicative function (if
+                    $\gcd(a, b) = 1$, then $\mu(ab) = \mu(a)\mu(b)$). The Dirichlet convolution of two multiplicative
+                    functions is also multiplicative. Since $f = \mu * 1$ (where $1(n) = 1$ is totally multiplicative),
+                    $f(n)$ is multiplicative.</p>
+                <p>To evaluate a multiplicative function, it suffices to evaluate it at prime powers $p^k$ ($k \ge 1$):
+                </p>
+                $$f(p^k) = \sum_{d \mid p^k} \mu(d) = \mu(1) + \mu(p) + \mu(p^2) + \dots + \mu(p^k)$$
+                <p>By definition, $\mu(1) = 1$ and $\mu(p) = -1$. For any exponent $e \ge 2$, $\mu(p^e) = 0$ (since it
+                    is divisible by a square). Therefore:</p>
+                $$f(p^k) = 1 + (-1) + 0 + \dots + 0 = 0$$
+                <p>For $n = 1$, the only divisor is $1$, so $f(1) = \mu(1) = 1$. Since $f(p^k) = 0$ for all prime
+                    powers, any integer $n > 1$ (which is a product of prime powers) will have $f(n) = 0$.</p>
+                <p>This perfectly matches the step function $\lfloor 1/n \rfloor$, which is $1$ for $n=1$ and $0$ for
+                    all integers $n > 1$. $\blacksquare$</p>
+            </article>
+
+            <div class="sol-header">Solution to Problem 11</div>
+            <article class="box proof">
+                <div class="box-title">Code</div>
+                <pre><code>long long p(long long n) {
+    long long r = n;
+    for (long long i = 2; i * i <= n; i++) {
+        if (n % i == 0) {
+            while (n % i == 0) n /= i;
+            r -= r / i;
+        }
+    }
+    if (n > 1) r -= r / n;
+    return r;
+}
+
+long long s(long long n) {
+    long long r = 0;
+    for (long long i = 1; i * i <= n; i++) {
+        if (n % i == 0) {
+            r += i * p(n / i);
+            if (i * i != n) r += (n / i) * p(i);
+        }
+    }
+    return r;
+}</code></pre>
+            </article>
+
+            <div class="sol-header">Solution to Problem 12</div>
+            <article class="box proof">
+                <div class="box-title">Code</div>
+                <pre><code>long long c(int n) {
+    vector&lt;bool&gt; b(n + 1, 1);
+    vector&lt;int&gt; p;
+    for (int i = 2; i <= n; i++) {
+        if (b[i]) {
+            p.push_back(i);
+            for (int j = i * i; j <= n; j += i) b[j] = 0;
+        }
+    }
+    long long m = 1;
+    long long q = 1e9 + 7;
+    for (int x : p) {
+        long long e = 0;
+        long long t = n;
+        while (t) {
+            e += t / x;
+            t /= x;
+        }
+        m = m * (2 * e + 1) % q;
+    }
+    return m;
+}</code></pre>
+            </article>
+
+            <div class="sol-header">Solution to Problem 13</div>
+            <article class="box proof">
+                <div class="box-title">Proof</div>
+                <p>We know $\text{lcm}(i, n) = \frac{i \cdot n}{\gcd(i, n)}$. Group the sum by $d = \gcd(i, n)$:</p>
+                $$S(n) = \sum_{d \mid n} \sum_{\substack{i=1 \\ \gcd(i,n)=d}}^n \frac{i \cdot n}{d}$$
+                <p>Substitute $i = k \cdot d$. The condition $\gcd(i, n) = d$ becomes $\gcd(k, n/d) = 1$. The sum over
+                    $i$ up to $n$ becomes a sum over $k$ up to $n/d$:</p>
+                $$S(n) = n \sum_{d \mid n} \sum_{\substack{k=1 \\ \gcd(k, n/d)=1}}^{n/d} k$$
+                <p>The inner sum is the sum of all integers coprime to $m = n/d$ and less than or equal to $m$. For $m >
+                    1$, this sum is strictly $\frac{m \cdot \phi(m)}{2}$. For $m=1$, it is $1$.</p>
+                $$S(n) = n \left( 1 + \sum_{\substack{d \mid n \\ d < n}} \frac{(n/d) \phi(n/d)}{2} \right)$$ <p>
+                    Replacing the index $d$ with $x = n/d$, we sum over all divisors $x$ of $n$ (excluding $x=1$):</p>
+                    $$S(n) = n \left( 1 + \frac{1}{2} \sum_{x \mid n, x > 1} x \phi(x) \right) = \frac{n}{2} \left( 1 +
+                    \sum_{x \mid n} x \phi(x) \right) \quad \blacksquare$$
+            </article>
+
+            <div class="sol-header">Solution to Problem 14</div>
+            <article class="box proof">
+                <div class="box-title">Code</div>
+                <pre><code>long long p[] = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47};
+long long m = 0, d = 0;
+
+void f(long long n, int i, long long l, long long c, long long v) {
+    if (c > d || (c == d && v < m)) {
+        d = c;
+        m = v;
+    }
+    long long u = v;
+    for (int j = 1; j <= l; j++) {
+        if (n / p[i] < u) break;
+        u *= p[i];
+        f(n, i + 1, j, c * (j + 1), u);
+    }
+}
+
+// Call initially as: f(N, 0, 60, 1, 1);</code></pre>
+            </article>
+
+            <div class="sol-header">Solution to Problem 15</div>
+            <article class="box proof">
+                <div class="box-title">Code</div>
+                <pre><code>long long w(long long a, long long b) {
+    long long r = 1;
+    long long q = 1e9 + 7;
+    while (b) {
+        if (b & 1) r = r * a % q;
+        a = a * a % q;
+        b >>= 1;
+    }
+    return r;
+}
+
+vector&lt;long long&gt; s(int n, int k) {
+    vector&lt;int&gt; p;
+    vector&lt;bool&gt; b(n + 1, 1);
+    vector&lt;long long&gt; f(n + 1);
+    long long q = 1e9 + 7;
+    f[1] = 1;
+    for (int i = 2; i <= n; i++) {
+        if (b[i]) {
+            p.push_back(i);
+            long long t = w(i, k);
+            f[i] = t * (i - 1) % q;
+        }
+        for (int j : p) {
+            if (i * j > n) break;
+            b[i * j] = 0;
+            if (i % j == 0) {
+                f[i * j] = f[i] * w(j, k + 1) % q;
+                break;
+            } else {
+                f[i * j] = f[i] * f[j] % q;
+            }
+        }
+    }
+    return f;
+}</code></pre>
+            </article>
+        </section>
+    </main>
+</body>
+
+</html>

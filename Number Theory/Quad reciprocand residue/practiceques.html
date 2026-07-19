@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quadratic Residues and Reciprocity: Practice & Solutions</title>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$']],
+                displayMath: [['$$', '$$']]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        :root {
+            --bg-color: #fcfcfc;
+            --text-color: #222222;
+            --accent-color: #0b5394;
+            --box-bg: #f4f6f8;
+            --border-color: #cbd5e1;
+            --code-bg: #e2e8f0;
+            --code-color: #1e293b;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #1a1a2e;
+                --text-color: #e2e8f0;
+                --accent-color: #64b5f6;
+                --box-bg: #16213e;
+                --border-color: #0f3460;
+                --code-bg: #0b1120;
+                --code-color: #e2e8f0;
+            }
+        }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.7;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+        header {
+            border-bottom: 2px solid var(--accent-color);
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+        }
+        h1, h2, h3, h4 {
+            color: var(--accent-color);
+        }
+        .problem-card {
+            background-color: var(--box-bg);
+            border-left: 4px solid var(--accent-color);
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+        .problem-title {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: block;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            letter-spacing: 0.05em;
+        }
+        .solution-card {
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px dashed var(--border-color);
+        }
+        code, pre {
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            background-color: var(--code-bg);
+            color: var(--code-color);
+            border-radius: 4px;
+        }
+        code {
+            padding: 0.2rem 0.4rem;
+        }
+        pre {
+            padding: 1rem;
+            overflow-x: auto;
+            line-height: 1.4;
+        }
+        .math-statement {
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Advanced Algorithmic Number Theory</h1>
+        <h2>Module: Quadratic Residues and Reciprocity</h2>
+        <p><strong>Practice Questions and Exhaustive Solutions</strong></p>
+    </header>
+
+    <article>
+        <section id="questions">
+            <h2>Part I: 15 Advanced Practice Problems</h2>
+            <p>These problems are curated to test absolute mastery over theoretic constructs and algorithmic optimizations, drawing inspiration from classical number theory texts (Niven/Zuckerman, Hardy/Wright, Ireland/Rosen).</p>
+
+            <div class="problem-card">
+                <span class="problem-title">Problem 1: Polynomial Reducibility</span>
+                Prove that for any prime $p$, the polynomial $f(x) = x^4 + 1$ is reducible over the field $\mathbb{F}_p$, despite being irreducible over $\mathbb{Q}$.
+            </div>
+
+            <div class="problem-card">
+                <span class="problem-title">Problem 2: The Sum of Residues</span>
+                Let $p > 3$ be an odd prime. Let $S$ be the sum of all quadratic residues modulo $p$ in the range $[1, p-1]$. Prove that $S \equiv 0 \pmod{p}$.
+            </div>
+
+            <div class="problem-card">
+                <span class="problem-title">Problem 3: Shifted Character Sum</span>
+                Let $p$ be an odd prime and $a \not\equiv 0 \pmod{p}$. Evaluate the sum of Legendre symbols: 
+                $$ \sum_{x=1}^{p-1} \left(\frac{x(x+a)}{p}\right) $$
+            </div>
+
+            <div class="problem-card">
+                <span class="problem-title">Problem 4: Infinitude of 4k+1 Primes</span>
+                Using the properties of quadratic residues (specifically the evaluation of $\left(\frac{-1}{p}\right)$), prove that there are infinitely many primes of the form $p \equiv 1 \pmod{4}$.
+            </div>
+
+            <div class="problem-card">
+                <span class="problem-title">Problem 5: Explicit Root via Wilson's Theorem</span>
+                Let $p \equiv 1 \pmod{4}$ be a prime. Wilson's Theorem states that $(p-1)! \equiv -1 \pmod{p}$. Using this, construct an explicit integer $x$ such that $x^2 \equiv -1 \pmod{p}$.
+            </div>
+
+            <div class="problem-card">
+                <span class="problem-title">Problem 6: The Rule of 3</span>
+                Evaluate the Legendre symbol $\left(\frac{3}{p}\right)$ for an odd prime $p > 3$. Conclude exactly which congruence classes modulo 12 admit 3 as a quadratic residue.
+            </div>
+
+            <div class="problem-card">
+                <span class="problem-title">Problem 7: Sophie Germain Connection</span>
+                Let $p \equiv 3 \pmod{4}$ be a prime such that $q = 2p + 1$ is also prime. Prove that $q$ divides $2^p - 1$.
+            </div>
+
+            <div class="problem-card">
+                <span class="problem-title">Problem 8: Sum of Two Squares Condition</span>
+                Suppose an odd prime $p$ divides $a^2 + b^2$, where $\gcd(a, b) = 1$. Prove rigorously that $p \equiv 1 \pmod{4}$.
+            </div>
+
+            <div class="problem-card">
+                <span class="problem-title">Problem 9: Algorithmic Root for 8k+5 Primes</span>
+                Let $p \equiv 5 \pmod{8}$ be a prime. If $a$ is a quadratic residue modulo $p$, the full Tonelli-Shanks algorithm is unnecessary. Derive a direct, deterministic formula for $x$ such that $x^2 \equiv a \pmod{p}$, and provide a highly optimized C++ function to compute it.
+            </div>
+
+            <div class="problem-card">
+                <span class="problem-title">Problem 10: Solutions to a Circle</span>
+                Let $p$ be an odd prime. Determine the exact number of pairs $(x, y) \in \mathbb{F}_p \times \mathbb{F}_p$ that satisfy the congruence $x^2 + y^2 \equiv 1 \pmod{p}$.
+            </div>
+
+            <div class="problem-card">
+                <span class="problem-title">Problem 11: Quadratic Form of Modulo 3</span>
+                Suppose an odd prime $p \ne 3$ divides $a^2 + ab + b^2$, with $\gcd(a, b) = 1$. Prove that $p \equiv 1 \pmod{3}$.
+            </div>
+
+            <div class="problem-card">
+                <span class="problem-title">Problem 12: Evaluating the Symbol for 5</span>
+                Use the Law of Quadratic Reciprocity to prove that 5 is a quadratic residue modulo primes $p \equiv \pm 1 \pmod{10}$ and a non-residue for $p \equiv \pm 3 \pmod{10}$.
+            </div>
+
+            <div class="problem-card">
+                <span class="problem-title">Problem 13: Non-Residue Distribution</span>
+                Let $p$ be an odd prime. Prove that the smallest positive quadratic non-residue modulo $p$ must be a prime number.
+            </div>
+
+            <div class="problem-card">
+                <span class="problem-title">Problem 14: Difference of Squares</span>
+                Let $p$ be an odd prime and $a \not\equiv 0 \pmod{p}$. Find the number of solutions $(x, y)$ to $x^2 - y^2 \equiv a \pmod{p}$.
+            </div>
+
+            <div class="problem-card">
+                <span class="problem-title">Problem 15: Jacobi Bounding</span>
+                Let $n$ be an odd composite integer. Prove that at least half of the elements $a \in \mathbb{Z}_n^*$ satisfy $a^{\frac{n-1}{2}} \not\equiv \left(\frac{a}{n}\right) \pmod{n}$, forming the mathematical basis for the Solovay-Strassen primality test.
+            </div>
+        </section>
+
+        <section id="solutions">
+            <h2>Part II: Exhaustive Solutions</h2>
+
+            <div class="solution-card">
+                <h3>Solution 1: Polynomial Reducibility</h3>
+                <p>We are asked to factor $x^4 + 1 \pmod{p}$ for all primes $p$. For $p = 2$, $x^4 + 1 = (x^2+1)^2 = (x+1)^4 \pmod{2}$, which is reducible. For $p > 2$, we rewrite $x^4 + 1$ in three algebraically distinct ways by completing the square:</p>
+                <ol>
+                    <li>$x^4 + 1 = (x^2 + 1)^2 - 2x^2$</li>
+                    <li>$x^4 + 1 = (x^2 - 1)^2 + 2x^2 = (x^2 - 1)^2 - (-2)x^2$</li>
+                    <li>$x^4 + 1 = (x^2)^2 - (-1)$</li>
+                </ol>
+                <p>For $x^4 + 1$ to be reducible, at least one of these forms must factor as a difference of squares. This requires at least one of $2$, $-2$, or $-1$ to be a quadratic residue modulo $p$.</p>
+                <p>Recall the multiplicative property of the Legendre symbol: $\left(\frac{-2}{p}\right) = \left(\frac{-1}{p}\right)\left(\frac{2}{p}\right)$.</p>
+                <p>If $\left(\frac{-1}{p}\right) = 1$ or $\left(\frac{2}{p}\right) = 1$, we are done, as form 3 or form 1 will factor respectively. If both are $-1$, then their product $\left(\frac{-2}{p}\right) = (-1)(-1) = 1$, meaning $-2$ is a quadratic residue, and form 2 will factor. Since the pigeonhole principle guarantees at least one evaluates to $1$, $x^4 + 1$ is reducible modulo every prime $p$. $\blacksquare$</p>
+            </div>
+
+            <div class="solution-card">
+                <h3>Solution 2: The Sum of Residues</h3>
+                <p>Let $R$ be the set of quadratic residues modulo $p$. We know $|R| = \frac{p-1}{2}$. The sum is $S = \sum_{r \in R} r$.</p>
+                <p>Let $g$ be a primitive root modulo $p$. The quadratic residues are the even powers of $g$: $g^2, g^4, \dots, g^{p-1}$. The sum modulo $p$ forms a geometric progression:</p>
+                $$ S \equiv \sum_{k=1}^{\frac{p-1}{2}} (g^2)^k = g^2 \frac{(g^2)^{\frac{p-1}{2}} - 1}{g^2 - 1} \pmod{p} $$
+                <p>Since $(g^2)^{\frac{p-1}{2}} = g^{p-1} \equiv 1 \pmod{p}$ (by Fermat's Little Theorem), the numerator evaluates to $1 - 1 = 0 \pmod{p}$. Furthermore, since $p > 3$, $g^2 \not\equiv 1 \pmod{p}$, meaning the denominator is non-zero in $\mathbb{F}_p$. Thus, $S \equiv 0 \pmod{p}$. $\blacksquare$</p>
+            </div>
+
+            <div class="solution-card">
+                <h3>Solution 3: Shifted Character Sum</h3>
+                <p>We evaluate $S = \sum_{x=1}^{p-1} \left(\frac{x(x+a)}{p}\right)$.</p>
+                <p>Since $x \not\equiv 0 \pmod{p}$ in the sum, $x$ has a modular inverse $x^{-1}$. We can factor out $x^2$ from the argument:</p>
+                $$ x(x+a) = x^2(1 + a x^{-1}) $$
+                <p>Using the multiplicativity of the Legendre symbol, and knowing $\left(\frac{x^2}{p}\right) = 1$:</p>
+                $$ \left(\frac{x(x+a)}{p}\right) = \left(\frac{x^2}{p}\right) \left(\frac{1 + a x^{-1}}{p}\right) = \left(\frac{1 + a x^{-1}}{p}\right) $$
+                <p>As $x$ ranges over $1, 2, \dots, p-1$, its inverse $x^{-1}$ also ranges over the exact same set uniquely. Therefore, $y = 1 + a x^{-1}$ ranges over all elements of $\mathbb{F}_p$ exactly once, <em>except</em> for $y = 1$ (since $x^{-1}$ cannot be $0$).</p>
+                $$ S = \sum_{y \in \mathbb{F}_p, y \ne 1} \left(\frac{y}{p}\right) $$
+                <p>We know that the sum of Legendre symbols over a complete residue system is $0$ because there are equally many residues as non-residues (Theorem 1.2). Thus, $\sum_{y=0}^{p-1} \left(\frac{y}{p}\right) = 0$.</p>
+                <p>Our sum $S$ is missing exactly $y=1$. Therefore:</p>
+                $$ S = 0 - \left(\frac{1}{p}\right) = -1 $$
+                <p>The sum evaluates precisely to $-1$. $\blacksquare$</p>
+            </div>
+
+            <div class="solution-card">
+                <h3>Solution 4: Infinitude of 4k+1 Primes</h3>
+                <p>Assume for contradiction there are finitely many primes of the form $4k+1$. Let this complete set be $p_1, p_2, \dots, p_n$.</p>
+                <p>Construct the number $N = (2 p_1 p_2 \cdots p_n)^2 + 1$. Clearly, $N$ is an odd integer, and $N > 1$. Let $q$ be any prime factor of $N$. Thus, $(2 p_1 \cdots p_n)^2 + 1 \equiv 0 \pmod{q}$, which means $(2 p_1 \cdots p_n)^2 \equiv -1 \pmod{q}$.</p>
+                <p>This implies $-1$ is a quadratic residue modulo $q$. By the First Supplementary Law, $\left(\frac{-1}{q}\right) = 1 \iff q \equiv 1 \pmod{4}$.</p>
+                <p>Therefore, every prime factor $q$ of $N$ must be of the form $4k+1$. However, $N \equiv 1 \pmod{p_i}$ for all $i \in \{1, \dots, n\}$, so $q$ cannot be any of the primes in our supposed finite list. This contradicts the assumption that the list was exhaustive. Hence, there are infinitely many primes of the form $4k+1$. $\blacksquare$</p>
+            </div>
+
+            <div class="solution-card">
+                <h3>Solution 5: Explicit Root via Wilson's Theorem</h3>
+                <p>Wilson's theorem states $(p-1)! \equiv -1 \pmod{p}$. We can expand the factorial:</p>
+                $$ (p-1)! = 1 \cdot 2 \cdot \dots \cdot \frac{p-1}{2} \cdot \frac{p+1}{2} \cdot \dots \cdot (p-1) $$
+                <p>Note that the terms in the second half can be rewritten as negative values:</p>
+                $$ p - k \equiv -k \pmod{p} $$
+                <p>Substitute this back into the factorial for the upper half:</p>
+                $$ (p-1)! \equiv \left(1 \cdot 2 \cdots \frac{p-1}{2}\right) \cdot \left(-\frac{p-1}{2} \cdots -2 \cdot -1\right) \pmod{p} $$
+                $$ (p-1)! \equiv (-1)^{\frac{p-1}{2}} \left[ \left(\frac{p-1}{2}\right)! \right]^2 \pmod{p} $$
+                <p>Since $p \equiv 1 \pmod{4}$, $\frac{p-1}{2}$ is an even integer. Therefore, $(-1)^{\frac{p-1}{2}} = 1$.</p>
+                $$ -1 \equiv \left[ \left(\frac{p-1}{2}\right)! \right]^2 \pmod{p} $$
+                <p>Thus, $x = \left(\frac{p-1}{2}\right)! \pmod{p}$ is an explicit integer solution to $x^2 \equiv -1 \pmod{p}$. $\blacksquare$</p>
+            </div>
+
+            <div class="solution-card">
+                <h3>Solution 6: The Rule of 3</h3>
+                <p>Using the Law of Quadratic Reciprocity, for an odd prime $p > 3$:</p>
+                $$ \left(\frac{3}{p}\right) \left(\frac{p}{3}\right) = (-1)^{\frac{p-1}{2} \frac{3-1}{2}} = (-1)^{\frac{p-1}{2}} $$
+                <p>This implies $\left(\frac{3}{p}\right) = (-1)^{\frac{p-1}{2}} \left(\frac{p}{3}\right)$.</p>
+                <p>We evaluate both terms based on the congruence class of $p$ modulo 4 and modulo 3. Since $p > 3$, $p \equiv 1$ or $2 \pmod{3}$.</p>
+                <ul>
+                    <li>If $p \equiv 1 \pmod{12}$: $p \equiv 1 \pmod{4} \implies (-1)^{\frac{p-1}{2}} = 1$. $p \equiv 1 \pmod{3} \implies \left(\frac{p}{3}\right) = \left(\frac{1}{3}\right) = 1$. Result: $1 \times 1 = 1$.</li>
+                    <li>If $p \equiv 5 \pmod{12}$: $p \equiv 1 \pmod{4} \implies (-1)^{\frac{p-1}{2}} = 1$. $p \equiv 2 \pmod{3} \implies \left(\frac{2}{3}\right) = -1$. Result: $1 \times -1 = -1$.</li>
+                    <li>If $p \equiv 7 \pmod{12}$: $p \equiv 3 \pmod{4} \implies (-1)^{\frac{p-1}{2}} = -1$. $p \equiv 1 \pmod{3} \implies \left(\frac{1}{3}\right) = 1$. Result: $-1 \times 1 = -1$.</li>
+                    <li>If $p \equiv 11 \pmod{12}$: $p \equiv 3 \pmod{4} \implies (-1)^{\frac{p-1}{2}} = -1$. $p \equiv 2 \pmod{3} \implies \left(\frac{2}{3}\right) = -1$. Result: $-1 \times -1 = 1$.</li>
+                </ul>
+                <p>Therefore, 3 is a quadratic residue modulo $p$ if and only if $p \equiv \pm 1 \pmod{12}$. $\blacksquare$</p>
+            </div>
+
+            <div class="solution-card">
+                <h3>Solution 7: Sophie Germain Connection</h3>
+                <p>We need to show $2^p \equiv 1 \pmod{q}$. Since $q = 2p+1$ is prime, we evaluate the Legendre symbol $\left(\frac{2}{q}\right)$ using the Second Supplementary Law.</p>
+                <p>Since $p \equiv 3 \pmod{4}$, $p$ can be written as $4k+3$. Then $q = 2(4k+3) + 1 = 8k + 7$.</p>
+                <p>Since $q \equiv 7 \pmod{8}$, the Second Supplementary Law states that $\left(\frac{2}{q}\right) = 1$.</p>
+                <p>By Euler's Criterion:</p>
+                $$ \left(\frac{2}{q}\right) \equiv 2^{\frac{q-1}{2}} \pmod{q} $$
+                <p>Substitute $q - 1 = 2p$, so $\frac{q-1}{2} = p$. Therefore:</p>
+                $$ 1 \equiv 2^p \pmod{q} $$
+                <p>Thus, $q$ completely divides $2^p - 1$. $\blacksquare$</p>
+            </div>
+
+            <div class="solution-card">
+                <h3>Solution 8: Sum of Two Squares Condition</h3>
+                <p>We are given $p \mid (a^2 + b^2)$ and $\gcd(a, b) = 1$. Thus, $a^2 + b^2 \equiv 0 \pmod{p}$, which means $a^2 \equiv -b^2 \pmod{p}$.</p>
+                <p>Since $\gcd(a, b) = 1$, $p$ cannot divide $b$ (if $p \mid b$, then $p \mid a^2$, implying $p \mid a$, contradicting coprimality). Since $b \not\equiv 0 \pmod{p}$, $b$ has an inverse modulo $p$.</p>
+                <p>Multiply both sides by $(b^{-1})^2$:</p>
+                $$ (a b^{-1})^2 \equiv -1 \pmod{p} $$
+                <p>This shows that $-1$ is a quadratic residue modulo $p$. By the First Supplementary Law, $\left(\frac{-1}{p}\right) = 1 \iff p \equiv 1 \pmod{4}$. $\blacksquare$</p>
+            </div>
+
+            <div class="solution-card">
+                <h3>Solution 9: Algorithmic Root for 8k+5 Primes</h3>
+                <p>For $p \equiv 5 \pmod{8}$, $p-1 = 4(2k+1)$, meaning the 2-Sylow subgroup has order exactly $4$. Let $a$ be a quadratic residue modulo $p$. Euler's Criterion states $a^{\frac{p-1}{2}} \equiv 1 \pmod{p}$.</p>
+                <p>Notice that $\frac{p-1}{2} = \frac{p-5}{2} + 2$. Let $v = a^{\frac{p+3}{8}}$. Let's square $v$:</p>
+                $$ v^2 = a^{\frac{p+3}{4}} = a^{\frac{p-1}{4} + 1} = a \cdot a^{\frac{p-1}{4}} $$
+                <p>Since $a^{\frac{p-1}{2}} = (a^{\frac{p-1}{4}})^2 \equiv 1 \pmod{p}$, the term $a^{\frac{p-1}{4}}$ must be a square root of 1, so it is either $1$ or $-1 \pmod{p}$.</p>
+                <ul>
+                    <li><strong>Case 1:</strong> $a^{\frac{p-1}{4}} \equiv 1 \pmod{p}$. Then $v^2 \equiv a \pmod{p}$, so $v$ is our square root.</li>
+                    <li><strong>Case 2:</strong> $a^{\frac{p-1}{4}} \equiv -1 \pmod{p}$. Then $v^2 \equiv -a \pmod{p}$. We need a factor of $-1$. Since $p \equiv 5 \pmod{8}$, $\left(\frac{2}{p}\right) = -1$, meaning $2^{\frac{p-1}{2}} \equiv -1 \pmod{p}$. Let $i = 2^{\frac{p-1}{4}}$. Then $i^2 \equiv -1 \pmod{p}$. If we multiply $v$ by $i$, $(vi)^2 = v^2 i^2 \equiv (-a)(-1) = a \pmod{p}$. Our root is $v \cdot i \pmod{p}$.</li>
+                </ul>
+<pre><code>int e(int a, int b, int m) {
+    int r = 1;
+    a %= m;
+    while (b) {
+        if (b & 1) r = 1LL * r * a % m;
+        a = 1LL * a * a % m;
+        b >>= 1;
+    }
+    return r;
+}
+int f(int a, int p) {
+    int v = e(a, (p + 3) / 8, p);
+    int t = 1LL * v * v % p;
+    t = 1LL * t * e(a, p - 2, p) % p;
+    if (t != 1) {
+        int i = e(2, (p - 1) / 4, p);
+        v = 1LL * v * i % p;
+    }
+    return v;
+}</code></pre>
+            </div>
+
+            <div class="solution-card">
+                <h3>Solution 10: Solutions to a Circle</h3>
+                <p>We want to find the number of pairs $(x, y)$ such that $x^2 + y^2 \equiv 1 \pmod{p}$. This can be rewritten as $(x - y i)(x + y i) \equiv 1 \pmod{p}$, where $i^2 \equiv -1 \pmod{p}$. The existence of $i$ depends on $p \pmod 4$. We take a simpler geometric approach.</p>
+                <p>Let $N$ be the number of solutions. Note that $x^2 + y^2 - 1 = 0$. Consider the line intersecting the unit circle at $(1, 0)$ with slope $t \in \mathbb{F}_p$. The line is $y = t(x - 1)$.</p>
+                <p>Substitute into the circle equation: $x^2 + t^2(x-1)^2 = 1 \implies x^2 - 1 + t^2(x-1)^2 = 0 \implies (x-1)(x+1 + t^2(x-1)) = 0$.</p>
+                <p>For $x \ne 1$, we divide by $(x-1)$ to get $x+1 + t^2 x - t^2 = 0 \implies x(1+t^2) = t^2 - 1$.</p>
+                <p>If $1+t^2 \not\equiv 0 \pmod{p}$, there is a unique $x = \frac{t^2-1}{t^2+1}$ and thus a unique $y = \frac{-2t}{t^2+1}$. This gives a bijection between valid slopes $t$ and points on the circle excluding $(1, 0)$.</p>
+                <p>The number of valid slopes $t$ is the total number of elements in $\mathbb{F}_p$ (which is $p$), minus the roots of $t^2 + 1 \equiv 0 \pmod{p}$.</p>
+                <p>If $p \equiv 1 \pmod{4}$, $t^2 + 1 = 0$ has 2 roots. Valid slopes = $p - 2$. Adding the point $(1,0)$ gives $N = p - 1$.</p>
+                <p>If $p \equiv 3 \pmod{4}$, $t^2 + 1 = 0$ has 0 roots. Valid slopes = $p$. Adding the point $(1,0)$ gives $N = p + 1$.</p>
+                <p>Unified mathematically: $N = p - (-1)^{\frac{p-1}{2}}$. $\blacksquare$</p>
+            </div>
+
+            <div class="solution-card">
+                <h3>Solution 11: Quadratic Form of Modulo 3</h3>
+                <p>Given $a^2 + ab + b^2 \equiv 0 \pmod{p}$ and $\gcd(a, b) = 1$. Multiply the equation by 4:</p>
+                $$ 4a^2 + 4ab + 4b^2 = (2a + b)^2 + 3b^2 \equiv 0 \pmod{p} $$
+                <p>This implies $(2a + b)^2 \equiv -3b^2 \pmod{p}$. Since $\gcd(a, b) = 1$, $p \nmid b$. Multiplying by $(b^{-1})^2$ gives:</p>
+                $$ ((2a+b)b^{-1})^2 \equiv -3 \pmod{p} $$
+                <p>Thus, $-3$ is a quadratic residue modulo $p$. We evaluate $\left(\frac{-3}{p}\right)$ using reciprocity:</p>
+                $$ \left(\frac{-3}{p}\right) = \left(\frac{-1}{p}\right)\left(\frac{3}{p}\right) = (-1)^{\frac{p-1}{2}} (-1)^{\frac{p-1}{2}} \left(\frac{p}{3}\right) = \left(\frac{p}{3}\right) $$
+                <p>For $\left(\frac{-3}{p}\right)$ to be $1$, we must have $\left(\frac{p}{3}\right) = 1$. The non-zero squares modulo 3 are only $1^2 = 1$ and $2^2 = 1$. Therefore, we must have $p \equiv 1 \pmod{3}$. $\blacksquare$</p>
+            </div>
+
+            <div class="solution-card">
+                <h3>Solution 12: Evaluating the Symbol for 5</h3>
+                <p>We evaluate $\left(\frac{5}{p}\right)$ using the Law of Quadratic Reciprocity. Since $5 \equiv 1 \pmod{4}$, the exponent in reciprocity $\frac{5-1}{2} \cdot \frac{p-1}{2}$ is always even regardless of $p$.</p>
+                $$ \left(\frac{5}{p}\right) = \left(\frac{p}{5}\right) $$
+                <p>To find when this is 1, we look at the quadratic residues modulo 5. $\mathbb{Z}_5^* = \{1, 2, 3, 4\}$. The squares are $1^2 = 1$, $2^2 = 4 \equiv -1$, $3^2 = 9 \equiv 4$, $4^2 = 16 \equiv 1$.</p>
+                <p>The quadratic residues modulo 5 are $\{1, 4\} \equiv \{\pm 1\} \pmod{5}$.</p>
+                <p>Therefore, $\left(\frac{p}{5}\right) = 1 \iff p \equiv \pm 1 \pmod{5}$.</p>
+                <p>Since $p$ is an odd prime, $p$ must also be odd (i.e., $p \equiv 1 \pmod{2}$). Combining $p \equiv \pm 1 \pmod{5}$ and $p \equiv 1 \pmod{2}$ via the Chinese Remainder Theorem yields $p \equiv \pm 1 \pmod{10}$. $\blacksquare$</p>
+            </div>
+
+            <div class="solution-card">
+                <h3>Solution 13: Non-Residue Distribution</h3>
+                <p>Let $n > 1$ be the smallest positive integer such that $\left(\frac{n}{p}\right) = -1$. We assume for contradiction that $n$ is composite. Then $n = a \cdot b$ where $1 < a, b < n$.</p>
+                <p>By the completely multiplicative property of the Legendre symbol:</p>
+                $$ \left(\frac{n}{p}\right) = \left(\frac{a}{p}\right) \left(\frac{b}{p}\right) = -1 $$
+                <p>For the product to be $-1$, exactly one of $\left(\frac{a}{p}\right)$ or $\left(\frac{b}{p}\right)$ must evaluate to $-1$.</p>
+                <p>Suppose without loss of generality that $\left(\frac{a}{p}\right) = -1$. Since $a < n$, we have found a smaller positive integer $a$ which is a quadratic non-residue, contradicting the minimality of $n$. Therefore, $n$ cannot be composite and must be a prime. $\blacksquare$</p>
+            </div>
+
+            <div class="solution-card">
+                <h3>Solution 14: Difference of Squares</h3>
+                <p>We are solving $x^2 - y^2 \equiv a \pmod{p}$. We factor the left side: $(x-y)(x+y) \equiv a \pmod{p}$.</p>
+                <p>Let $u = x-y$ and $v = x+y$. This is an invertible linear transformation. Since $p$ is odd, for any choice of $u, v \in \mathbb{F}_p$, we can uniquely recover $x$ and $y$ as:</p>
+                $$ x \equiv (u+v)/2 \pmod{p}, \quad y \equiv (v-u)/2 \pmod{p} $$
+                <p>The equation simplifies to $u v \equiv a \pmod{p}$. Because $a \not\equiv 0 \pmod{p}$, $u$ cannot be $0$. For every non-zero choice of $u \in \mathbb{F}_p^*$, there exists a unique $v = a u^{-1} \pmod{p}$.</p>
+                <p>There are exactly $p-1$ choices for $u \in \mathbb{F}_p^*$. Each choice yields a unique $(u, v)$ pair, which maps to a unique $(x, y)$ pair. Therefore, there are exactly $p-1$ solutions. $\blacksquare$</p>
+            </div>
+
+            <div class="solution-card">
+                <h3>Solution 15: Jacobi Bounding</h3>
+                <p>We consider the group of integers modulo $n$ coprime to $n$, denoted $G = \mathbb{Z}_n^*$. The Solovay-Strassen test checks if $a^{\frac{n-1}{2}} \equiv \left(\frac{a}{n}\right) \pmod{n}$.</p>
+                <p>Let $H$ be the subset of elements in $G$ for which the congruence holds. It is easy to verify that $H$ is a subgroup of $G$ because both exponentiation and the Jacobi symbol are completely multiplicative. If $x, y \in H$, then $(xy)^{\frac{n-1}{2}} = x^{\frac{n-1}{2}} y^{\frac{n-1}{2}} \equiv \left(\frac{x}{n}\right) \left(\frac{y}{n}\right) = \left(\frac{xy}{n}\right) \pmod{n}$, meaning $xy \in H$.</p>
+                <p>By Lagrange's Theorem, the size of a subgroup $H$ must divide the size of the group $G$. Therefore, $|H|$ is either equal to $|G|$ (meaning $H = G$) or $|H| \le \frac{1}{2}|G|$.</p>
+                <p>To prove that at least half the elements fail the test, we only need to show that $H \ne G$. That is, there exists at least one element $w \in G$ (a witness) such that $w^{\frac{n-1}{2}} \not\equiv \left(\frac{w}{n}\right) \pmod{n}$.</p>
+                <p>Since $n$ is composite, it has a prime factor $p$. Write $n = p^k m$ with $\gcd(p, m) = 1$. If $n$ is not a Carmichael number, finding a witness is trivial via Fermat's Little Theorem. If $n$ is a Carmichael number (meaning $a^{n-1} \equiv 1 \pmod{n}$ for all $a$), it must be square-free, so $n = p_1 p_2 \cdots p_r$ with $r \ge 3$. We can choose an element $w$ such that $\left(\frac{w}{p_1}\right) = -1$ and $w \equiv 1 \pmod{n/p_1}$ using the Chinese Remainder Theorem. Then $\left(\frac{w}{n}\right) = -1$, but $w \equiv 1 \pmod{n/p_1} \implies w^{\frac{n-1}{2}} \equiv 1 \pmod{n/p_1}$. Thus $w^{\frac{n-1}{2}} \not\equiv -1 \pmod{n}$. Since a witness always exists for any composite $n$, $|H| \le \frac{|G|}{2}$. $\blacksquare$</p>
+            </div>
+        </section>
+    </article>
+</body>
+</html>

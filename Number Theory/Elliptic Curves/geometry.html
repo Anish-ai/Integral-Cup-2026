@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elliptic Curves and Cryptography - Module 3</title>
+    
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$']],
+                displayMath: [['$$', '$$']],
+                packages: {'[+]': ['ams', 'newcommand']}
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --heading-color: #ffffff;
+            --accent-color: #bb86fc;
+            --code-bg: #1e1e1e;
+            --border-color: #333333;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Charter', 'Georgia', serif;
+            line-height: 1.6;
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        h1, h2, h3 {
+            color: var(--heading-color);
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            margin-top: 1.5em;
+        }
+        h1 {
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 10px;
+        }
+        h2 {
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 5px;
+        }
+        pre {
+            background-color: var(--code-bg);
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.9em;
+            border: 1px solid var(--border-color);
+        }
+        code {
+            font-family: 'Fira Code', 'Consolas', monospace;
+            background-color: var(--code-bg);
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        .theorem {
+            background-color: rgba(187, 134, 252, 0.05);
+            border-left: 4px solid var(--accent-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        .proof {
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+        .proof::before {
+            content: "Proof. ";
+            font-weight: bold;
+            font-style: normal;
+        }
+        .proof::after {
+            content: " ■";
+            font-style: normal;
+            float: right;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Elliptic Curves and Cryptography</h1>
+        <p><em>Module 3: The Algebra and Geometry of Elliptic Curves</em></p>
+    </header>
+
+    <article>
+        <section id="weierstrass">
+            <h2>5. Weierstrass Normal Forms</h2>
+            <p>An elliptic curve $E$ over a field $K$ is a smooth, projective algebraic curve of genus one, equipped with a distinguished rational point $\mathcal{O}$ acting as the group identity. By the Riemann-Roch theorem, any such curve can be embedded into the projective plane $\mathbb{P}^2(K)$ and described by the generalized Weierstrass equation:</p>
+            <p>$$ Y^2Z + a_1 XYZ + a_3 YZ^2 = X^3 + a_2 X^2Z + a_4 XZ^2 + a_6 Z^3 $$</p>
+            <p>By transitioning to the affine plane (setting $Z=1$, $x = X/Z$, $y = Y/Z$), we obtain the affine generalized Weierstrass form:</p>
+            <p>$$ y^2 + a_1 xy + a_3 y = x^3 + a_2 x^2 + a_4 x + a_6 $$</p>
+            
+            <div class="theorem">
+                <strong>Theorem (Simplified Weierstrass Form).</strong> If the characteristic of the field $K$ is not 2 or 3 ($\text{char}(K) \notin \{2, 3\}$), the equation can be simplified via admissible change of variables to the short Weierstrass form:
+                $$ y^2 = x^3 + ax + b $$
+                where $a, b \in K$. The curve is non-singular (smooth) if and only if its discriminant $\Delta = -16(4a^3 + 27b^2) \neq 0$.
+            </div>
+            <div class="proof">
+                Since $\text{char}(K) \neq 2$, we complete the square in $y$ by substituting $y \mapsto y - (a_1 x + a_3) / 2$. This eliminates the $xy$ and $y$ terms, yielding an equation of the form $y^2 = x^3 + a_2' x^2 + a_4' x + a_6'$.
+                Next, since $\text{char}(K) \neq 3$, we complete the cube in $x$ by substituting $x \mapsto x - a_2' / 3$. This strictly eliminates the $x^2$ term, resulting in the canonical simplified form $y^2 = x^3 + ax + b$. Singularity implies the existence of a point where both partial derivatives vanish simultaneously; computing the resultant of the curve polynomial and its derivative yields the discriminant $\Delta$.
+            </div>
+        </section>
+
+        <section id="group-law">
+            <h2>6. The Geometric Group Law</h2>
+            <p>The set of rational points $E(K)$ forms an abelian group under a geometric chord-and-tangent operation. The point at infinity $\mathcal{O}$, representing the vertical direction in $\mathbb{P}^2$, serves as the identity element. The group operation is defined by the rule that any three collinear points sum to zero.</p>
+            
+            <ul>
+                <li><strong>Identity:</strong> $P + \mathcal{O} = \mathcal{O} + P = P$.</li>
+                <li><strong>Inverses:</strong> For any $P = (x, y)$, the vertical line through $P$ intersects the curve at exactly one other point in the affine plane (due to symmetry across the x-axis). This point is $-P = (x, -y)$. Thus, $P + (-P) = \mathcal{O}$.</li>
+                <li><strong>Addition ($P \neq Q$):</strong> To compute $P + Q$, draw the secant line through $P$ and $Q$. It intersects the curve at a third point $R$. Reflecting $R$ across the x-axis yields $P + Q = -R$.</li>
+                <li><strong>Doubling ($P = Q$):</strong> Draw the tangent line to the curve at $P$. It intersects the curve at a point $R$. Reflecting $R$ yields $2P = -R$.</li>
+            </ul>
+
+            <h3>6.1 Algebraic Formulas</h3>
+            <p>Let $P = (x_1, y_1)$ and $Q = (x_2, y_2)$ be points on $E: y^2 = x^3 + ax + b$ over a field $K$. Let $P + Q = (x_3, y_3)$. If $P \neq -Q$, the line passing through $P$ and $Q$ has slope $\lambda$, where:</p>
+            <p>
+                $$ \lambda = \begin{cases} \frac{y_2 - y_1}{x_2 - x_1} & \text{if } P \neq Q \text{ (Point Addition)} \\ \frac{3x_1^2 + a}{2y_1} & \text{if } P = Q \text{ (Point Doubling)} \end{cases} $$
+            </p>
+            <p>The line equation is $y = \lambda(x - x_1) + y_1$. Substituting this into the curve equation gives $(\lambda(x - x_1) + y_1)^2 = x^3 + ax + b$, a cubic in $x$. Since $x_1, x_2, x_3$ are the roots, Vieta's formulas state that $x_1 + x_2 + x_3 = \lambda^2$. Thus:</p>
+            <p>
+                $$ x_3 = \lambda^2 - x_1 - x_2 $$
+                $$ y_3 = \lambda(x_1 - x_3) - y_1 $$
+            </p>
+        </section>
+
+        <section id="hasse">
+            <h2>7. Advanced Addition: Hasse's Bound and Divisor Theory</h2>
+            
+            <div class="theorem">
+                <strong>Hasse's Theorem (1933).</strong> Let $E$ be an elliptic curve defined over a finite field $\mathbb{F}_p$. The number of points on $E$, denoted $\#E(\mathbb{F}_p)$, is bounded by:
+                $$ | \#E(\mathbb{F}_p) - (p + 1) | \le 2\sqrt{p} $$
+            </div>
+            <p>This fundamentally asserts that the number of points is $p + 1 - t$, where $t$ is the trace of the Frobenius endomorphism $\pi: (x,y) \mapsto (x^p, y^p)$. Since $\pi$ satisfies the characteristic equation $\pi^2 - t\pi + p = 0$ in the endomorphism ring $\text{End}(E)$, taking degrees yields the bound on $t$.</p>
+
+            <h3>7.1 Divisors and the Weil Pairing</h3>
+            <p>A divisor $D \in \text{Div}(E)$ is a formal sum of points $D = \sum_{P \in E} n_P (P)$ where $n_P \in \mathbb{Z}$ and $n_P = 0$ for all but finitely many $P$. The degree of a divisor is $\deg(D) = \sum n_P$. A fundamental theorem states a divisor $D$ is principal (i.e., $D = \text{div}(f)$ for some rational function $f$) if and only if $\deg(D) = 0$ and $\sum n_P P = \mathcal{O}$ under the curve's group law.</p>
+            <p>This theory underpins the <strong>Weil pairing</strong>, a non-degenerate, bilinear, alternating map $e_n: E[n] \times E[n] \to \mu_n$ mapping pairs of $n$-torsion points to $n$-th roots of unity. It is the core mathematical primitive powering identity-based encryption and modern zk-SNARKs architectures.</p>
+        </section>
+
+        <section id="algorithm">
+            <h2>8. Algorithmic Implementation of the Group Law</h2>
+            <p>Below is the C++ implementation of elliptic curve point addition and doubling over a finite field $\mathbb{F}_p$. We utilize $-1$ to logically represent the coordinates of the point at infinity $\mathcal{O}$.</p>
+            
+<pre><code>#include &lt;iostream&gt;
+
+long long p(long long b, long long e, long long m) {
+    long long r = 1;
+    b %= m;
+    while (e > 0) {
+        if (e % 2 == 1) r = (r * b) % m;
+        b = (b * b) % m;
+        e /= 2;
+    }
+    return r;
+}
+
+long long i(long long v, long long m) {
+    return p(v, m - 2, m);
+}
+
+void a(long long x, long long y, long long z, long long w, long long c, long long m, long long &u, long long &v) {
+    if (x == -1 && y == -1) { u = z; v = w; return; }
+    if (z == -1 && w == -1) { u = x; v = y; return; }
+    if (x == z && y == (m - w) % m) { u = -1; v = -1; return; }
+    
+    long long l;
+    if (x == z && y == w) {
+        l = ((3 * x * x + c) % m) * i(2 * y, m) % m;
+    } else {
+        l = ((w - y + m) % m) * i((z - x + m) % m, m) % m;
+    }
+    
+    u = (l * l - x - z) % m;
+    if (u < 0) u += m;
+    
+    v = (l * (x - u) - y) % m;
+    if (v < 0) v += m;
+}</code></pre>
+        </section>
+    </article>
+
+    <footer>
+        <p><em>Please reply with 'done' to advance to Module 4: Elliptic Curve Cryptography (ECDH, ECDSA) and Applications in Blockchain Architecture.</em></p>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Congruences and Modular Arithmetic - Section D</title>
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --text-color: #c9d1d9;
+            --heading-color: #58a6ff;
+            --accent-color: #8b949e;
+            --code-bg: #161b22;
+            --border-color: #30363d;
+            --link-color: #79c0ff;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+        main {
+            max-width: 900px;
+            padding: 2rem;
+            width: 100%;
+        }
+        header {
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+        }
+        h1, h2, h3, h4 {
+            color: var(--heading-color);
+            margin-top: 2rem;
+        }
+        h1 { font-size: 2.25rem; }
+        h2 { font-size: 1.75rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.3em; }
+        h3 { font-size: 1.25rem; }
+        p { margin: 1rem 0; font-size: 1.05rem; }
+        .theorem, .definition, .proof, .example {
+            background-color: var(--code-bg);
+            border-left: 4px solid var(--heading-color);
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .proof { border-left-color: var(--accent-color); font-style: italic; }
+        .example { border-left-color: #3fb950; }
+        .label { font-weight: bold; font-style: normal; display: block; margin-bottom: 0.5rem; color: var(--text-color); }
+        pre {
+            background-color: var(--code-bg);
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 0.9em;
+            color: #a5d6ff;
+        }
+        footer {
+            margin-top: 3rem;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+            text-align: center;
+            color: var(--accent-color);
+            font-size: 0.9rem;
+        }
+    </style>
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$']],
+                displayMath: [['$$', '$$']],
+                processEscapes: true
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+    <main>
+        <header>
+            <h1>Congruences and Modular Arithmetic</h1>
+            <p><strong>Module 4:</strong> Polynomial Congruences</p>
+        </header>
+
+        <section>
+            <article>
+                <h2>1. Roots of Polynomials Modulo $m$</h2>
+                
+                <p>When solving algebraic equations in the field of real or complex numbers, a polynomial of degree $n$ has at most $n$ roots. However, in the ring of integers modulo $m$ (denoted $\mathbb{Z}/m\mathbb{Z}$), this fundamental theorem of algebra breaks down if $m$ is composite. This is because $\mathbb{Z}/m\mathbb{Z}$ contains zero divisors.</p>
+
+                <div class="example">
+                    <span class="label">Example:</span>
+                    Consider the polynomial $f(x) = x^2 - 1$. Over $\mathbb{R}$, its roots are merely $\pm 1$. However, modulo $8$, we evaluate $f(x) \equiv 0 \pmod 8$.
+                    Testing the elements of the complete residue system, we see that $1^2 \equiv 1$, $3^2 \equiv 9 \equiv 1$, $5^2 \equiv 25 \equiv 1$, and $7^2 \equiv 49 \equiv 1$.
+                    Thus, a degree 2 polynomial has 4 distinct roots: $1, 3, 5, 7 \pmod 8$.
+                </div>
+
+                <p>To systematically solve $f(x) \equiv 0 \pmod m$ where $m = p_1^{k_1} p_2^{k_2} \dots p_r^{k_r}$, we first solve $f(x) \equiv 0 \pmod{p_i^{k_i}}$ for each prime power factor, and then combine the partial solutions using the Chinese Remainder Theorem.</p>
+            </article>
+
+            <article>
+                <h2>2. Lagrange's Theorem for Polynomial Roots</h2>
+                
+                <p>While the number of roots can exceed the degree for composite moduli, the classical bound holds strictly when working modulo a prime $p$, as $\mathbb{Z}/p\mathbb{Z}$ (or $\mathbb{F}_p$) forms a field without zero divisors.</p>
+
+                <div class="theorem">
+                    <span class="label">Theorem 4.1 (Lagrange's Theorem)</span>
+                    Let $p$ be a prime, and let $f(x) = a_n x^n + a_{n-1} x^{n-1} + \dots + a_0$ be a polynomial with integer coefficients such that $a_n \not\equiv 0 \pmod p$. Then the congruence $f(x) \equiv 0 \pmod p$ has at most $n$ mutually incongruent solutions modulo $p$.
+                </div>
+
+                <div class="proof">
+                    <span class="label">Proof (by induction on degree $n$):</span>
+                    <strong>Base case:</strong> For $n = 1$, $f(x) = a_1 x + a_0 \equiv 0 \pmod p$ where $p \nmid a_1$. Since $p$ is prime, $a_1$ has a unique multiplicative inverse modulo $p$. The unique solution is $x \equiv -a_0 (a_1)^{-1} \pmod p$. The number of solutions is $1 \le 1$.
+                    <br><br>
+                    <strong>Inductive step:</strong> Assume the theorem holds for all polynomials of degree $k$. Consider $f(x)$ of degree $k+1$. If $f(x) \equiv 0 \pmod p$ has no roots, then $0 \le k+1$, and we are done. Suppose it has at least one root, say $r$. 
+                    <br><br>
+                    By polynomial division (valid over fields), $f(x) = (x - r)q(x) + R$, where $R$ is a constant. Since $f(r) \equiv 0 \pmod p$, $R \equiv 0 \pmod p$. Thus, $f(x) \equiv (x - r)q(x) \pmod p$, where $q(x)$ is a polynomial of degree $k$ with the same leading coefficient as $f(x)$.
+                    <br><br>
+                    If $s$ is any root of $f(x)$ distinct from $r$, then $f(s) \equiv (s - r)q(s) \equiv 0 \pmod p$. Since $p$ is prime and $s \not\equiv r \pmod p$, $p \nmid (s - r)$. This forces $p \mid q(s)$, meaning $s$ is a root of $q(x) \equiv 0 \pmod p$.
+                    <br><br>
+                    By the inductive hypothesis, $q(x)$ has at most $k$ roots. Adding the root $r$, $f(x)$ has at most $k + 1$ roots. $\blacksquare$
+                </div>
+            </article>
+
+            <article>
+                <h2>3. Hensel's Lemma</h2>
+                
+                <p>Hensel's Lemma is the number-theoretic equivalent of Newton's method in calculus. It allows us to "lift" a known solution of a polynomial modulo $p^k$ to a solution modulo $p^{k+1}$.</p>
+
+                <div class="theorem">
+                    <span class="label">Theorem 4.2 (Hensel's Lemma)</span>
+                    Let $f(x)$ be a polynomial with integer coefficients. Suppose there exists an integer $a$ such that $f(a) \equiv 0 \pmod{p^k}$ (with $k \ge 1$) and $f'(a) \not\equiv 0 \pmod p$, where $f'(x)$ is the formal derivative of $f(x)$.
+                    <br><br>
+                    Then there exists a unique integer $t \pmod p$ such that $f(a + t p^k) \equiv 0 \pmod{p^{k+1}}$.
+                </div>
+
+                <div class="proof">
+                    <span class="label">Proof (via Taylor Expansion):</span>
+                    We are searching for a lifted root $r = a + tp^k$ satisfying $f(r) \equiv 0 \pmod{p^{k+1}}$. Expanding $f(a + tp^k)$ using the polynomial Taylor series around $a$:
+                    $$f(a + tp^k) = f(a) + f'(a)(tp^k) + \frac{f''(a)}{2!}(tp^k)^2 + \dots$$
+                    Since $f(x)$ has integer coefficients, the terms $\frac{f^{(i)}(a)}{i!}$ are strictly integers. We evaluate this expansion modulo $p^{k+1}$. Because $k \ge 1$, for any $i \ge 2$, the exponent $ik \ge 2k \ge k+1$. Thus, $(tp^k)^i \equiv 0 \pmod{p^{k+1}}$ for all $i \ge 2$. The series radically truncates to:
+                    $$f(a + tp^k) \equiv f(a) + f'(a)tp^k \pmod{p^{k+1}}$$
+                    We require this expression to be $0 \pmod{p^{k+1}}$. Because $a$ is a root modulo $p^k$, $f(a) = c p^k$ for some integer $c$. Substituting this gives:
+                    $$c p^k + f'(a)tp^k \equiv 0 \pmod{p^{k+1}}$$
+                    Dividing the entire congruence by $p^k$ scales the modulus appropriately:
+                    $$c + f'(a)t \equiv 0 \pmod p$$
+                    $$f'(a)t \equiv -c \pmod p$$
+                    Since $f'(a) \not\equiv 0 \pmod p$, $f'(a)$ has a unique inverse modulo $p$. We can explicitly solve for $t$:
+                    $$t \equiv -c (f'(a))^{-1} \pmod p$$
+                    This $t$ provides the unique lift $r = a + tp^k \pmod{p^{k+1}}$. $\blacksquare$
+                </div>
+
+                <p>The following algorithmic snippet implements Hensel's lift. It accepts a polynomial representation (vector of coefficients starting from degree 0) and lifts a known root $a \pmod{p^{k-1}}$ to $\pmod{p^k}$.</p>
+
+<pre><code>using l = long long;
+#include &lt;vector&gt;
+
+l p(l x, l y, l m) {
+    l r = 1; x %= m;
+    while(y) {
+        if(y & 1) r = r * x % m;
+        x = x * x % m;
+        y >>= 1;
+    }
+    return r;
+}
+
+l i(l a, l m) { return p(a, m - 2, m); }
+
+l v(const std::vector&lt;l&gt;&amp; c, l x, l m) {
+    l r = 0, q = 1;
+    for (l a : c) {
+        r = (r + a * q) % m;
+        q = (q * x) % m;
+    }
+    return r;
+}
+
+std::vector&lt;l&gt; d(const std::vector&lt;l&gt;&amp; c) {
+    std::vector&lt;l&gt; r;
+    for (size_t j = 1; j &lt; c.size(); ++j) r.push_back(c[j] * j);
+    return r;
+}
+
+l h(std::vector&lt;l&gt; c, l a, l pr, l k) {
+    l pk_1 = 1; for(int j=1; j&lt;k; ++j) pk_1 *= pr;
+    l pk = pk_1 * pr;
+    l f = v(c, a, pk);
+    if (f == 0) return a;
+    l cv = f / pk_1;
+    std::vector&lt;l&gt; dc = d(c);
+    l df = v(dc, a, pr);
+    if (df % pr == 0) return -1; 
+    l t = (-cv % pr + pr) % pr * i(df, pr) % pr;
+    return a + t * pk_1;
+}</code></pre>
+            </article>
+
+            <article>
+                <h2>4. Advanced Addition: Thue's Lemma and Sums of Squares</h2>
+
+                <p>Thue's Lemma is an elegant application of the Pigeonhole Principle to modular arithmetic. It is instrumental in proving Fermat's Theorem on sums of two squares, bridging linear congruences with Diophantine equations.</p>
+
+                <div class="theorem">
+                    <span class="label">Theorem 4.3 (Thue's Lemma)</span>
+                    For any integer $a$ and any prime $p$, there exist integers $x$ and $y$ satisfying $0 < |x| < \sqrt{p}$ and $0 < |y| < \sqrt{p}$ such that:
+                    $$x \equiv ay \pmod p$$
+                </div>
+
+                <div class="proof">
+                    <span class="label">Proof:</span>
+                    Let $m = \lfloor \sqrt{p} \rfloor + 1$. Note that $m > \sqrt{p}$. Consider the set of integers generated by evaluating the linear expression:
+                    $$S = \{u + av \mid 0 \le u \le m - 1, \; 0 \le v \le m - 1\}$$
+                    The total number of pairs $(u, v)$ in this set is $m \times m = m^2$. Since $m > \sqrt{p}$, we have $m^2 > p$.
+                    <br><br>
+                    Because there are $m^2$ pairs but only $p$ possible remainders modulo $p$, the Pigeonhole Principle dictates that at least two distinct pairs must evaluate to the same remainder. Let these distinct pairs be $(u_1, v_1)$ and $(u_2, v_2)$. We have:
+                    $$u_1 + a v_1 \equiv u_2 + a v_2 \pmod p$$
+                    Rearranging yields:
+                    $$(u_1 - u_2) \equiv a (v_2 - v_1) \pmod p$$
+                    Define $x = u_1 - u_2$ and $y = v_2 - v_1$. This gives $x \equiv ay \pmod p$.
+                    <br><br>
+                    To verify the bounds, note that since $0 \le u_1, u_2 < m$, the difference $|u_1 - u_2| < m$. Since $m = \lfloor \sqrt{p} \rfloor + 1$, the strict inequality gives $|x| \le \lfloor \sqrt{p} \rfloor < \sqrt{p}$. The same logic restricts $|y| < \sqrt{p}$. 
+                    Finally, if $y = 0$, then $v_1 = v_2$, forcing $u_1 \equiv u_2 \pmod p$, and since $|u_1 - u_2| < p$, $u_1 = u_2$, contradicting that the pairs are distinct. Thus $y \neq 0$ and $x \neq 0$. $\blacksquare$
+                </div>
+
+                <p><strong>Application (Fermat's Theorem on Sums of Two Squares):</strong> An odd prime $p$ can be written as $p = x^2 + y^2$ if and only if $p \equiv 1 \pmod 4$. If $p \equiv 1 \pmod 4$, $-1$ is a quadratic residue modulo $p$, meaning there exists an $a$ such that $a^2 \equiv -1 \pmod p$. Invoking Thue's Lemma for this $a$, there exist $x, y < \sqrt{p}$ where $x \equiv ay \pmod p$. Squaring both sides yields $x^2 \equiv a^2 y^2 \equiv -y^2 \pmod p$, or $x^2 + y^2 \equiv 0 \pmod p$. Since $0 < x^2 < p$ and $0 < y^2 < p$, their sum satisfies $0 < x^2 + y^2 < 2p$. The only multiple of $p$ strictly between $0$ and $2p$ is $p$ itself, completely proving $x^2 + y^2 = p$.</p>
+            </article>
+        </section>
+
+        <footer>
+            <p>End of Section D. Awaiting instructor protocol to proceed to Section E (Advanced Theorems).</p>
+        </footer>
+    </main>
+</body>
+</html>

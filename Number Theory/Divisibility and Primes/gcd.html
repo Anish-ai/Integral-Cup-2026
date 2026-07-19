@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Divisibility and Primes - Greatest Common Divisor</title>
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$']],
+                displayMath: [['$$', '$$']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --text-main: #c9d1d9;
+            --text-heading: #ffffff;
+            --accent-thm: #58a6ff;
+            --accent-prf: #3fb950;
+            --accent-def: #d2a8ff;
+            --code-bg: #161b22;
+            --border: #30363d;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: system-ui, -apple-system, sans-serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 2rem;
+        }
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        header {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 2rem;
+            margin-bottom: 2rem;
+        }
+        h1, h2, h3 {
+            color: var(--text-heading);
+            margin-top: 2rem;
+        }
+        h1 { font-size: 2.5rem; }
+        h2 { border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+        
+        .box {
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 6px;
+            background-color: #0f141a;
+        }
+        .definition { border-left: 4px solid var(--accent-def); }
+        .theorem { border-left: 4px solid var(--accent-thm); }
+        .proof { border-left: 4px solid var(--accent-prf); }
+        .box-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+        }
+        .definition .box-title { color: var(--accent-def); }
+        .theorem .box-title { color: var(--accent-thm); }
+        .proof .box-title { color: var(--accent-prf); font-style: italic; text-transform: none; }
+        
+        pre {
+            background-color: var(--code-bg);
+            padding: 1rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            border: 1px solid var(--border);
+        }
+        code { font-family: 'Courier New', Courier, monospace; }
+    </style>
+</head>
+<body>
+    <main>
+        <header>
+            <h1>Module 1: Divisibility and Primes</h1>
+            <p><strong>Part C: Greatest Common Divisor</strong></p>
+        </header>
+
+        <section>
+            <h2>1. Bézout's Identity</h2>
+            <p>The greatest common divisor of two integers is not merely a number that divides both; it is fundamentally the smallest positive linear combination of the two integers. This algebraic property is formalized in Bézout's Identity.</p>
+
+            <article class="box theorem">
+                <div class="box-title">Theorem 1.1 (Bézout's Identity)</div>
+                <p>For any non-zero integers $a$ and $b$, let $d = \gcd(a, b)$. Then there exist integers $x$ and $y$ such that:</p>
+                $$ax + by = d$$
+                <p>Furthermore, $d$ is the smallest positive integer that can be expressed in this form.</p>
+            </article>
+
+            <article class="box proof">
+                <div class="box-title">Proof</div>
+                <p>Consider the set $S$ of all strictly positive linear combinations of $a$ and $b$:</p>
+                $$S = \{ au + bv > 0 \mid u, v \in \mathbb{Z} \}$$
+                <p>$S$ is non-empty because taking $u = a$ and $v = b$ yields $a^2 + b^2 > 0$ (since $a, b \neq 0$). By the Well-Ordering Principle, $S$ must contain a smallest element, which we will call $d$. Thus, $d = ax + by$ for some specific $x, y \in \mathbb{Z}$.</p>
+                <p>We must show that $d = \gcd(a, b)$. First, we show $d \mid a$. By the Division Algorithm, there exist integers $q, r$ such that $a = dq + r$, with $0 \le r < d$. Substituting our expression for $d$ gives:</p>
+                $$r = a - dq = a - (ax + by)q = a(1 - xq) + b(-yq)$$
+                <p>If $r > 0$, then $r$ is a strictly positive linear combination of $a$ and $b$, meaning $r \in S$. However, $r < d$, which contradicts the assumption that $d$ is the smallest element in $S$. Thus, $r = 0$, implying $d \mid a$. A symmetric argument shows $d \mid b$. Therefore, $d$ is a common divisor.</p>
+                <p>Next, let $c$ be any arbitrary common divisor of $a$ and $b$. Then $c \mid a$ and $c \mid b$, so $c$ must divide any linear combination of $a$ and $b$. Specifically, $c \mid (ax + by)$, meaning $c \mid d$. Since $d > 0$, it follows that $c \le d$. Thus, $d = \gcd(a, b)$. $\blacksquare$</p>
+            </article>
+        </section>
+
+        <section>
+            <h2>2. The Extended Euclidean Algorithm</h2>
+            <p>Bézout's Identity guarantees the existence of coefficients $x$ and $y$, but the Extended Euclidean Algorithm provides a constructive method to find them in $O(\log(\min(a,b)))$ time. This is accomplished by algebraically unrolling the sequence of remainders from the standard Euclidean Algorithm.</p>
+            
+            <p>Consider the recursive step of the Euclidean Algorithm: $\gcd(a, b) = \gcd(b, a \bmod b)$. Assume the recursive call successfully finds coefficients $u, v$ for the smaller problem:</p>
+            $$b \cdot u + (a \bmod b) \cdot v = \gcd(a, b)$$
+            <p>We know that $a \bmod b = a - b \lfloor \frac{a}{b} \rfloor$. Substituting this into the equation yields:</p>
+            $$b \cdot u + \left(a - b \lfloor \frac{a}{b} \rfloor\right) \cdot v = \gcd(a, b)$$
+            $$a \cdot v + b \left(u - v \lfloor \frac{a}{b} \rfloor\right) = \gcd(a, b)$$
+            <p>Comparing this to our target form $ax + by = \gcd(a, b)$, we can extract the coefficient transitions directly:</p>
+            $$x = v, \quad y = u - v \lfloor \frac{a}{b} \rfloor$$
+            
+            <p>The corresponding C++ implementation:</p>
+<pre><code>long long f(long long a, long long b, long long &x, long long &y) {
+    if (!b) {
+        x = 1;
+        y = 0;
+        return a;
+    }
+    long long u, v;
+    long long d = f(b, a % b, u, v);
+    x = v;
+    y = u - v * (a / b);
+    return d;
+}</code></pre>
+        </section>
+
+        <section>
+            <h2>3. Properties of Relatively Prime Integers</h2>
+            
+            <article class="box definition">
+                <div class="box-title">Definition 3.1 (Coprimality)</div>
+                <p>Two integers $a$ and $b$ are said to be relatively prime (or coprime) if their greatest common divisor is $1$, i.e., $\gcd(a, b) = 1$.</p>
+            </article>
+
+            <p>From Bézout's Identity, an immediate and powerful equivalence follows:</p>
+            <article class="box theorem">
+                <div class="box-title">Theorem 3.2</div>
+                <p>Integers $a$ and $b$ are relatively prime if and only if there exist integers $x, y$ such that $ax + by = 1$.</p>
+            </article>
+
+            <p>This algebraic formulation effortlessly yields classical divisibility theorems, notably the extension of Euclid's Lemma.</p>
+
+            <article class="box theorem">
+                <div class="box-title">Theorem 3.3 (General Euclid's Lemma)</div>
+                <p>If $a \mid bc$ and $\gcd(a, b) = 1$, then $a \mid c$.</p>
+            </article>
+
+            <article class="box proof">
+                <div class="box-title">Proof</div>
+                <p>Since $\gcd(a, b) = 1$, by Bézout's Identity there exist integers $x, y$ such that $ax + by = 1$. Multiply the entire equation by $c$:</p>
+                $$acx + bcy = c$$
+                <p>Notice that $a$ obviously divides $acx$. Furthermore, since we are given that $a \mid bc$, it must be true that $a \mid (bc)y$. Because $a$ divides both terms on the left side of the equation, it must divide their sum. Thus, $a \mid (acx + bcy) \implies a \mid c$. $\blacksquare$</p>
+            </article>
+        </section>
+
+        <section>
+            <h2>4. Advanced Addition: The GCD of Fibonacci Numbers</h2>
+            <p>The sequence of Fibonacci numbers $F_n$ interacts beautifully with divisibility properties, yielding a striking closure theorem: the greatest common divisor of two Fibonacci numbers is itself a Fibonacci number.</p>
+
+            <article class="box theorem">
+                <div class="box-title">Theorem 4.1 (Fibonacci GCD Theorem)</div>
+                <p>For any positive integers $m$ and $n$, $\gcd(F_m, F_n) = F_{\gcd(m, n)}$.</p>
+            </article>
+
+            <article class="box proof">
+                <div class="box-title">Proof</div>
+                <p>We first establish a critical identity regarding the addition of indices. By induction on $n$, one can prove:</p>
+                $$F_{m+n} = F_{m+1}F_n + F_m F_{n-1}$$
+                <p>Next, we establish that consecutive Fibonacci numbers are coprime, i.e., $\gcd(F_k, F_{k-1}) = 1$. This is trivially true via the Euclidean algorithm, since $F_k = 1 \cdot F_{k-1} + F_{k-2}$, implying $\gcd(F_k, F_{k-1}) = \gcd(F_{k-1}, F_{k-2})$. Descending to the base cases yields $\gcd(1, 1) = 1$.</p>
+                
+                <p>Assume without loss of generality that $m \ge n$. Let us rewrite $m$ as $m = n + (m-n)$. Applying the addition identity yields:</p>
+                $$F_m = F_{(m-n)+n} = F_{m-n+1}F_n + F_{m-n}F_{n-1}$$
+                <p>We want to find $\gcd(F_m, F_n)$. By substituting the expression for $F_m$, we get:</p>
+                $$\gcd(F_m, F_n) = \gcd(F_{m-n+1}F_n + F_{m-n}F_{n-1}, F_n)$$
+                <p>Since any multiple of $F_n$ vanishes modulo $F_n$, the term $F_{m-n+1}F_n$ can be eliminated, yielding:</p>
+                $$\gcd(F_m, F_n) = \gcd(F_{m-n}F_{n-1}, F_n)$$
+                <p>We know that consecutive Fibonacci numbers are coprime: $\gcd(F_{n-1}, F_n) = 1$. Therefore, multiplying by $F_{n-1}$ does not introduce any new common divisors with $F_n$. By Theorem 3.3, we can drop $F_{n-1}$ entirely:</p>
+                $$\gcd(F_m, F_n) = \gcd(F_{m-n}, F_n)$$
+                <p>Notice that this relation mirrors the recursive subtraction step of the Euclidean algorithm applied to the indices $m$ and $n$. Just as $\gcd(m, n) = \gcd(m-n, n)$ repeatedly descends until reaching $\gcd(d, 0) = d$ (where $d = \gcd(m,n)$), the expression $\gcd(F_m, F_n)$ maps perfectly to the same subtraction sequence on the indices.</p>
+                <p>The recursion will trace the Euclidean algorithm on $m, n$ until it hits $\gcd(F_{\gcd(m,n)}, F_0)$. Since $F_0 = 0$, we have:</p>
+                $$\gcd(F_m, F_n) = F_{\gcd(m,n)}$$
+                <p>The theorem is thus proven. $\blacksquare$</p>
+            </article>
+        </section>
+    </main>
+</body>
+</html>

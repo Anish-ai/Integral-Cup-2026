@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elliptic Curves and Cryptography - Module 4</title>
+    
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$']],
+                displayMath: [['$$', '$$']],
+                packages: {'[+]': ['ams', 'newcommand']}
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --heading-color: #ffffff;
+            --accent-color: #bb86fc;
+            --code-bg: #1e1e1e;
+            --border-color: #333333;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Charter', 'Georgia', serif;
+            line-height: 1.6;
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        h1, h2, h3 {
+            color: var(--heading-color);
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            margin-top: 1.5em;
+        }
+        h1 {
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 10px;
+        }
+        h2 {
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 5px;
+        }
+        pre {
+            background-color: var(--code-bg);
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.9em;
+            border: 1px solid var(--border-color);
+        }
+        code {
+            font-family: 'Fira Code', 'Consolas', monospace;
+            background-color: var(--code-bg);
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        .theorem {
+            background-color: rgba(187, 134, 252, 0.05);
+            border-left: 4px solid var(--accent-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        .proof {
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+        .proof::before {
+            content: "Proof. ";
+            font-weight: bold;
+            font-style: normal;
+        }
+        .proof::after {
+            content: " ■";
+            font-style: normal;
+            float: right;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Elliptic Curves and Cryptography</h1>
+        <p><em>Module 4: Applications: ECC, Blockchain, and Coding Theory</em></p>
+    </header>
+
+    <article>
+        <section id="ecc">
+            <h2>9. Elliptic Curve Cryptography (ECC)</h2>
+            <p>ECC achieves equivalent security to RSA with significantly smaller key sizes (e.g., 256-bit ECC roughly matches 3072-bit RSA). This efficiency stems from the apparent lack of subexponential-time algorithms for the Elliptic Curve Discrete Logarithm Problem (ECDLP).</p>
+
+            <h3>9.1 Elliptic Curve Diffie-Hellman (ECDH)</h3>
+            <p>Let $E$ be an elliptic curve over $\mathbb{F}_p$ and $G \in E(\mathbb{F}_p)$ a base point of large prime order $n$. Alice and Bob agree on the domain parameters $(p, E, G, n)$.</p>
+            <ol>
+                <li>Alice selects a random scalar $d_A \in [1, n-1]$ and publishes $Q_A = d_A G$.</li>
+                <li>Bob selects a random scalar $d_B \in [1, n-1]$ and publishes $Q_B = d_B G$.</li>
+                <li>Alice computes $K = d_A Q_B$. Bob computes $K = d_B Q_A$.</li>
+            </ol>
+            <p>By associativity of scalar multiplication, $d_A(d_B G) = d_B(d_A G)$, so they share the same point. The x-coordinate of $K$ is typically passed through a Key Derivation Function (KDF) to yield the symmetric key.</p>
+
+            <h3>9.2 Elliptic Curve Digital Signature Algorithm (ECDSA)</h3>
+            <p>ECDSA is the elliptic curve analogue of the Digital Signature Algorithm (DSA). Alice signs a message $m$ using her private key $d$, and Bob verifies it using her public key $Q = dG$.</p>
+            
+            <p><strong>Signing:</strong></p>
+            <ol>
+                <li>Hash the message: $e = \text{HASH}(m)$, and let $z$ be the $L_n$ leftmost bits of $e$, where $L_n$ is the bit length of $n$.</li>
+                <li>Select a cryptographically secure random integer $k \in [1, n-1]$.</li>
+                <li>Compute the curve point $(x_1, y_1) = kG$.</li>
+                <li>Compute $r \equiv x_1 \pmod n$. If $r = 0$, restart with a new $k$.</li>
+                <li>Compute $s \equiv k^{-1}(z + r \cdot d) \pmod n$. If $s = 0$, restart with a new $k$.</li>
+                <li>The signature is the pair $(r, s)$.</li>
+            </ol>
+
+            <p><strong>Verification:</strong></p>
+            <ol>
+                <li>Verify $r, s \in [1, n-1]$.</li>
+                <li>Compute $e = \text{HASH}(m)$ and $z$ as before.</li>
+                <li>Compute $w \equiv s^{-1} \pmod n$.</li>
+                <li>Compute $u_1 \equiv z \cdot w \pmod n$ and $u_2 \equiv r \cdot w \pmod n$.</li>
+                <li>Compute the curve point $(x_1, y_1) = u_1 G + u_2 Q$.</li>
+                <li>Verify that $r \equiv x_1 \pmod n$.</li>
+            </ol>
+
+            <div class="theorem">
+                <strong>Theorem (Correctness of ECDSA).</strong> If $(r,s)$ is a valid signature generated by Alice, the verification algorithm successfully yields $r \equiv x_1 \pmod n$.
+            </div>
+            <div class="proof">
+                The verification computes the point $X = u_1 G + u_2 Q$. Expanding $Q = dG$:
+                $$ X = u_1 G + u_2 d G = (u_1 + u_2 d) G $$
+                Substitute $u_1 = z s^{-1}$ and $u_2 = r s^{-1}$:
+                $$ X = (z s^{-1} + r d s^{-1}) G = s^{-1}(z + rd) G $$
+                Recall from the signing phase that $s \equiv k^{-1}(z + rd) \pmod n$, which implies $k \equiv s^{-1}(z + rd) \pmod n$. Therefore:
+                $$ X = kG $$
+                Since $kG = (x_1, y_1)$ and $r \equiv x_1 \pmod n$, the verification successfully holds.
+            </div>
+        </section>
+
+        <section id="blockchain">
+            <h2>10. Cryptographic Role in Blockchain Architecture</h2>
+            <p>Modern distributed ledgers, such as Bitcoin and Ethereum, rely almost exclusively on the <strong>secp256k1</strong> Koblitz curve, defined as $y^2 = x^3 + 7$ over $\mathbb{F}_p$. In decentralized architectures, ECDSA serves as the foundational identity and authorization layer.</p>
+            <ul>
+                <li><strong>Identity Generation:</strong> A user's private key $d$ is a 256-bit scalar. The public key $Q = dG$ is hashed (e.g., via SHA-256 followed by RIPEMD-160) to construct the user's public address. This abstracted identity layer prevents quantum adversaries from revealing $Q$ until the moment a transaction is broadcast.</li>
+                <li><strong>Transaction Authorization:</strong> To transfer state or unspent transaction outputs (UTXOs), a user must provide a valid ECDSA signature $(r, s)$ over the transaction hash. The decentralized network independently validates this signature. A critical implementation constraint is generating the ephemeral nonce $k$ securely; reusing $k$ across two signatures instantly leaks the private key $d$ via the relation $d = \frac{s_1 k - z_1}{r} \pmod n$.</li>
+            </ul>
+        </section>
+
+        <section id="ecm">
+            <h2>11. Advanced Addition: Lenstra's Elliptic Curve Factorization Method (ECM)</h2>
+            <p>ECM is a highly efficient subexponential integer factorization algorithm optimized for discovering moderate-sized prime factors of composite numbers $N$. It fundamentally generalizes Pollard's $p-1$ algorithm.</p>
+            <p>Pollard's method fails if $p-1$ is not smooth (where $p$ is a prime factor of $N$). Lenstra circumvented this by operating in the group $E(\mathbb{Z}/p\mathbb{Z})$. By Hasse's Theorem, the order of this group lies in $[p+1-2\sqrt{p}, p+1+2\sqrt{p}]$. By randomly selecting different elliptic curves, the algorithm repeatedly generates new group orders until it hits an order that is $B$-smooth.</p>
+            <p>The algorithm selects a curve $E$ and point $P$, computes $Q = kP \pmod N$ (where $k = B!$), and checks if point addition fails. Point addition formulas require computing $(x_2 - x_1)^{-1} \pmod N$. If $x_2 - x_1$ is not coprime to $N$, the Euclidean algorithm yields a non-trivial factor $\gcd(x_2 - x_1, N)$.</p>
+        </section>
+
+        <section id="coding-theory">
+            <h2>12. Intersections with Coding Theory</h2>
+            <p>The geometric properties of curves map directly into algebraic coding theory, vital for error-correction and post-quantum cryptographic resilience.</p>
+            <h3>12.1 Algebraic Geometry Codes (AG Codes)</h3>
+            <p>AG codes construct error-correcting codes by evaluating rational functions at rational points on algebraic curves. Let $D = P_1 + \dots + P_n$ be a divisor of distinct rational points on $E$, and $G$ another divisor whose support is disjoint from $D$. The code $C_L(D, G)$ evaluates functions from the Riemann-Roch space $L(G)$ at the points of $D$. These codes can exceed the Gilbert-Varshamov bound, making them asymptotically superior.</p>
+            <h3>12.2 McEliece Cryptosystem</h3>
+            <p>The McEliece cryptosystem is a prime candidate for post-quantum standardisation. It relies on the hardness of decoding a general linear code (an NP-hard problem). A private Goppa code (a specific class of AG code) is generated with an efficient decoding matrix $H$. The public key is a disguised version $H' = S H P$, where $S$ is a random non-singular matrix and $P$ is a permutation matrix. The error-correction capability $t$ naturally embeds the random cryptographic noise.</p>
+        </section>
+
+        <section id="scalar-mult">
+            <h2>13. Algorithmic Implementation: Double-and-Add</h2>
+            <p>The core computational engine of both ECDH and ECDSA is scalar point multiplication $kG$. Below is the highly optimized C++ double-and-add execution logic.</p>
+
+<pre><code>#include &lt;iostream&gt;
+
+long long p(long long b, long long e, long long m) {
+    long long r=1; b%=m;
+    while(e>0){ if(e%2==1)r=(r*b)%m; b=(b*b)%m; e/=2; }
+    return r;
+}
+long long i(long long v, long long m) {
+    return p(v,m-2,m);
+}
+void f(long long x, long long y, long long z, long long w, long long a, long long m, long long &u, long long &v) {
+    if(x==-1&&y==-1){u=z;v=w;return;}
+    if(z==-1&&w==-1){u=x;v=y;return;}
+    if(x==z&&y==(m-w)%m){u=-1;v=-1;return;}
+    long long l;
+    if(x==z&&y==w) l=((3*x*x+a)%m)*i(2*y,m)%m;
+    else l=((w-y+m)%m)*i((z-x+m)%m,m)%m;
+    u=(l*l-x-z)%m; if(u<0)u+=m;
+    v=(l*(x-u)-y)%m; if(v<0)v+=m;
+}
+void g(long long k, long long x, long long y, long long a, long long m, long long &u, long long &v) {
+    u=-1; v=-1;
+    long long q=x, r=y;
+    while(k>0){
+        if(k%2==1){ long long t,w; f(u,v,q,r,a,m,t,w); u=t; v=w; }
+        long long t,w; f(q,r,q,r,a,m,t,w); q=t; r=w;
+        k/=2;
+    }
+}</code></pre>
+        </section>
+    </article>
+
+    <footer>
+        <p><em>Please reply with 'done' to generate the final module: "Practice Questions and Solutions" featuring 15 highly challenging algebraic geometry and cryptographic proofs.</em></p>
+    </footer>
+
+</body>
+</html>

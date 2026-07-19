@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Arithmetic Functions - Part 3</title>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --heading-color: #ffffff;
+            --section-bg: #1e1e1e;
+            --border-color: #333333;
+            --accent-color: #bb86fc;
+            --code-bg: #000000;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Georgia', serif;
+            line-height: 1.7;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        h1, h2, h3, h4 {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            color: var(--heading-color);
+            margin-top: 1.5em;
+        }
+        h1 { border-bottom: 2px solid var(--accent-color); padding-bottom: 10px; }
+        h2 { border-bottom: 1px solid var(--border-color); padding-bottom: 5px; }
+        section {
+            background: var(--section-bg);
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        .theorem, .definition, .proof, .example {
+            margin: 20px 0;
+            padding: 15px;
+            border-left: 4px solid;
+            background: rgba(255, 255, 255, 0.03);
+        }
+        .definition { border-color: #03dac6; }
+        .theorem { border-color: var(--accent-color); }
+        .proof { border-color: #cf6679; font-style: italic; }
+        .example { border-color: #ffb74d; }
+        .label { font-weight: bold; font-style: normal; display: block; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; font-size: 0.85em; }
+        .definition .label { color: #03dac6; }
+        .theorem .label { color: var(--accent-color); }
+        .proof .label { color: #cf6679; }
+        .example .label { color: #ffb74d; }
+        pre { background: var(--code-bg); padding: 15px; border-radius: 5px; overflow-x: auto; font-family: 'Courier New', Courier, monospace; color: #a5d6ff; }
+        footer { margin-top: 50px; text-align: center; font-size: 0.9em; color: #888; border-top: 1px solid var(--border-color); padding-top: 20px; }
+    </style>
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$']],
+                displayMath: [['$$', '$$']],
+                processEscapes: true
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<header>
+    <h1>Module: Algorithmic Number Theory & Arithmetic Functions</h1>
+    <p><strong>Target Audience:</strong> 3rd-Year Mathematics & Computing</p>
+    <p><strong>Section C:</strong> Dirichlet Convolution and Möbius Inversion</p>
+</header>
+
+<main>
+    <section id="dirichlet-convolution">
+        <h2>1. The Algebraic Structure of Dirichlet Convolution</h2>
+        <p>Dirichlet convolution is the fundamental binary operation that weaves arithmetic functions together. It bridges the gap between discrete divisors and continuous analytic functions (like the Riemann Zeta function).</p>
+        
+        <div class="definition">
+            <span class="label">Definition 1.1: Dirichlet Convolution</span>
+            Let $f$ and $g$ be two arithmetic functions. Their Dirichlet convolution, denoted $f * g$, is defined as:
+            $$(f * g)(n) = \sum_{d|n} f(d)g\left(\frac{n}{d}\right) = \sum_{ab=n} f(a)g(b)$$
+        </div>
+
+        <div class="theorem">
+            <span class="label">Theorem 1.1: The Commutative Ring of Arithmetic Functions</span>
+            The set of all arithmetic functions $\mathcal{A}$, equipped with point-wise addition $(+)$ and Dirichlet convolution $(*)$, forms a commutative ring.
+        </div>
+
+        <div class="proof">
+            <span class="label">Proof Sketch</span>
+            To establish $(\mathcal{A}, +, *)$ as a commutative ring, we verify the properties of the convolution operation:
+            <br><br>
+            <strong>Commutativity:</strong> 
+            $$(f * g)(n) = \sum_{ab=n} f(a)g(b) = \sum_{ba=n} g(b)f(a) = (g * f)(n)$$
+            <strong>Associativity:</strong>
+            $$((f * g) * h)(n) = \sum_{ab=n} (f * g)(a) h(b) = \sum_{ab=n} \left(\sum_{cd=a} f(c)g(d)\right) h(b) = \sum_{cdb=n} f(c)g(d)h(b)$$
+            $$= \sum_{c(db)=n} f(c) \left(\sum_{xy=db} g(x)h(y)\right) = (f * (g * h))(n)$$
+            <strong>Distributivity:</strong> Follows directly from the linearity of finite sums. $\blacksquare$
+        </div>
+    </section>
+
+    <section id="identity-and-mobius">
+        <h2>2. Identity, Constant, and the Möbius Function</h2>
+
+        <div class="definition">
+            <span class="label">Definition 2.1: Identity and Constant Functions</span>
+            The <strong>identity function</strong> $\epsilon(n)$ under Dirichlet convolution is:
+            $$\epsilon(n) = \begin{cases} 1 & \text{if } n = 1 \\ 0 & \text{if } n > 1 \end{cases}$$
+            It satisfies $f * \epsilon = f$ for all $f \in \mathcal{A}$.
+            <br><br>
+            The <strong>constant function</strong> $1(n)$ is defined simply as $1(n) = 1$ for all $n \ge 1$.
+        </div>
+
+        <div class="definition">
+            <span class="label">Definition 2.2: The Möbius Function $\mu(n)$</span>
+            The Möbius function is the inverse of the constant function $1(n)$ under Dirichlet convolution. Analytically, it is defined as:
+            $$\mu(n) = \begin{cases} 1 & \text{if } n = 1 \\ (-1)^k & \text{if } n = p_1 p_2 \dots p_k \text{ (distinct primes)} \\ 0 & \text{if } n \text{ is not square-free (i.e., } p^2 | n \text{)} \end{cases}$$
+        </div>
+
+        <div class="theorem">
+            <span class="label">Theorem 2.1: Inverse Relationship</span>
+            $$\mu * 1 = \epsilon \iff \sum_{d|n} \mu(d) = \epsilon(n)$$
+        </div>
+
+        <div class="proof">
+            <span class="label">Proof</span>
+            For $n = 1$, $\mu(1) = 1 = \epsilon(1)$.<br>
+            For $n > 1$, let $n = p_1^{a_1} p_2^{a_2} \dots p_k^{a_k}$. Since $\mu(d) = 0$ if $d$ is not square-free, the non-zero terms in the sum $\sum_{d|n} \mu(d)$ correspond to the divisors $d$ that are products of distinct primes chosen from $\{p_1, p_2, \dots, p_k\}$.
+            <br><br>
+            There are $\binom{k}{r}$ ways to choose a divisor with exactly $r$ distinct prime factors, and for each such divisor, $\mu(d) = (-1)^r$. Thus:
+            $$\sum_{d|n} \mu(d) = \sum_{r=0}^k \binom{k}{r} (-1)^r 1^{k-r}$$
+            By the Binomial Theorem, this sum evaluates to $(1 - 1)^k = 0 = \epsilon(n)$. $\blacksquare$
+        </div>
+
+        <div class="example">
+            <span class="label">Algorithmic Implementation: $O(\sqrt{n})$ $\mu(n)$ Evaluation</span>
+<pre><code>int u(long long n){
+if(n==1)return 1;
+int c=0;
+for(long long i=2;i*i<=n;i++){
+if(n%i==0){
+n/=i;
+if(n%i==0)return 0;
+c++;
+}}
+if(n>1)c++;
+return c%2?-1:1;
+}</code></pre>
+        </div>
+    </section>
+
+    <section id="mobius-inversion">
+        <h2>3. The Möbius Inversion Formula</h2>
+
+        <div class="theorem">
+            <span class="label">Theorem 3.1: Möbius Inversion</span>
+            Let $f$ and $g$ be arithmetic functions. The classical form states:
+            $$g(n) = \sum_{d|n} f(d) \iff f(n) = \sum_{d|n} g(d)\mu\left(\frac{n}{d}\right)$$
+        </div>
+
+        <div class="proof">
+            <span class="label">Proof (Via Convolution Ring)</span>
+            The algebraic formulation of the premise is $g = f * 1$.
+            We wish to isolate $f$. By taking the Dirichlet convolution of both sides with $\mu$:
+            $$g * \mu = (f * 1) * \mu$$
+            Because the convolution operation is associative, we can regroup the right side:
+            $$g * \mu = f * (1 * \mu)$$
+            By Theorem 2.1, $1 * \mu = \epsilon$. Therefore:
+            $$g * \mu = f * \epsilon$$
+            $$g * \mu = f$$
+            Expanding $f = g * \mu$ yields the classical sum $f(n) = \sum_{d|n} g(d)\mu\left(\frac{n}{d}\right)$. $\blacksquare$
+        </div>
+    </section>
+
+    <section id="mertens-function">
+        <h2>4. Advanced Addition: The Mertens Function & The Riemann Hypothesis</h2>
+        <p>The global distribution of the Möbius function encapsulates the randomness of prime factors, tying it irrevocably to the deepest unproven hypothesis in complex analysis.</p>
+
+        <div class="definition">
+            <span class="label">Definition 4.1: The Mertens Function</span>
+            The Mertens function $M(x)$ is the summatory function of the Möbius function:
+            $$M(x) = \sum_{1 \le n \le x} \mu(n)$$
+        </div>
+
+        <div class="theorem">
+            <span class="label">Theorem 4.1: Analytical Bounds and the Riemann Hypothesis</span>
+            The Mertens conjecture posited that $|M(x)| < \sqrt{x}$ for all $x > 1$. If true, this would have implied the Riemann Hypothesis (RH) because it forces the analytic continuation of $\frac{1}{\zeta(s)}$ to be holomorphic for $\text{Re}(s) > \frac{1}{2}$.
+            <br><br>
+            Although Odlyzko and te Riele proved the strict Mertens conjecture false in 1985, the broader asymptotic condition:
+            $$M(x) = O(x^{\frac{1}{2} + \epsilon}) \quad \text{for all } \epsilon > 0$$
+            remains rigorously equivalent to the Riemann Hypothesis. From an algorithmic standpoint, analyzing $M(x)$ over limits approaching $10^{11}$ forms the core of modern sublinear prefix sum evaluations (which we will explore via the Dirichlet Prefix Sum trick in Section D).
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <p>Module generated for Advanced Mathematics & Computing Curriculum.</p>
+</footer>
+
+</body>
+</html>

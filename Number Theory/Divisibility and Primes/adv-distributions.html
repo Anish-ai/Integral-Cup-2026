@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Divisibility and Primes - Advanced Distributions</title>
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$']],
+                displayMath: [['$$', '$$']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --text-main: #c9d1d9;
+            --text-heading: #ffffff;
+            --accent-thm: #58a6ff;
+            --accent-prf: #3fb950;
+            --accent-def: #d2a8ff;
+            --code-bg: #161b22;
+            --border: #30363d;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: system-ui, -apple-system, sans-serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 2rem;
+        }
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        header {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 2rem;
+            margin-bottom: 2rem;
+        }
+        h1, h2, h3 {
+            color: var(--text-heading);
+            margin-top: 2rem;
+        }
+        h1 { font-size: 2.5rem; }
+        h2 { border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+        
+        .box {
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 6px;
+            background-color: #0f141a;
+        }
+        .definition { border-left: 4px solid var(--accent-def); }
+        .theorem { border-left: 4px solid var(--accent-thm); }
+        .proof { border-left: 4px solid var(--accent-prf); }
+        .box-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+        }
+        .definition .box-title { color: var(--accent-def); }
+        .theorem .box-title { color: var(--accent-thm); }
+        .proof .box-title { color: var(--accent-prf); font-style: italic; text-transform: none; }
+    </style>
+</head>
+<body>
+    <main>
+        <header>
+            <h1>Module 1: Divisibility and Primes</h1>
+            <p><strong>Part D: Advanced Distributions</strong></p>
+        </header>
+
+        <section>
+            <h2>1. Dirichlet's Theorem on Arithmetic Progressions</h2>
+            <p>While Euclid proved that there are infinitely many primes overall, a natural extension is to ask about the distribution of primes within specific subsets of integers, such as arithmetic progressions.</p>
+
+            <article class="box theorem">
+                <div class="box-title">Theorem 1.1 (Dirichlet's Theorem)</div>
+                <p>For any two positive coprime integers $a$ and $q$ (i.e., $\gcd(a, q) = 1$), there are infinitely many primes $p$ such that $p \equiv a \pmod q$.</p>
+            </article>
+
+            <p>The general proof requires complex analysis, specifically the non-vanishing of Dirichlet $L$-functions at $s=1$. However, we can rigorously prove specific cases using algebraic constructions akin to Euclid's original proof.</p>
+
+            <article class="box proof">
+                <div class="box-title">Proof for $q=4, a=3$</div>
+                <p>We will prove there are infinitely many primes of the form $4k+3$. Notice that all odd primes are congruent to either $1$ or $3$ modulo $4$. Furthermore, the product of two numbers of the form $4k+1$ is also of the form $4k+1$:</p>
+                $$(4j+1)(4m+1) = 16jm + 4j + 4m + 1 = 4(4jm+j+m) + 1$$
+                <p>Assume for contradiction there are finitely many primes of the form $4k+3$. Let them be $p_1, p_2, \dots, p_n$, with $p_1 = 3$. Construct the integer:</p>
+                $$N = 4(p_2 p_3 \dots p_n) + 3$$
+                <p>Clearly, $N \equiv 3 \pmod 4$. Since $N > p_i$ for all $i$, $N$ itself cannot be prime (as it exceeds the maximum prime in our supposed finite list). By the Fundamental Theorem of Arithmetic, $N$ must factor into primes. Since $N$ is odd, all its prime factors are odd.</p>
+                <p>If all prime factors of $N$ were of the form $4k+1$, then their product $N$ would also be of the form $4k+1$, which contradicts $N \equiv 3 \pmod 4$. Therefore, $N$ must have at least one prime factor $q \equiv 3 \pmod 4$.</p>
+                <p>Since $q$ is a prime of the form $4k+3$, it must be in our finite list. If $q = 3 = p_1$, then $3 \mid N$, but $N = 4(p_2 \dots p_n) + 3$, which implies $3 \mid 4(p_2 \dots p_n)$. Since the $p_i$ are distinct primes $>3$, this is impossible. If $q = p_i$ for some $i \ge 2$, then $p_i \mid N$ and $p_i \mid 4(p_2 \dots p_i \dots p_n)$, so $p_i$ must divide their difference: $p_i \mid 3$, which is absurd for $p_i > 3$.</p>
+                <p>Thus, our assumption must be false. There are infinitely many primes of the form $4k+3$. $\blacksquare$</p>
+            </article>
+        </section>
+
+        <section>
+            <h2>2. The Prime Number Theorem (PNT)</h2>
+            <p>While Dirichlet's Theorem dictates <em>where</em> primes occur, the Prime Number Theorem quantifies <em>how often</em> they occur. Let $\pi(x)$ denote the prime-counting function, the number of primes less than or equal to $x$.</p>
+
+            <article class="box theorem">
+                <div class="box-title">Theorem 2.1 (Prime Number Theorem)</div>
+                <p>The asymptotic distribution of prime numbers is given by:</p>
+                $$\lim_{x \to \infty} \frac{\pi(x)}{x / \ln(x)} = 1$$
+                <p>This is commonly denoted as $\pi(x) \sim \frac{x}{\ln x}$.</p>
+            </article>
+
+            <p>A strictly better asymptotic approximation is the logarithmic integral function, $\text{Li}(x) = \int_2^x \frac{dt}{\ln t}$. A powerful corollary bounds the $n$-th prime, $p_n$:</p>
+            <article class="box theorem">
+                <div class="box-title">Proposition 2.2 (Rosser's Theorem)</div>
+                <p>For $n \ge 6$, the $n$-th prime strictly obeys the inequality:</p>
+                $$n \ln n + n \ln(\ln n) - n < p_n < n \ln n + n \ln(\ln n)$$
+            </article>
+        </section>
+
+        <section>
+            <h2>3. Chebyshev's Bias</h2>
+            <p>By Dirichlet's Theorem, the primes are asymptotically equally distributed among the coprime residue classes modulo $q$. For example, $\lim_{x \to \infty} \frac{\pi_{4,1}(x)}{\pi_{4,3}(x)} = 1$, where $\pi_{q,a}(x)$ counts primes $p \le x$ with $p \equiv a \pmod q$.</p>
+            
+            <p>However, Pafnuty Chebyshev observed in 1853 a strange phenomenon: primes of the form $4k+3$ seem to appear earlier and more frequently than those of the form $4k+1$. If we treat it as a "race" where a point is scored when a prime is found, the $4k+3$ sequence leads the $4k+1$ sequence for the vast majority of integers $x$.</p>
+
+            <article class="box definition">
+                <div class="box-title">Concept: The Bias Framework</div>
+                <p>This bias exists because quadratic non-residues (like $3 \pmod 4$) lack squares in their congruence class, slightly increasing the relative density of primes early on compared to quadratic residues (like $1 \pmod 4$, which contains all odd squares). Rubinstein and Sarnak (1994) rigorously proved that the logarithmic density of the set of $x$ for which $\pi_{4,3}(x) > \pi_{4,1}(x)$ is approximately $0.9959$. It is not $1$, meaning the lead changes infinitely many times, but the bias is mathematically immense.</p>
+            </article>
+        </section>
+
+        <section>
+            <h2>4. Advanced Addition: Chebyshev's Functions and the Riemann Zeta Function</h2>
+            <p>Working directly with $\pi(x)$ analytically is cumbersome. Chebyshev introduced two weighted functions that provide a far more natural bridge to complex analysis.</p>
+
+            <article class="box definition">
+                <div class="box-title">Definition 4.1 (Chebyshev's $\vartheta$ and $\psi$ functions)</div>
+                <p>The first Chebyshev function sums the natural logarithms of primes up to $x$:</p>
+                $$\vartheta(x) = \sum_{p \le x} \ln p$$
+                <p>The second Chebyshev function extends this to prime powers (the von Mangoldt function $\Lambda(n)$):</p>
+                $$\psi(x) = \sum_{p^k \le x} \ln p = \sum_{n \le x} \Lambda(n)$$
+            </article>
+
+            <p>The PNT is analytically equivalent to the seemingly simpler statement $\lim_{x \to \infty} \frac{\psi(x)}{x} = 1$, or $\psi(x) \sim x$. To prove this, one must study the Riemann Zeta function.</p>
+
+            <article class="box theorem">
+                <div class="box-title">Theorem 4.2 (Euler Product Formula)</div>
+                <p>For complex numbers $s$ with $\text{Re}(s) > 1$,</p>
+                $$\zeta(s) = \sum_{n=1}^{\infty} \frac{1}{n^s} = \prod_{p \text{ prime}} \frac{1}{1 - p^{-s}}$$
+            </article>
+
+            <p>Bernhard Riemann established the exact relationship between the distribution of primes and the zeros of $\zeta(s)$. The von Mangoldt explicit formula dictates:</p>
+            $$\psi(x) = x - \sum_{\rho} \frac{x^\rho}{\rho} - \ln(2\pi) - \frac{1}{2}\ln(1 - x^{-2})$$
+            
+            <p>Here, $\rho$ iterates over the non-trivial zeros of $\zeta(s)$ (where $0 < \text{Re}(\rho) < 1$). The leading term $x$ represents the PNT ($\psi(x) \sim x$). The sum over the roots $\rho$ behaves as an oscillatory error term. If the Riemann Hypothesis is true—meaning all non-trivial zeros lie strictly on the line $\text{Re}(\rho) = 1/2$—then the error term is bounded by $O(\sqrt{x} \ln^2 x)$, providing the tightest possible algorithmic bound for prime distributions.</p>
+        </section>
+    </main>
+</body>
+</html>

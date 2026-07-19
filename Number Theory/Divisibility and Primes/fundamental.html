@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Divisibility and Primes - Fundamental Concepts</title>
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$']],
+                displayMath: [['$$', '$$']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --text-main: #c9d1d9;
+            --text-heading: #ffffff;
+            --accent-thm: #58a6ff;
+            --accent-prf: #3fb950;
+            --accent-def: #d2a8ff;
+            --code-bg: #161b22;
+            --border: #30363d;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: system-ui, -apple-system, sans-serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 2rem;
+        }
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        header {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 2rem;
+            margin-bottom: 2rem;
+        }
+        h1, h2, h3 {
+            color: var(--text-heading);
+            margin-top: 2rem;
+        }
+        h1 { font-size: 2.5rem; }
+        h2 { border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+        
+        .box {
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 6px;
+            background-color: #0f141a;
+        }
+        .definition { border-left: 4px solid var(--accent-def); }
+        .theorem { border-left: 4px solid var(--accent-thm); }
+        .proof { border-left: 4px solid var(--accent-prf); }
+        .box-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+        }
+        .definition .box-title { color: var(--accent-def); }
+        .theorem .box-title { color: var(--accent-thm); }
+        .proof .box-title { color: var(--accent-prf); font-style: italic; text-transform: none; }
+        
+        pre {
+            background-color: var(--code-bg);
+            padding: 1rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            border: 1px solid var(--border);
+        }
+        code { font-family: 'Courier New', Courier, monospace; }
+    </style>
+</head>
+<body>
+    <main>
+        <header>
+            <h1>Module 1: Divisibility and Primes</h1>
+            <p><strong>Part A: Fundamental Concepts</strong></p>
+        </header>
+
+        <section>
+            <h2>1. Properties of Divisibility</h2>
+            
+            <article class="box definition">
+                <div class="box-title">Definition 1.1 (Divisibility)</div>
+                <p>Let $a, b \in \mathbb{Z}$. We say that $a$ divides $b$, denoted as $a \mid b$, if there exists an integer $k$ such that $b = ak$. If no such integer exists, we write $a \nmid b$.</p>
+            </article>
+
+            <p>From this foundational definition, several algebraic properties trivially follow. These form the bedrock of algebraic manipulation in number theory:</p>
+            
+            <article class="box theorem">
+                <div class="box-title">Proposition 1.2 (Linear Combinations)</div>
+                <p>If $a \mid b$ and $a \mid c$, then for any integers $x, y \in \mathbb{Z}$, $a \mid (bx + cy)$.</p>
+            </article>
+
+            <article class="box proof">
+                <div class="box-title">Proof</div>
+                <p>By definition, there exist $k_1, k_2 \in \mathbb{Z}$ such that $b = ak_1$ and $c = ak_2$. Substituting these into the linear combination yields:</p>
+                $$bx + cy = (ak_1)x + (ak_2)y = a(k_1x + k_2y)$$
+                <p>Since $k_1x + k_2y \in \mathbb{Z}$ (due to the closure of integers under addition and multiplication), it follows by definition that $a \mid (bx + cy)$. $\blacksquare$</p>
+            </article>
+        </section>
+
+        <section>
+            <h2>2. The Division Algorithm</h2>
+            <p>Despite its name, this is an existence and uniqueness theorem rather than an algorithm. It guarantees that integer division with a remainder behaves symmetrically and predictably.</p>
+
+            <article class="box theorem">
+                <div class="box-title">Theorem 2.1 (The Division Algorithm)</div>
+                <p>Given integers $a, b \in \mathbb{Z}$ with $b > 0$, there exist unique integers $q, r$ such that:</p>
+                $$a = bq + r, \quad 0 \le r < b$$
+            </article>
+
+            <article class="box proof">
+                <div class="box-title">Proof of Existence</div>
+                <p>Consider the set $S$ of all non-negative elements of the form $a - bk$ where $k \in \mathbb{Z}$:</p>
+                $$S = \{ a - bk \mid k \in \mathbb{Z}, a - bk \ge 0 \}$$
+                <p>First, we show $S$ is non-empty. If $a \ge 0$, choosing $k = 0$ yields $a \in S$. If $a < 0$, choosing $k = a$ yields $a - ba = a(1-b)$. Since $b \ge 1$, $1-b \le 0$, making $a(1-b) \ge 0$. Thus, $S$ is non-empty.</p>
+                <p>By the Well-Ordering Principle, $S$ must contain a least non-negative element. Let us call it $r$, and the specific $k$ that produces it, $q$. Therefore, $r = a - bq \ge 0$, giving $a = bq + r$.</p>
+                <p>We must now show $r < b$. Assume for contradiction that $r \ge b$. Then $r - b \ge 0$. But $r - b = (a - bq) - b = a - b(q+1)$. This represents a non-negative integer in $S$ strictly smaller than $r$, contradicting the minimality of $r$. Thus, $r < b$.</p>
+                
+                <div class="box-title" style="margin-top: 1rem;">Proof of Uniqueness</div>
+                <p>Assume there are two pairs $(q_1, r_1)$ and $(q_2, r_2)$ satisfying the conditions. Then:</p>
+                $$bq_1 + r_1 = bq_2 + r_2 \implies b(q_1 - q_2) = r_2 - r_1$$
+                <p>This implies $b \mid (r_2 - r_1)$. However, since $0 \le r_1, r_2 < b$, the difference bounds are $-b < r_2 - r_1 < b$. The only multiple of $b$ strictly between $-b$ and $b$ is $0$. Thus, $r_2 - r_1 = 0 \implies r_1 = r_2$. Consequently, $b(q_1 - q_2) = 0 \implies q_1 = q_2$. $\blacksquare$</p>
+            </article>
+        </section>
+
+        <section>
+            <h2>3. The Euclidean Algorithm</h2>
+            <p>The Euclidean algorithm computes the Greatest Common Divisor (GCD) of two integers without requiring prime factorization. It relies on a critical invariant derived from the division algorithm.</p>
+            
+            <article class="box theorem">
+                <div class="box-title">Lemma 3.1</div>
+                <p>If $a = bq + r$, then $\gcd(a, b) = \gcd(b, r)$.</p>
+            </article>
+            
+            <article class="box proof">
+                <div class="box-title">Proof</div>
+                <p>Let $d = \gcd(a, b)$. Since $d \mid a$ and $d \mid b$, it divides any linear combination. Specifically, $d \mid (a - bq) \implies d \mid r$. Thus $d$ is a common divisor of $b$ and $r$.</p>
+                <p>Conversely, let $c$ be any common divisor of $b$ and $r$. Then $c \mid (bq + r) \implies c \mid a$. Since $c$ divides both $a$ and $b$, $c \le d$. Thus, $d$ is the greatest common divisor of $b$ and $r$. $\blacksquare$</p>
+            </article>
+
+            <p>By repeatedly applying the division algorithm $r_{k-2} = r_{k-1}q_k + r_k$, the sequence of remainders strictly decreases. Since the remainders are non-negative, the process must terminate with a remainder of zero. The last non-zero remainder is the GCD.</p>
+
+            <p>Here is the canonical $O(\log(\min(a,b)))$ implementation in C++:</p>
+<pre><code>int f(int a, int b) {
+    return b ? f(b, a % b) : a;
+}</code></pre>
+        </section>
+
+        <section>
+            <h2>4. Advanced Addition: Lamé's Theorem</h2>
+            <p>Gabriel Lamé (1844) proved a strict upper bound on the number of modulo operations performed by the Euclidean Algorithm, marking the birth of computational complexity theory.</p>
+
+            <article class="box theorem">
+                <div class="box-title">Theorem 4.1 (Lamé's Theorem)</div>
+                <p>If $a > b > 0$ and the Euclidean algorithm requires $n$ division steps to compute $\gcd(a, b)$, then $a \ge F_{n+2}$ and $b \ge F_{n+1}$, where $F_k$ is the $k$-th Fibonacci number.</p>
+            </article>
+
+            <article class="box proof">
+                <div class="box-title">Proof by Induction</div>
+                <p>Let the division steps be:</p>
+                $$r_0 = r_1 q_1 + r_2 \quad (0 < r_2 < r_1)$$
+                $$r_1 = r_2 q_2 + r_3 \quad (0 < r_3 < r_2)$$
+                $$\dots$$
+                $$r_{n-2} = r_{n-1} q_{n-1} + r_n \quad (0 < r_n < r_{n-1})$$
+                $$r_{n-1} = r_n q_n + 0$$
+                <p>Note that $a = r_0$ and $b = r_1$. Because $r_{n-1} > r_n$, we know $q_n \ge 2$. For all other $i < n$, $q_i \ge 1$.</p>
+                <p>We prove $r_{n-k} \ge F_{k+2}$ by induction on $k$.</p>
+                <p><strong>Base cases ($k=0, 1$):</strong><br>
+                For $k=0$: $r_n \ge 1 = F_2$.<br>
+                For $k=1$: $r_{n-1} = r_n q_n \ge 1 \cdot 2 = 2 = F_3$.</p>
+                <p><strong>Inductive step:</strong><br>
+                Assume for some $k \ge 2$ that $r_{n-j} \ge F_{j+2}$ for all $j < k$. We evaluate $r_{n-k}$:<br>
+                $$r_{n-k} = r_{n-k+1} q_{n-k+1} + r_{n-k+2}$$
+                Since $q_{n-k+1} \ge 1$, we have:
+                $$r_{n-k} \ge r_{n-k+1} + r_{n-k+2}$$
+                By the inductive hypothesis:
+                $$r_{n-k} \ge F_{k+1} + F_{k} = F_{k+2}$$
+                <p>Substituting $k = n-1$ yields $b = r_1 \ge F_{n+1}$. Substituting $k = n$ yields $a = r_0 \ge F_{n+2}$. $\blacksquare$</p>
+            </article>
+
+            <article class="box definition">
+                <div class="box-title">Corollary (Time Complexity)</div>
+                <p>Since Fibonacci numbers grow exponentially ($F_n \approx \frac{\phi^n}{\sqrt{5}}$), $b \ge \phi^{n-1}$. Taking base-10 logarithms reveals $n < 5 \log_{10} b$. The Euclidean algorithm never takes more steps than five times the number of decimal digits of the smaller integer.</p>
+            </article>
+        </section>
+    </main>
+</body>
+</html>

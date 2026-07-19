@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Number Theory: Diophantine Equations - Part 4</title>
+    
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true,
+                tags: 'ams'
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        :root {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --accent-color: #64ffda;
+            --secondary-bg: #1e1e1e;
+            --border-color: #333;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Georgia', serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 40px 20px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            color: var(--accent-color);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 5px;
+        }
+
+        .theorem, .lemma, .definition {
+            background-color: var(--secondary-bg);
+            border-left: 4px solid var(--accent-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .theorem-title, .lemma-title, .definition-title {
+            font-weight: bold;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .proof {
+            margin: 20px 0;
+            padding-left: 20px;
+            border-left: 2px dashed var(--border-color);
+        }
+
+        .proof::before {
+            content: "Proof.";
+            font-style: italic;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .qedsymbol {
+            float: right;
+            font-size: 1.2em;
+        }
+
+        pre {
+            background-color: #0a0a0a;
+            color: #a6accd;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Fira Code', 'Courier New', monospace;
+            font-size: 14px;
+            border: 1px solid var(--border-color);
+        }
+
+        code {
+            font-family: 'Fira Code', 'Courier New', monospace;
+            color: #ff9e64;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        header p {
+            font-style: italic;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Module IV: The Method of Infinite Descent</h1>
+    <p>Algorithmic Number Theory & Abstract Algebra • Advanced Undergraduate Sequence</p>
+</header>
+
+<main>
+    <section>
+        <h2>1. Well-Ordering and the Descent Principle</h2>
+        <p>The Method of Infinite Descent, formalized by Pierre de Fermat, is a highly specialized proof by contradiction relying on the topological discrete nature of $\mathbb{N}$. It acts as the contrapositive to mathematical induction.</p>
+
+        <div class="definition">
+            <span class="definition-title">Definition 4.1 (Well-Ordering Principle)</span>
+            <p>Every non-empty subset of the non-negative integers has a least element. Consequently, there can exist no strictly decreasing infinite sequence of non-negative integers: $a_1 > a_2 > a_3 > \dots \ge 0$.</p>
+        </div>
+
+        <p>To prove that a Diophantine equation possesses no non-trivial solutions via infinite descent, one assumes a solution exists. By the Well-Ordering Principle, there must exist a "minimal" solution with respect to some positive integer parameter (often the sum or maximum of the variables). Algebraic manipulation of this minimal solution constructs a strictly smaller integer solution, violating the assumption of minimality. Thus, the original set of solutions must be empty.</p>
+    </section>
+
+    <section>
+        <h2>2. Fermat's Right Triangle Theorem (FLT for n = 4)</h2>
+        <p>The most celebrated application of infinite descent establishes the impossibility of a Pythagorean triangle possessing an area equal to the square of an integer. This identically proves Fermat's Last Theorem for the exponent $n=4$.</p>
+
+        <div class="theorem">
+            <span class="theorem-title">Theorem 4.2 (Fermat's Last Theorem, $n=4$)</span>
+            <p>The Diophantine equation $x^4 + y^4 = z^2$ has no solutions in strictly positive integers $x, y, z$.</p>
+        </div>
+
+        <div class="proof">
+            <p>Assume for the sake of contradiction that solutions exist. Let $(x, y, z)$ be a solution such that $z > 0$ is minimal. Without loss of generality, assume $\gcd(x, y) = 1$, as any common factor could be divided out to yield a smaller $z$.</p>
+            <p>We rewrite the equation as $(x^2)^2 + (y^2)^2 = z^2$. This forms a primitive Pythagorean triple. By Theorem 2.2, one of $x^2$ or $y^2$ is even. Suppose $x^2$ is even (so $x$ is even, and $y, z$ are odd). There exist coprime integers $m > n > 0$ of opposite parity such that:</p>
+            $$x^2 = 2mn, \quad y^2 = m^2 - n^2, \quad z = m^2 + n^2$$
+            <p>Consider the equation $y^2 = m^2 - n^2 \implies y^2 + n^2 = m^2$. This is another primitive Pythagorean triple since $\gcd(m,n)=1$. Because $y$ is odd, $n$ must be even and $m$ must be odd. Applying Theorem 2.2 again, there exist coprime integers $r > s > 0$ of opposite parity such that:</p>
+            $$n = 2rs, \quad y = r^2 - s^2, \quad m = r^2 + s^2$$
+            <p>Substitute these parametrizations of $m$ and $n$ back into the expression for $x^2$:</p>
+            $$x^2 = 2mn = 2(r^2 + s^2)(2rs) = 4rs(r^2 + s^2) \implies \left(\frac{x}{2}\right)^2 = rs(r^2 + s^2)$$
+            <p>Since $\gcd(r, s) = 1$, it follows that $r, s$, and $r^2 + s^2$ are pairwise coprime. Their product is a perfect square, which requires that each individual factor must be a perfect square. Therefore, there exist positive integers $u, v, w$ such that:</p>
+            $$r = u^2, \quad s = v^2, \quad r^2 + s^2 = w^2$$
+            <p>Substituting $r$ and $s$ into the third equation yields:</p>
+            $$u^4 + v^4 = w^2$$
+            <p>We have constructed a new solution $(u, v, w)$ to the original Diophantine equation. We now check the minimality condition on $w$:</p>
+            $$w \le w^2 = r^2 + s^2 = m \le m^2 < m^2 + n^2 = z$$
+            <p>Thus, $0 < w < z$. We have generated a strictly positive solution with a strictly smaller $z$, contradicting our initial assumption that $z$ was minimal. By the Principle of Infinite Descent, no such positive integer solutions can exist.</p>
+            <div class="qedsymbol">$\blacksquare$</div>
+        </div>
+
+        <h3>2.1 Algorithmic Verification (Bounded Space Checker)</h3>
+        <p>In competitive programming, theoretical non-existence limits search spaces to zero. Should one need to computationally verify the strict absence of solutions to $x^4 + y^4 = z^2$ up to a massive bounds constraint without mathematical proof, an optimized dual-pointer root checker avoids precision loss.</p>
+
+<pre><code>bool c(long long n){
+for(long long x=1;x*x*x*x<=n;++x){
+for(long long y=1;y*y*y*y<=n-x*x*x*x;++y){
+long long z=x*x*x*x+y*y*y*y,s=sqrt(z);
+if(s*s==z)return 1;
+}
+}
+return 0;
+}</code></pre>
+    </section>
+</main>
+
+</body>
+</html>

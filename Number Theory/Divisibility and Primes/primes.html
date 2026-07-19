@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Divisibility and Primes - Prime Numbers</title>
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$']],
+                displayMath: [['$$', '$$']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --text-main: #c9d1d9;
+            --text-heading: #ffffff;
+            --accent-thm: #58a6ff;
+            --accent-prf: #3fb950;
+            --accent-def: #d2a8ff;
+            --code-bg: #161b22;
+            --border: #30363d;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: system-ui, -apple-system, sans-serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 2rem;
+        }
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        header {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 2rem;
+            margin-bottom: 2rem;
+        }
+        h1, h2, h3 {
+            color: var(--text-heading);
+            margin-top: 2rem;
+        }
+        h1 { font-size: 2.5rem; }
+        h2 { border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+        
+        .box {
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 6px;
+            background-color: #0f141a;
+        }
+        .definition { border-left: 4px solid var(--accent-def); }
+        .theorem { border-left: 4px solid var(--accent-thm); }
+        .proof { border-left: 4px solid var(--accent-prf); }
+        .box-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+        }
+        .definition .box-title { color: var(--accent-def); }
+        .theorem .box-title { color: var(--accent-thm); }
+        .proof .box-title { color: var(--accent-prf); font-style: italic; text-transform: none; }
+        
+        pre {
+            background-color: var(--code-bg);
+            padding: 1rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            border: 1px solid var(--border);
+        }
+        code { font-family: 'Courier New', Courier, monospace; }
+    </style>
+</head>
+<body>
+    <main>
+        <header>
+            <h1>Module 1: Divisibility and Primes</h1>
+            <p><strong>Part B: Prime Numbers</strong></p>
+        </header>
+
+        <section>
+            <h2>1. The Fundamental Theorem of Arithmetic</h2>
+            <p>Before establishing the canonical factorization of integers, we must formalize Euclid's Lemma, which acts as the algebraic bridge between indivisibility and prime decomposition.</p>
+
+            <article class="box theorem">
+                <div class="box-title">Lemma 1.1 (Euclid's Lemma)</div>
+                <p>If $p$ is a prime and $p \mid ab$ for some $a, b \in \mathbb{Z}$, then $p \mid a$ or $p \mid b$.</p>
+            </article>
+            
+            <article class="box theorem">
+                <div class="box-title">Theorem 1.2 (Fundamental Theorem of Arithmetic)</div>
+                <p>Every integer $n > 1$ either is a prime itself or can be expressed as a product of primes, uniquely up to the order of the factors.</p>
+            </article>
+
+            <article class="box proof">
+                <div class="box-title">Proof of Existence</div>
+                <p>We proceed by strong induction. Let $P(n)$ be the proposition that $n$ can be written as a product of primes. For the base case $n=2$, $2$ is prime, so $P(2)$ holds.</p>
+                <p>Assume $P(k)$ holds for all integers $2 \le k < n$. If $n$ is prime, we are done. If $n$ is composite, it possesses a divisor strictly between $1$ and $n$, meaning $n = ab$ for integers $a, b$ such that $1 < a, b < n$. By our inductive hypothesis, both $a$ and $b$ can be expressed as products of primes. Therefore, their product $n = ab$ is also a product of primes. By strong induction, existence is guaranteed for all $n > 1$.</p>
+                
+                <div class="box-title" style="margin-top: 1rem;">Proof of Uniqueness</div>
+                <p>Suppose for contradiction there exists an integer $n > 1$ with two distinct prime factorizations:</p>
+                $$n = p_1 p_2 \cdots p_r = q_1 q_2 \cdots q_s$$
+                <p>where $p_i$ and $q_j$ are primes, $p_1 \le p_2 \le \cdots \le p_r$, and $q_1 \le q_2 \le \cdots \le q_s$. By the Well-Ordering Principle, assume $n$ is the smallest such integer.</p>
+                <p>Since $p_1 \mid n$, it follows that $p_1 \mid (q_1 q_2 \cdots q_s)$. By generalized Euclid's Lemma, $p_1$ must divide some $q_j$. Because $q_j$ is prime, its only positive divisors are $1$ and $q_j$, implying $p_1 = q_j$. Thus, $p_1 \ge q_1$.</p>
+                <p>By symmetric reasoning, $q_1 \mid (p_1 p_2 \cdots p_r)$, implying $q_1 = p_i$ for some $i$, so $q_1 \ge p_1$. Thus, $p_1 = q_1$.</p>
+                <p>Dividing both factorizations by $p_1$ yields $n' = n / p_1 = p_2 \cdots p_r = q_2 \cdots q_s$. This gives a strictly smaller integer $n' < n$ with two distinct prime factorizations, contradicting the minimality of $n$. Thus, the factorization must be unique. $\blacksquare$</p>
+            </article>
+        </section>
+
+        <section>
+            <h2>2. The Sieve of Eratosthenes</h2>
+            <p>The Sieve of Eratosthenes generates all prime numbers up to a bound $N$ in $O(N \log \log N)$ time. The inner loop safely begins at $i^2$, avoiding redundant operations for composites already marked by smaller prime factors.</p>
+
+<pre><code>vector&lt;int&gt; f(int n) {
+    vector&lt;bool&gt; b(n + 1, 1);
+    vector&lt;int&gt; p;
+    b[0] = b[1] = 0;
+    for (int i = 2; i * i &lt;= n; i++) {
+        if (b[i]) {
+            for (int j = i * i; j &lt;= n; j += i) {
+                b[j] = 0;
+            }
+        }
+    }
+    for (int i = 2; i &lt;= n; i++) {
+        if (b[i]) {
+            p.push_back(i);
+        }
+    }
+    return p;
+}</code></pre>
+        </section>
+
+        <section>
+            <h2>3. Advanced Addition: Segmented Sieve and Wheel Factorization</h2>
+            <p>Standard sieving suffers from poor spatial locality (cache misses) for large $N$, and requires $O(N)$ memory. Segmented sieving reduces memory to $O(\sqrt{N} + \Delta)$ by processing intervals of size $\Delta$.</p>
+            
+            <p><strong>Wheel Factorization</strong> generalizes the concept of skipping even numbers. A wheel modulo $M = 2 \times 3 \times 5 = 30$ avoids marking multiples of the first three primes altogether. Instead of iterating by $1$ and checking primality, we iterate by increments from the set of coprime offsets modulo $30$: $\{1, 7, 11, 13, 17, 19, 23, 29\}$, shrinking the search space to roughly $\frac{8}{30} \approx 26.6\%$ of the original size.</p>
+
+            <p>Below is a highly optimized Block Sieve (Segmented) generating primes in $[L, R]$:</p>
+
+<pre><code>vector&lt;int&gt; g(long long l, long long r) {
+    long long m = sqrt(r);
+    vector&lt;bool&gt; c(m + 1, 0);
+    vector&lt;long long&gt; p;
+    for (long long i = 2; i &lt;= m; i++) {
+        if (!c[i]) {
+            p.push_back(i);
+            for (long long j = i * i; j &lt;= m; j += i) c[j] = 1;
+        }
+    }
+    vector&lt;bool&gt; b(r - l + 1, 1);
+    for (long long k : p) {
+        long long s = max(k * k, (l + k - 1) / k * k);
+        for (long long j = s; j &lt;= r; j += k) b[j - l] = 0;
+    }
+    if (l == 1) b[0] = 0;
+    vector&lt;int&gt; a;
+    for (long long i = 0; i &lt;= r - l; i++) {
+        if (b[i]) a.push_back(l + i);
+    }
+    return a;
+}</code></pre>
+        </section>
+
+        <section>
+            <h2>4. Proofs of the Infinitude of Primes</h2>
+            
+            <article class="box theorem">
+                <div class="box-title">Theorem 4.1 (Euclid's Algebraic Proof)</div>
+                <p>There are infinitely many prime numbers.</p>
+            </article>
+
+            <article class="box proof">
+                <div class="box-title">Proof (Euclid)</div>
+                <p>Assume for contradiction that there are finitely many primes, labeled $p_1, p_2, \dots, p_k$. Construct the integer:</p>
+                $$N = p_1 p_2 \dots p_k + 1$$
+                <p>Since $N > p_i$ for all $i$, $N$ cannot be prime. Thus, $N$ must have a prime factor, say $q$. However, $q$ must be one of our enumerated primes, meaning $q = p_j$ for some $j$. Therefore, $q \mid (p_1 \dots p_k)$. Since $q \mid N$ and $q \mid (N-1)$, it must divide their difference: $q \mid (N - (N-1)) \implies q \mid 1$. This is impossible for any prime $q \ge 2$. Thus, the set of primes is infinite. $\blacksquare$</p>
+            </article>
+
+            <article class="box proof">
+                <div class="box-title">Proof (Euler's Analytic Proof)</div>
+                <p>Euler utilized the Fundamental Theorem of Arithmetic to express the harmonic series as a product over all primes (the Euler Product Formula):</p>
+                $$\sum_{n=1}^{\infty} \frac{1}{n} = \prod_{p \text{ prime}} \left( 1 + \frac{1}{p} + \frac{1}{p^2} + \dots \right) = \prod_{p \text{ prime}} \left( \frac{1}{1 - 1/p} \right)$$
+                <p>It is a standard result of calculus that the harmonic series diverges: $\sum_{n=1}^{\infty} \frac{1}{n} \to \infty$. If there were only finitely many primes, the right side of the equation would be a finite product of finite values, yielding a finite result. This contradicts the divergence of the left side. Thus, there must be infinitely many primes. $\blacksquare$</p>
+            </article>
+
+            <article class="box proof">
+                <div class="box-title">Proof (Non-linear Recurrence Sequence)</div>
+                <p>Consider the sequence defined by $a_1 = 2$ and $a_{n+1} = a_n^2 - a_n + 1$. We prove that $\gcd(a_i, a_j) = 1$ for all $i \neq j$.</p>
+                <p>We can rewrite the recurrence relation to observe a telescopic property:</p>
+                $$a_{n+1} - 1 = a_n(a_n - 1) = a_n \cdot a_{n-1}(a_{n-1} - 1) = \dots = a_n a_{n-1} \dots a_1$$
+                <p>Thus, $a_{n+1} = a_1 a_2 \dots a_n + 1$. This mirrors Euclid's construction. For any $i < n+1$, any prime $p \mid a_i$ divides the product $a_1 \dots a_n$. Hence, $a_{n+1} \equiv 1 \pmod p$. Therefore, $\gcd(a_{n+1}, a_i) = 1$. Since we have an infinite sequence of mutually coprime integers $>1$, the set of distinct prime factors of this sequence must be infinite. $\blacksquare$</p>
+            </article>
+        </section>
+
+        <section>
+            <h2>5. Advanced Addition: Fermat and Mersenne Primes</h2>
+            
+            <article class="box definition">
+                <div class="box-title">Definition 5.1 (Fermat Primes)</div>
+                <p>A Fermat prime is a prime number of the form $F_n = 2^{2^n} + 1$.</p>
+            </article>
+
+            <p><strong>Property:</strong> If an integer of the form $2^k + 1$ is prime, then $k$ must be a power of $2$.<br>
+            <em>Proof Sketch:</em> Suppose $k$ has an odd prime factor $q$, such that $k = qm$. Then $2^{qm} + 1 = (2^m)^q + 1$. By algebraic factorization, $x^q + 1 = (x+1)(x^{q-1} - x^{q-2} + \dots + 1)$ for odd $q$. Thus, $2^m + 1 \mid 2^k + 1$, yielding a non-trivial factor.</p>
+
+            <article class="box definition">
+                <div class="box-title">Definition 5.2 (Mersenne Primes)</div>
+                <p>A Mersenne prime is a prime number of the form $M_n = 2^n - 1$.</p>
+            </article>
+
+            <p><strong>Property:</strong> If an integer of the form $2^n - 1$ is prime, then $n$ must be prime.<br>
+            <em>Proof Sketch:</em> Suppose $n$ is composite, $n = ab$ for $a,b > 1$. Then $2^{ab} - 1 = (2^a)^b - 1$. Since $x^b - 1 = (x-1)(x^{b-1} + \dots + 1)$, it implies $2^a - 1 \mid 2^n - 1$, rendering it composite.</p>
+            
+            <p>Mersenne primes are central to computational number theory due to the <strong>Lucas-Lehmer primality test</strong>, a deterministic algorithm executing in $O(p^2)$ utilizing fast Fourier transforms for integer multiplication. The sequence is defined as $S_0 = 4$ and $S_k \equiv S_{k-1}^2 - 2 \pmod{2^p - 1}$. $M_p$ is prime if and only if $S_{p-2} = 0$.</p>
+        </section>
+    </main>
+</body>
+</html>

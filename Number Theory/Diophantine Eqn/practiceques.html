@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Number Theory: Diophantine Equations - Master Practice</title>
+    
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true,
+                tags: 'ams'
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        :root {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --accent-color: #64ffda;
+            --secondary-bg: #1e1e1e;
+            --border-color: #333;
+            --q-color: #ffb86c;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Georgia', serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 40px 20px;
+            max-width: 950px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            color: var(--accent-color);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 5px;
+        }
+
+        h2.solutions-header {
+            color: #bd93f9;
+            margin-top: 60px;
+        }
+
+        .problem {
+            background-color: var(--secondary-bg);
+            border-left: 4px solid var(--q-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .problem-title {
+            font-weight: bold;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            display: block;
+            color: var(--q-color);
+        }
+
+        .solution-block {
+            margin: 20px 0 40px 0;
+            padding-left: 20px;
+            border-left: 2px dashed var(--border-color);
+        }
+
+        .solution-block::before {
+            content: "Exhaustive Proof & Analysis.";
+            font-style: italic;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+            color: #bd93f9;
+        }
+
+        .qedsymbol {
+            float: right;
+            font-size: 1.2em;
+            color: #bd93f9;
+        }
+
+        pre {
+            background-color: #0a0a0a;
+            color: #a6accd;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Fira Code', 'Courier New', monospace;
+            font-size: 14px;
+            border: 1px solid var(--border-color);
+        }
+
+        code {
+            font-family: 'Fira Code', 'Courier New', monospace;
+            color: #ff9e64;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        header p {
+            font-style: italic;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Module VIII: Master-Class Practice & Solutions</h1>
+    <p>Algorithmic Number Theory & Abstract Algebra • Advanced Undergraduate Sequence</p>
+</header>
+
+<main>
+    <section id="questions">
+        <h2>Part I: Challenging Practice Problems</h2>
+        <p>The following 15 questions are rigorously constructed, synthesizing concepts across the entire spectrum of Diophantine analysis. Treat them as absolute proofs; heuristic guessing will universally fail.</p>
+
+        <div class="problem">
+            <span class="problem-title">Problem 1: Vieta Jumping & Markov Invariants</span>
+            <p>Let $a, b \in \mathbb{Z}_{>0}$ such that $ab - 1$ perfectly divides $a^2 + b^2$. Prove definitively that $\frac{a^2+b^2}{ab-1} = 5$, and mathematically justify why no other integer ratio $k$ is structurally possible.</p>
+        </div>
+
+        <div class="problem">
+            <span class="problem-title">Problem 2: Lifting The Exponent (LTE) Annihilation</span>
+            <p>Determine the exact maximum integer $k$ such that $3^k$ strictly divides $10^{3^{2026}} - 1$. Derive this purely algebraically using $p$-adic valuations.</p>
+        </div>
+
+        <div class="problem">
+            <span class="problem-title">Problem 3: The Method of Infinite Descent</span>
+            <p>Prove, in the spirit of Hardy & Wright, that the Diophantine equation $x^4 - y^4 = z^2$ possesses no solutions in strictly positive integers $x, y, z$.</p>
+        </div>
+
+        <div class="problem">
+            <span class="problem-title">Problem 4: Hasse-Minkowski & Local Obstructions</span>
+            <p>Demonstrate that the ternary quadratic form $5x^2 + 11y^2 - 13z^2 = 0$ possesses a valid non-trivial solution over the Real numbers ($\mathbb{R}$), yet structurally fails to have a global solution over the Rationals ($\mathbb{Q}$). Isolate the exact $p$-adic completion where it fails.</p>
+        </div>
+
+        <div class="problem">
+            <span class="problem-title">Problem 5: Negative Pell Restrictions</span>
+            <p>Prove that the Negative Pell Equation $x^2 - 33y^2 = -1$ has no integer solutions, utilizing purely modular topological obstructions without relying on continued fraction period expansions.</p>
+        </div>
+
+        <div class="problem">
+            <span class="problem-title">Problem 6: Zsigmondy’s Theorem & Catalan Exceptions</span>
+            <p>Find all solutions to the exponential Diophantine equation $2^n - 1 = p^k$ where $p$ is a prime, and $n, k \in \mathbb{Z}_{>1}$.</p>
+        </div>
+
+        <div class="problem">
+            <span class="problem-title">Problem 7: Sums of Three Squares</span>
+            <p>By analyzing quadratic residues and applying infinite descent on parity, prove that no integer of the exact form $4^a(8b + 7)$ for $a, b \in \mathbb{Z}_{\ge 0}$ can be expressed as the sum of three integer squares $x^2 + y^2 + z^2$.</p>
+        </div>
+
+        <div class="problem">
+            <span class="problem-title">Problem 8: Algorithmic Minimization of Linear Systems</span>
+            <p>Given the linear Diophantine equation $ax + by = c$, formulate a zero-allocation, theoretically optimal $O(\log(\min(a,b)))$ C++ function that directly computes the specific solution pair $(x_0, y_0)$ where $x_0$ is the <em>minimal non-negative</em> valid coordinate.</p>
+        </div>
+
+        <div class="problem">
+            <span class="problem-title">Problem 9: Pell Sequence Strong Divisibility</span>
+            <p>Let $(x_n, y_n)$ be the sequence of positive integer solutions to the fundamental Pell equation $x^2 - dy^2 = 1$. Prove algebraically that the $y$-sequence forms a strong divisibility sequence: $\gcd(y_m, y_n) = y_{\gcd(m,n)}$.</p>
+        </div>
+
+        <div class="problem">
+            <span class="problem-title">Problem 10: Multiplicative Order & Topology of Primes</span>
+            <p>Prove that the congruence $n \mid 2^n - 1$ has exactly zero solutions for $n \in \mathbb{Z}_{>1}$.</p>
+        </div>
+
+        <div class="problem">
+            <span class="problem-title">Problem 11: Advanced Vieta Root Flipping (IMO Variant)</span>
+            <p>Let $a, b$ be strictly positive integers. Prove that if $4ab - 1$ divides $(4a^2 - 1)^2$, then it is mathematically mandated that $a = b$.</p>
+        </div>
+
+        <div class="problem">
+            <span class="problem-title">Problem 12: Thue’s Lemma on Quadratic Forms</span>
+            <p>Using Euler's Criterion and Thue's Lemma, explicitly prove that every prime $p \equiv 1 \pmod 8$ can be represented in the form $p = x^2 + 2y^2$.</p>
+        </div>
+
+        <div class="problem">
+            <span class="problem-title">Problem 13: Birational Geometry & Stereographic Projection</span>
+            <p>Without relying on modular arithmetic or parity arguments, strictly derive Euclid's parameterization for primitive Pythagorean triples $(x,y,z)$ by establishing a birational mapping from the unit circle $X^2 + Y^2 = 1$ to the rational line $\mathbb{Q}$.</p>
+        </div>
+
+        <div class="problem">
+            <span class="problem-title">Problem 14: Symmetric Factorization of Cubes</span>
+            <p>Find all integer solutions $(x, y, z)$ to the symmetric polynomial equation $x^3 + y^3 + z^3 - 3xyz = p$, where $p$ is a prime strictly greater than 3.</p>
+        </div>
+
+        <div class="problem">
+            <span class="problem-title">Problem 15: Algorithmic Matrix Exponentiation (Pell)</span>
+            <p>Given the fundamental solution $(x_1, y_1)$ to $x^2 - dy^2 = 1$, provide the theoretically minimal C++ implementation to extract the $N$-th solution modulo $10^9+7$, executing strictly in $O(\log N)$ time using matrix recurrence mechanics.</p>
+        </div>
+    </section>
+
+    <hr style="border: 1px solid var(--border-color); margin: 60px 0;">
+
+    <section id="solutions">
+        <h2 class="solutions-header">Part II: Exhaustive Solutions</h2>
+
+        <h3>Solution 1: Vieta Jumping (Markov)</h3>
+        <div class="solution-block">
+            <p>Assume $k = \frac{a^2+b^2}{ab-1} \in \mathbb{Z}$. Rewrite as a quadratic in $a$: $a^2 - (kb)a + (b^2 + k) = 0$.</p>
+            <p>By the Well-Ordering Principle, assume $(a,b)$ is a minimal valid solution pair minimizing $a+b$, with $a \ge b$. By Vieta’s formulas, the roots $a_1, a_2$ satisfy $a_1 + a_2 = kb$ and $a_1 a_2 = b^2 + k$.</p>
+            <p>Let $a_1 = a$. The conjugate root $a_2 = kb - a = \frac{b^2+k}{a}$ is a strictly positive integer. To prevent $(a_2, b)$ from being a strictly smaller solution, we enforce $a_2 \ge a \implies b^2 + k \ge a^2$.</p>
+            <p>If $a = b$, the original denominator $a^2-1$ divides $2a^2$. Thus $a^2-1 \mid 2a^2 - 2(a^2-1) = 2 \implies a=2$, forcing $k=5$.</p>
+            <p>If $a > b \implies a \ge b+1$, we bound $k$ using the original fraction: $k = \frac{a^2+b^2}{ab-1} \le \frac{a^2 + (a-1)^2}{a(a-1) - 1} = 2 + \frac{3}{a^2-a-1}$. For $a \ge 3$, this forces $k \le 2$. But our minimality condition $k \ge a^2 - b^2 \ge (b+1)^2 - b^2 = 2b+1 \ge 3$ creates a strict contradiction. Hence, $a=b=2$ is the unique non-descendable ground state.</p>
+            <div class="qedsymbol">$\blacksquare$</div>
+        </div>
+
+        <h3>Solution 2: LTE Annihilation</h3>
+        <div class="solution-block">
+            <p>We evaluate $v_3(10^{3^{2026}} - 1)$. By the Lifting The Exponent (LTE) Lemma for an odd prime $p = 3$: If $p \mid (x-y)$, $p \nmid x$, and $p \nmid y$, then $v_p(x^n - y^n) = v_p(x-y) + v_p(n)$.</p>
+            <p>Let $x = 10, y = 1, n = 3^{2026}$. Preconditions hold: $3 \mid (10-1)$ and $3 \nmid 10$.</p>
+            <p>Apply the formula: $v_3(10^{3^{2026}} - 1) = v_3(10 - 1) + v_3(3^{2026})$.</p>
+            <p>Since $10-1 = 9$, $v_3(9) = 2$. Trivially, $v_3(3^{2026}) = 2026$. Thus, the maximum integer $k$ is exactly $2 + 2026 = 2028$.</p>
+            <div class="qedsymbol">$\blacksquare$</div>
+        </div>
+
+        <h3>Solution 3: Infinite Descent ($x^4 - y^4 = z^2$)</h3>
+        <div class="solution-block">
+            <p>Assume positive solutions exist. WLOG, let $\gcd(x,y)=1$ and minimize $x$. Rewrite as $(y^2)^2 + z^2 = (x^2)^2$. This forms a primitive Pythagorean triple. By Euclid's formula, there exist coprime $m > n > 0$ of opposite parity such that:</p>
+            $$y^2 = m^2 - n^2, \quad z = 2mn, \quad x^2 = m^2 + n^2$$
+            <p>From $y^2 = m^2 - n^2$, we have $y^2 + n^2 = m^2$, forming another primitive triple. Thus, $\exists$ coprime $r > s > 0$ where $n = 2rs, y = r^2 - s^2, m = r^2 + s^2$.</p>
+            <p>Instead of full substitution, notice $x^2 y^2 = (m^2+n^2)(m^2-n^2) = m^4 - n^4$. Let $Z = xy$. Then $Z^2 = m^4 - n^4$.</p>
+            <p>We check minimality. Since $z > 0$, $y^2 < x^2 \implies y < x$. Thus, $m \le m^2 < m^2+n^2 = x^2 \implies m < x$. We have constructed a new positive integer solution $(m, n, Z)$ to $A^4 - B^4 = C^2$ with $m < x$, violating the Well-Ordering Principle.</p>
+            <div class="qedsymbol">$\blacksquare$</div>
+        </div>
+
+        <h3>Solution 4: Hasse-Minkowski Obstruction</h3>
+        <div class="solution-block">
+            <p>Analyze $5x^2 + 11y^2 - 13z^2 = 0$. Over $\mathbb{R}$, setting $y=0$ yields $5x^2 = 13z^2 \implies x/z = \sqrt{13/5}$, which is valid.</p>
+            <p>Over $\mathbb{Q}$, apply Legendre's Theorem conditions for $a=5, b=11, c=-13$. For a global solution, $-bc$ must be a quadratic residue modulo $a$.</p>
+            <p>Modulo $a=5$: $-bc = -(11)(-13) = 143 \equiv 3 \pmod 5$.</p>
+            <p>The quadratic residues modulo 5 are $0, 1, 4$. The value $3$ is a strict non-residue. The local condition fails over the 5-adic completion ($\mathbb{Q}_5$). By Hasse-Minkowski, it is globally unsolvable over $\mathbb{Q}$.</p>
+            <div class="qedsymbol">$\blacksquare$</div>
+        </div>
+
+        <h3>Solution 5: Negative Pell Restriction</h3>
+        <div class="solution-block">
+            <p>Assume $x^2 - 33y^2 = -1$ has a solution. Reduce modulo 3.</p>
+            <p>Since $33 \equiv 0 \pmod 3$, the equation collapses to $x^2 \equiv -1 \pmod 3$.</p>
+            <p>The squares in $\mathbb{F}_3$ are $0^2=0, 1^2=1, 2^2=1$. Since $-1 \equiv 2 \pmod 3$, it is a quadratic non-residue. A local obstruction at $p=3$ strictly prohibits any global integer solutions.</p>
+            <div class="qedsymbol">$\blacksquare$</div>
+        </div>
+
+        <h3>Solution 6: Zsigmondy / Catalan Exceptions</h3>
+        <div class="solution-block">
+            <p>Analyze $2^n - 1 = p^k$. Since $n > 1$, Zsigmondy's Theorem guarantees a primitive prime divisor $q$ for $2^n-1$ except when $n=6$.</p>
+            <p>Case 1: $n=6$. $2^6 - 1 = 63 = 3^2 \times 7$. Not a pure prime power. No solutions.</p>
+            <p>Case 2: $n \neq 6$. Since $2^n-1 = p^k$, the primitive divisor $q$ must be $p$. If $n$ is composite ($n=ab$), $2^a-1$ divides $2^n-1$, meaning $p \mid 2^a-1$. But $a < n$ violates $p$'s primitivity. Thus $n$ must be prime.</p>
+            <p>If $k > 1$, Mihăilescu’s Theorem (Catalan's Conjecture) dictates $X^a - Y^b = 1$ has only the solution $3^2 - 2^3 = 1$. Our equation is $2^n - p^k = 1$. The only theoretical base match is $p=3, k=2, n=3$. Testing $2^3 - 1 = 7 \neq 3^2$. Zero solutions exist.</p>
+            <div class="qedsymbol">$\blacksquare$</div>
+        </div>
+
+        <h3>Solution 7: Sums of Three Squares</h3>
+        <div class="solution-block">
+            <p>Base case $a=0$: $x^2 + y^2 + z^2 = 8b+7$. Squares modulo 8 are $0, 1, 4$. No combination of three such residues can sum to $7 \pmod 8$. (Max with 1s is 3; using 4s yields $4, 5, 6, 1$). Thus $8b+7$ is unrepresentable.</p>
+            <p>Assume $4^a(8b+7) = x^2+y^2+z^2$ for $a \ge 1$. Modulo 4, the RHS is $0$. Since squares modulo 4 are $0, 1$, we must have $0+0+0$, meaning $x, y, z$ are all even. Let $x=2X, y=2Y, z=2Z$.</p>
+            <p>Substitute and divide by 4: $4^{a-1}(8b+7) = X^2 + Y^2 + Z^2$. By infinite descent on the exponent $a$, we reach $a=0$, encountering the modulo 8 obstruction. Hence, no such integer is a sum of three squares.</p>
+            <div class="qedsymbol">$\blacksquare$</div>
+        </div>
+
+        <h3>Solution 8: Algorithmic Linear System Minimization</h3>
+        <div class="solution-block">
+<pre><code>long long f(long long a,long long b,long long&x,long long&y){
+if(!b){x=1;y=0;return a;}
+long long u,v,d=f(b,a%b,u,v);
+x=v;y=u-v*(a/b);return d;
+}
+bool m(long long a,long long b,long long c,long long&x){
+long long y,d=f(a,b,x,y);
+if(c%d)return 0;
+long long s=abs(b/d);
+x=(x*(c/d)%s+s)%s;
+return 1;
+}</code></pre>
+        </div>
+
+        <h3>Solution 9: Pell Sequence Strong Divisibility</h3>
+        <div class="solution-block">
+            <p>Let $(x_n, y_n)$ resolve $x^2 - dy^2 = 1$. The solutions follow the addition identity: $y_{n+m} = x_n y_m + x_m y_n$.</p>
+            <p>We evaluate $\gcd(y_{n+m}, y_m)$. From the identity, $y_{n+m} \equiv x_m y_n \pmod{y_m}$. Thus, $\gcd(y_{n+m}, y_m) = \gcd(x_m y_n, y_m)$.</p>
+            <p>Because $x_m^2 - d y_m^2 = 1$, we have $\gcd(x_m, y_m) = 1$. We can drop $x_m$ from the GCD evaluation: $\gcd(y_{n+m}, y_m) = \gcd(y_n, y_m)$.</p>
+            <p>This recurrent equality is structurally identical to the Euclidean algorithm applied to the indices. By stepping down, it perfectly resolves to $\gcd(y_n, y_m) = y_{\gcd(n,m)}$.</p>
+            <div class="qedsymbol">$\blacksquare$</div>
+        </div>
+
+        <h3>Solution 10: Multiplicative Order & Topology</h3>
+        <div class="solution-block">
+            <p>Assume $n \mid 2^n - 1$ for $n > 1$. Let $p$ be the strictly smallest prime factor of $n$. Since $p \mid n$, $p \mid 2^n - 1$, meaning $2^n \equiv 1 \pmod p$.</p>
+            <p>By Fermat's Little Theorem, $2^{p-1} \equiv 1 \pmod p$. Let $k$ be the multiplicative order of 2 modulo $p$. Then $k \mid n$ and $k \mid p-1$.</p>
+            <p>Because $k \mid p-1$, we have $k \le p-1 < p$. But $k \mid n$. Since $p$ is the smallest prime dividing $n$, $n$ cannot have any divisors strictly between $1$ and $p$. Hence, $k$ must equal $1$.</p>
+            <p>If $k = 1$, then $2^1 \equiv 1 \pmod p \implies p \mid 1$, which is impossible. Thus, no such $n$ exists.</p>
+            <div class="qedsymbol">$\blacksquare$</div>
+        </div>
+
+        <h3>Solution 11: Advanced Vieta Root Flipping</h3>
+        <div class="solution-block">
+            <p>Given $4ab - 1 \mid (4a^2 - 1)^2$. Observe $(4a^2 - 1)^2 = 16a^4 - 8a^2 + 1$. Multiply by $b^2$ to leverage the divisor: $16a^4b^2 - 8a^2b^2 + b^2$. Since modulo $4ab-1$, we have $4ab \equiv 1$, then $16a^4b^2 = a^2(4ab)^2 \equiv a^2$.</p>
+            <p>The modulo reduces to $a^2 - 2a^2b/a + b^2 = a^2 - 2ab + b^2 = (a-b)^2$. Thus, $4ab-1 \mid (a-b)^2$. Let $(a-b)^2 = k(4ab-1)$.</p>
+            <p>Assume $a \neq b$. WLOG $a > b$. Minimize $a+b$ for a fixed $k$. The polynomial is $x^2 - (2b + 4kb)x + b^2 + k = 0$. The roots are $x_1 = a$ and $x_2 = (b^2+k)/a$.</p>
+            <p>We test if $x_2 < a$. Substitute $k$: $x_2 = \frac{b^2 + \frac{(a-b)^2}{4ab-1}}{a} = \frac{4ab^3 - b^2 + a^2 - 2ab + b^2}{a(4ab-1)} = \frac{a + 4b^3 - 2b}{4ab-1}$.</p>
+            <p>Is $a + 4b^3 - 2b < a(4ab-1)$? Since $a \ge b+1$, $4a^2b \ge 4(b+1)^2b = 4b^3 + 8b^2 + 4b$. The LHS $2a + 4b^3 - 2b$ is strictly smaller than the RHS for all positive integers. Thus $x_2 < a$. We descended, creating a contradiction. Hence $a = b$.</p>
+            <div class="qedsymbol">$\blacksquare$</div>
+        </div>
+
+        <h3>Solution 12: Thue's Lemma on Quadratic Forms</h3>
+        <div class="solution-block">
+            <p>Let $p \equiv 1 \pmod 8$. By Euler's Criterion, the Legendre symbol $\left(\frac{-2}{p}\right) = \left(\frac{-1}{p}\right)\left(\frac{2}{p}\right) = (1)(1) = 1$. Thus, $\exists a$ such that $a^2 \equiv -2 \pmod p$.</p>
+            <p>By Thue's Lemma, there exist integers $x, y \in (0, \lfloor\sqrt{p}\rfloor]$ such that $x \equiv ay \pmod p$.</p>
+            <p>Evaluate $x^2 + 2y^2 \equiv a^2y^2 + 2y^2 = y^2(-2+2) = 0 \pmod p$. Since $x, y < \sqrt{p}$, we strictly bound $0 < x^2 + 2y^2 < p + 2p = 3p$.</p>
+            <p>The only multiples of $p$ in this range are $p$ and $2p$. If $x^2 + 2y^2 = p$, we are done. If $x^2 + 2y^2 = 2p$, then $x^2 \equiv 2y^2 \equiv 0 \pmod 2 \implies x$ is even. Let $x = 2k$.</p>
+            <p>Substitute: $4k^2 + 2y^2 = 2p \implies 2k^2 + y^2 = p$. Renaming variables yields the exact representation $p = X^2 + 2Y^2$.</p>
+            <div class="qedsymbol">$\blacksquare$</div>
+        </div>
+
+        <h3>Solution 13: Stereographic Projection</h3>
+        <div class="solution-block">
+            <p>Consider the unit circle $X^2 + Y^2 = 1$. Draw a secant line through the rational point $(-1, 0)$ with a rational slope $t$. The line equation is $Y = t(X+1)$.</p>
+            <p>Substitute into the circle: $X^2 + t^2(X+1)^2 = 1$. Rearrange as a difference of squares: $(X^2-1) + t^2(X+1)^2 = 0 \implies (X+1)(X-1) + t^2(X+1)^2 = 0$.</p>
+            <p>Discarding the pole $X = -1$, divide by $X+1$: $(X-1) + t^2(X+1) = 0$. Solve for $X$: $X(1+t^2) = 1-t^2 \implies X = \frac{1-t^2}{1+t^2}$. Consequently, $Y = \frac{2t}{1+t^2}$.</p>
+            <p>Let the rational slope $t = \frac{v}{u}$ where $\gcd(u,v)=1$. Substituting gives $X = \frac{u^2-v^2}{u^2+v^2}$ and $Y = \frac{2uv}{u^2+v^2}$. Let these be fractions $x/z$ and $y/z$. This identically perfectly reconstructs Euclid's formulas: $x = u^2-v^2, y = 2uv, z = u^2+v^2$.</p>
+            <div class="qedsymbol">$\blacksquare$</div>
+        </div>
+
+        <h3>Solution 14: Symmetric Factorization of Cubes</h3>
+        <div class="solution-block">
+            <p>The polynomial factors beautifully: $x^3 + y^3 + z^3 - 3xyz = \frac{1}{2}(x+y+z)((x-y)^2 + (y-z)^2 + (z-x)^2) = p$.</p>
+            <p>Let $S = x+y+z$ and $Q = (x-y)^2 + (y-z)^2 + (z-x)^2$. Thus $S \cdot Q = 2p$. Since differences squared are non-negative, $Q \ge 0$. If $Q=0$, $x=y=z$, making $p=0$, impossible. Thus $Q > 0$, forcing $S > 0$. The pairs $(S, Q)$ must be positive divisors of $2p$: $(1, 2p), (2, p), (p, 2), (2p, 1)$.</p>
+            <p>Let $a = x-y, b = y-z$. Then $z-x = -(a+b)$. The quadratic factor is $a^2 + b^2 + (-a-b)^2 = 2(a^2 + ab + b^2)$. Thus, $Q$ is rigorously even. This eliminates $Q=p$ (since $p>3$ is odd) and $Q=1$.</p>
+            <p>Case 1: $Q=2$. Then $2(a^2+ab+b^2) = 2 \implies a^2+ab+b^2 = 1$. Integer solutions force two variables to be equal, and the third differs by 1. For $Q=2$, $S=p \implies x+y+z = p$. Let $x=y$. Then $z = x \pm 1$. $3x \pm 1 = p \implies x = (p \mp 1)/3$. Valid if $p \equiv 1$ or $2 \pmod 3$.</p>
+            <p>Case 2: $Q=2p$. Then $S=1 \implies x+y+z=1$. We have $a^2+ab+b^2 = p$. This is the norm form of the Eisenstein integers. It is solvable if and only if $p \equiv 1 \pmod 3$. If solvable, we trace back $a, b$ to $x,y,z$ combining with $x+y+z=1$.</p>
+            <div class="qedsymbol">$\blacksquare$</div>
+        </div>
+
+        <h3>Solution 15: Algorithmic Matrix Exponentiation (Pell)</h3>
+        <div class="solution-block">
+<pre><code>void e(long long n,long long d,long long X,long long Y,long long&x,long long&y){
+long long m=1e9+7,a=1,b=0,c=0,f=1,A=X,B=d*Y%m,C=Y,D=X;
+while(n){
+if(n&1){
+long long na=(a*A+b*C)%m,nb=(a*B+b*D)%m,nc=(c*A+f*C)%m,nf=(c*B+f*D)%m;
+a=na;b=nb;c=nc;f=nf;
+}
+long long nA=(A*A+B*C)%m,nB=(A*B+B*D)%m,nC=(C*A+D*C)%m,nD=(C*B+D*D)%m;
+A=nA;B=nB;C=nC;D=nD;
+n>>=1;
+}
+x=a;y=c;
+}</code></pre>
+        </div>
+
+    </section>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quadratic Residues and Reciprocity: Part D</title>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$']],
+                displayMath: [['$$', '$$']]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        :root {
+            --bg-color: #fcfcfc;
+            --text-color: #222222;
+            --accent-color: #0b5394;
+            --box-bg: #f4f6f8;
+            --border-color: #cbd5e1;
+            --code-bg: #e2e8f0;
+            --code-color: #1e293b;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #1a1a2e;
+                --text-color: #e2e8f0;
+                --accent-color: #64b5f6;
+                --box-bg: #16213e;
+                --border-color: #0f3460;
+                --code-bg: #0b1120;
+                --code-color: #e2e8f0;
+            }
+        }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.7;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+        header {
+            border-bottom: 2px solid var(--accent-color);
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+        }
+        h1, h2, h3 {
+            color: var(--accent-color);
+        }
+        .block {
+            background-color: var(--box-bg);
+            border-left: 4px solid var(--accent-color);
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 4px 4px 0;
+        }
+        .block-title {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: block;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            letter-spacing: 0.05em;
+        }
+        code, pre {
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            background-color: var(--code-bg);
+            color: var(--code-color);
+            border-radius: 4px;
+        }
+        code {
+            padding: 0.2rem 0.4rem;
+        }
+        pre {
+            padding: 1rem;
+            overflow-x: auto;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Advanced Algorithmic Number Theory</h1>
+        <h2>Module: Quadratic Residues and Reciprocity</h2>
+        <p><strong>Part D: The Jacobi Symbol</strong></p>
+    </header>
+
+    <article>
+        <section>
+            <p>Evaluating the Legendre symbol directly via Euler's criterion is computationally prohibitive if the prime factorization of the modulus is unknown. Carl Gustav Jacob Jacobi extended the Legendre symbol to all positive odd integers, allowing us to leverage reciprocity without factorization.</p>
+        </section>
+
+        <section>
+            <h2>1. Generalization of the Legendre Symbol</h2>
+            
+            <div class="block">
+                <span class="block-title">Definition 4.1: The Jacobi Symbol</span>
+                Let $n$ be an odd positive integer with prime factorization $n = p_1^{e_1} p_2^{e_2} \cdots p_k^{e_k}$. Let $a$ be any integer. The Jacobi symbol $\left(\frac{a}{n}\right)$ is defined as the product of the Legendre symbols of its prime factors:
+                $$ \left(\frac{a}{n}\right) = \left(\frac{a}{p_1}\right)^{e_1} \left(\frac{a}{p_2}\right)^{e_2} \cdots \left(\frac{a}{p_k}\right)^{e_k} $$
+                If $n=1$, we define $\left(\frac{a}{1}\right) = 1$.
+            </div>
+
+            <p>The Jacobi symbol inherits the completely multiplicative nature of the Legendre symbol. For integers $a, b$ and odd integers $m, n$:</p>
+            <ul>
+                <li>$\left(\frac{ab}{n}\right) = \left(\frac{a}{n}\right)\left(\frac{b}{n}\right)$</li>
+                <li>$\left(\frac{a}{mn}\right) = \left(\frac{a}{m}\right)\left(\frac{a}{n}\right)$</li>
+                <li>$a \equiv b \pmod{n} \implies \left(\frac{a}{n}\right) = \left(\frac{b}{n}\right)$</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>2. Residuosity Fallacy</h2>
+            <p>It is a critical algorithmic trap to assume that $\left(\frac{a}{n}\right) = 1$ implies $a$ is a quadratic residue modulo $n$. The Jacobi symbol evaluates to $1$ if there is an even number of prime factors $p_i$ for which $a$ is a non-residue, cancelling out the $-1$ evaluations.</p>
+
+            <div class="block">
+                <span class="block-title">Example 4.2: False Positive Residuosity</span>
+                Consider evaluating whether $2$ is a square modulo $15$.
+                <br><br>
+                Compute the Jacobi symbol:
+                $$ \left(\frac{2}{15}\right) = \left(\frac{2}{3}\right) \left(\frac{2}{5}\right) $$
+                Using the supplementary law for $2$:
+                $\left(\frac{2}{3}\right) = -1$ (since $3 \equiv 3 \pmod{8}$) and $\left(\frac{2}{5}\right) = -1$ (since $5 \equiv 5 \pmod{8}$).
+                $$ \left(\frac{2}{15}\right) = (-1)(-1) = 1 $$
+                However, testing all squares in $\mathbb{Z}_{15}^*$ shows no element squared equals $2 \pmod{15}$. The congruence $x^2 \equiv 2 \pmod{15}$ has no solution. A valid quadratic residue modulo a composite $n$ requires $a$ to be a quadratic residue modulo <em>every</em> prime factor of $n$.
+            </div>
+        </section>
+
+        <section>
+            <h2>3. Efficient Evaluation via Reciprocity</h2>
+            <p>The true power of the Jacobi symbol lies in the fact that it perfectly obeys the Law of Quadratic Reciprocity and its supplementary laws, despite $m$ and $n$ being composite.</p>
+
+            <div class="block">
+                <span class="block-title">Theorem 4.3: Reciprocity for Jacobi Symbols</span>
+                Let $m$ and $n$ be odd coprime positive integers. Then:
+                $$ \left(\frac{m}{n}\right) \left(\frac{n}{m}\right) = (-1)^{\frac{m-1}{2} \cdot \frac{n-1}{2}} $$
+                Supplementary Laws:
+                $$ \left(\frac{-1}{n}\right) = (-1)^{\frac{n-1}{2}} $$
+                $$ \left(\frac{2}{n}\right) = (-1)^{\frac{n^2-1}{8}} $$
+            </div>
+
+            <p>This allows us to evaluate the symbol using an algorithm almost identical to the Euclidean algorithm for GCD, dropping the complexity to $O(\log a \log n)$ bit operations without requiring any factorizations.</p>
+
+<pre><code>int j(int a, int n) {
+    int r = 1;
+    a %= n;
+    if (a < 0) a += n;
+    while (a) {
+        while (!(a & 1)) {
+            a >>= 1;
+            if ((n & 7) == 3 || (n & 7) == 5) r = -r;
+        }
+        int t = a; a = n; n = t;
+        if ((a & 3) == 3 && (n & 3) == 3) r = -r;
+        a %= n;
+    }
+    return n == 1 ? r : 0;
+}</code></pre>
+        </section>
+
+        <section>
+            <h2>4. Advanced Addition: The Kronecker Symbol</h2>
+            <p>While the Jacobi symbol restricts the "denominator" to positive odd integers, the Kronecker symbol further generalizes this map to include even integers and negative numbers. This is heavily utilized in computational algebraic number theory (e.g., evaluating class numbers of quadratic fields).</p>
+
+            <div class="block">
+                <span class="block-title">Definition 4.4: The Kronecker Symbol Extension</span>
+                The Kronecker symbol $\left(\frac{a}{n}\right)$ extends the Jacobi symbol by formally defining the evaluation for $n=2$:
+                $$
+                \left(\frac{a}{2}\right) = 
+                \begin{cases} 
+                0 & \text{if } a \text{ is even} \\
+                1 & \text{if } a \equiv \pm 1 \pmod{8} \\
+                -1 & \text{if } a \equiv \pm 3 \pmod{8}
+                \end{cases}
+                $$
+                For a negative denominator $n < 0$, we define:
+                $$ \left(\frac{a}{n}\right) = \left(\frac{a}{-n}\right) $$
+                with the special boundary condition that if $a < 0$ and $n < 0$, we multiply the result by $\text{sgn}(a)$.
+            </div>
+            
+            <p>By treating powers of $2$ explicitly, the Kronecker symbol encapsulates the entirety of quadratic character over $\mathbb{Z}$, preserving the structural symmetries of reciprocity universally.</p>
+        </section>
+    </article>
+</body>
+</html>

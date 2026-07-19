@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 1, Part C: Discrete Logarithms</title>
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$']],
+                displayMath: [['$$', '$$']],
+                packages: {'[+]': ['amsfonts', 'amssymb', 'amsthm']}
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+    </script>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #e2e8f0;
+            --heading-color: #38bdf8;
+            --accent-color: #818cf8;
+            --surface-color: #1e293b;
+            --border-color: #334155;
+            --code-bg: #0b1120;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+        }
+
+        h1, h2, h3, h4 {
+            color: var(--heading-color);
+            margin-top: 2rem;
+        }
+
+        h1 { font-size: 2.25rem; }
+        h2 { font-size: 1.75rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; }
+        h3 { font-size: 1.25rem; color: var(--accent-color); }
+
+        .theorem, .definition, .proof, .example {
+            background-color: var(--surface-color);
+            border-left: 4px solid var(--accent-color);
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+            border-radius: 0 0.5rem 0.5rem 0;
+        }
+
+        .theorem-title, .definition-title, .example-title {
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .proof {
+            border-left-color: #94a3b8;
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+        }
+
+        .proof-title {
+            font-style: italic;
+            color: #94a3b8;
+        }
+
+        .qedsymbol {
+            float: right;
+        }
+
+        code {
+            font-family: "Fira Code", monospace;
+            background-color: var(--code-bg);
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+            font-size: 0.9em;
+        }
+
+        pre code {
+            display: block;
+            padding: 1rem;
+            overflow-x: auto;
+            border: 1px solid var(--border-color);
+        }
+    </style>
+</head>
+<body>
+
+<main>
+    <header>
+        <h1>Algorithmic Number Theory</h1>
+        <p><strong>Module:</strong> Primitive Roots and Discrete Logarithms</p>
+        <p><strong>Part B:</strong> Primitive Roots</p>
+    </header>
+
+    <article id="part-B">
+        <h2>B. Primitive Roots</h2>
+
+        <p>Having established the multiplicative order of an integer, we now identify the conditions under which a single element can generate the entire multiplicative group. Such an element serves as a foundational building block for index calculus and cryptographic primitives.</p>
+
+        <div class="definition">
+            <span class="definition-title">Definition 3: Primitive Root</span>
+            Let $n > 1$ be an integer. An integer $g$ coprime to $n$ is called a <em>primitive root</em> modulo $n$ if its multiplicative order modulo $n$ is maximal, specifically $\text{ord}_n(g) = \phi(n)$.<br><br>
+            If a primitive root exists, the multiplicative group $(\mathbb{Z}/n\mathbb{Z})^\times$ is cyclic, and $g$ is its generator:
+            $$(\mathbb{Z}/n\mathbb{Z})^\times = \{g^1, g^2, \dots, g^{\phi(n)}\}$$
+        </div>
+
+        <div class="theorem">
+            <span class="theorem-title">Theorem 2.1: The Primitive Root Theorem</span>
+            The multiplicative group $(\mathbb{Z}/n\mathbb{Z})^\times$ is cyclic (i.e., possesses a primitive root) if and only if $n$ is of the form:
+            $$n \in \{2, 4, p^k, 2p^k\}$$
+            where $p$ is an odd prime and $k \ge 1$.
+        </div>
+
+        <p>The proof of the general classification theorem relies on Hensel's Lemma and lifting primitive roots from $p$ to $p^k$. Here, we provide the rigorous algebraic proof for the fundamental base case: the existence of primitive roots modulo a prime $p$.</p>
+
+        <div class="proof">
+            <span class="proof-title">Proof: Existence of Primitive Roots Modulo a Prime $p$.</span><br>
+            Let $p$ be a prime. We operate over the finite field $\mathbb{F}_p$. The multiplicative group $\mathbb{F}_p^\times$ has order $p-1$. By Lagrange's Theorem, the order of any element $d$ must divide $p-1$.<br><br>
+            Let $\psi(d)$ denote the number of elements in $\mathbb{F}_p^\times$ of order exactly $d$. Since every element has some order $d \mid p-1$, we have:
+            $$\sum_{d \mid (p-1)} \psi(d) = p - 1$$
+            From elementary number theory, the Euler totient function satisfies a similar identity:
+            $$\sum_{d \mid (p-1)} \phi(d) = p - 1$$
+            Suppose $\psi(d) > 0$ for some divisor $d$. This means there exists at least one element $a \in \mathbb{F}_p^\times$ of order $d$. Thus, $a, a^2, \dots, a^d = 1$ are $d$ distinct elements, and they are all roots of the polynomial:
+            $$x^d - 1 \equiv 0 \pmod p$$
+            Since a polynomial of degree $d$ over a field can have at most $d$ roots, these powers of $a$ constitute <em>all</em> the roots of $x^d - 1$. An element $a^k$ in this set has order exactly $d$ if and only if $\gcd(k, d) = 1$. There are exactly $\phi(d)$ such elements.<br><br>
+            Therefore, if $\psi(d) > 0$, it must be that $\psi(d) = \phi(d)$. Thus, for any $d \mid (p-1)$, $\psi(d)$ is either $0$ or $\phi(d)$.<br><br>
+            Since $\sum_{d \mid (p-1)} \psi(d) = \sum_{d \mid (p-1)} \phi(d)$, we cannot have $\psi(d) = 0$ for any divisor; otherwise, the sum of $\psi(d)$ would fall strictly short of $p-1$.<br><br>
+            Consequently, $\psi(d) = \phi(d)$ for all $d \mid (p-1)$. Specifically, for $d = p-1$:
+            $$\psi(p-1) = \phi(p-1) \ge 1$$
+            This proves there are exactly $\phi(p-1)$ primitive roots modulo $p$. <span class="qedsymbol">$\blacksquare$</span>
+        </div>
+
+        <div class="example">
+            <span class="example-title">Algorithmic Generation of Primitive Roots</span>
+            Finding a primitive root via brute-force order calculation takes $O(p)$. We can optimize this. For an element $g$ to be a primitive root, its order must be $p-1$. <br><br>
+            If $\text{ord}_p(g) < p-1$, then its order must be a proper divisor of $p-1$. Any proper divisor of $p-1$ divides $\frac{p-1}{q}$ for some prime factor $q$ of $p-1$. <br><br>
+            Therefore, $g$ is a primitive root modulo $p$ if and only if:
+            $$g^{\frac{p-1}{q}} \not\equiv 1 \pmod p \quad \text{for all prime factors } q \text{ of } p-1$$
+        </div>
+
+        <p>This allows us to deterministically verify a candidate primitive root in $O(\omega(p-1) \log p)$ time, where $\omega(x)$ is the number of distinct prime factors of $x$. Given that primitive roots are abundant (density $\frac{\phi(p-1)}{p-1}$), testing candidates sequentially starting from $g=2$ yields an $O(\log^2 p)$ expected runtime.</p>
+
+        <pre><code>#include &lt;vector&gt;
+
+long long p(long long b, long long e, long long m) {
+    long long r = 1;
+    b %= m;
+    while (e > 0) {
+        if (e & 1) r = (r * b) % m;
+        b = (b * b) % m;
+        e >>= 1;
+    }
+    return r;
+}
+
+int f(int m) {
+    std::vector&lt;int&gt; v;
+    int n = m - 1;
+    for (int i = 2; i * i <= n; ++i) {
+        if (n % i == 0) {
+            v.push_back(i);
+            while (n % i == 0) n /= i;
+        }
+    }
+    if (n > 1) v.push_back(n);
+    for (int i = 2; i <= m - 1; ++i) {
+        bool o = true;
+        for (int q : v) {
+            if (p(i, (m - 1) / q, m) == 1) {
+                o = false;
+                break;
+            }
+        }
+        if (o) return i;
+    }
+    return -1;
+}</code></pre>
+
+        <h3>Advanced Addition: Artin's Conjecture on Primitive Roots</h3>
+        
+        <p>While the previous theorem guarantees the existence of a primitive root for a given prime, one might ask the inverse question: given a fixed integer $a$, for how many primes $p$ is $a$ a primitive root modulo $p$?</p>
+        
+        <p>Emil Artin conjectured in 1927 that if $a \neq -1$ and $a$ is not a perfect square, then $a$ is a primitive root for infinitely many primes. Furthermore, Artin proposed that the asymptotic density of such primes among all primes is strictly positive and proportional to <em>Artin's Constant</em>:</p>
+        $$C_{\text{Artin}} = \prod_{q \text{ prime}} \left(1 - \frac{1}{q(q-1)}\right) \approx 0.3739558$$
+        
+        <p>Although widely believed to be true, Artin's Conjecture remains unproven. In 1967, Hooley proved the conjecture conditionally, assuming the Generalized Riemann Hypothesis (GRH). For competitive programming, this statistical density intuitively justifies why random selection or linear scanning for generators modulo large prime fields is practically instantaneous.</p>
+
+    </article>
+
+</main>
+
+</body>
+</html>
