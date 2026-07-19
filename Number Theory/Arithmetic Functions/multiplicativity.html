@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,6 +15,7 @@
             --accent-color: #bb86fc;
             --code-bg: #000000;
         }
+
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
@@ -23,37 +25,104 @@
             margin: 0 auto;
             padding: 40px 20px;
         }
-        h1, h2, h3, h4 {
+
+        h1,
+        h2,
+        h3,
+        h4 {
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             color: var(--heading-color);
             margin-top: 1.5em;
         }
-        h1 { border-bottom: 2px solid var(--accent-color); padding-bottom: 10px; }
-        h2 { border-bottom: 1px solid var(--border-color); padding-bottom: 5px; }
+
+        h1 {
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 10px;
+        }
+
+        h2 {
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 5px;
+        }
+
         section {
             background: var(--section-bg);
             padding: 30px;
             border-radius: 8px;
             margin-bottom: 40px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
         }
-        .theorem, .definition, .proof, .example {
+
+        .theorem,
+        .definition,
+        .proof,
+        .example {
             margin: 20px 0;
             padding: 15px;
             border-left: 4px solid;
             background: rgba(255, 255, 255, 0.03);
         }
-        .definition { border-color: #03dac6; }
-        .theorem { border-color: var(--accent-color); }
-        .proof { border-color: #cf6679; font-style: italic; }
-        .example { border-color: #ffb74d; }
-        .label { font-weight: bold; font-style: normal; display: block; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; font-size: 0.85em; }
-        .definition .label { color: #03dac6; }
-        .theorem .label { color: var(--accent-color); }
-        .proof .label { color: #cf6679; }
-        .example .label { color: #ffb74d; }
-        pre { background: var(--code-bg); padding: 15px; border-radius: 5px; overflow-x: auto; font-family: 'Courier New', Courier, monospace; color: #a5d6ff; }
-        footer { margin-top: 50px; text-align: center; font-size: 0.9em; color: #888; border-top: 1px solid var(--border-color); padding-top: 20px; }
+
+        .definition {
+            border-color: #03dac6;
+        }
+
+        .theorem {
+            border-color: var(--accent-color);
+        }
+
+        .proof {
+            border-color: #cf6679;
+            font-style: italic;
+        }
+
+        .example {
+            border-color: #ffb74d;
+        }
+
+        .label {
+            font-weight: bold;
+            font-style: normal;
+            display: block;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.85em;
+        }
+
+        .definition .label {
+            color: #03dac6;
+        }
+
+        .theorem .label {
+            color: var(--accent-color);
+        }
+
+        .proof .label {
+            color: #cf6679;
+        }
+
+        .example .label {
+            color: #ffb74d;
+        }
+
+        pre {
+            background: var(--code-bg);
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            color: #a5d6ff;
+        }
+
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #888;
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+        }
     </style>
     <script>
         MathJax = {
@@ -66,58 +135,64 @@
     </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
+
 <body>
 
-<header>
-    <h1>Module: Algorithmic Number Theory & Arithmetic Functions</h1>
-    <p><strong>Target Audience:</strong> 3rd-Year Mathematics & Computing</p>
-    <p><strong>Section B:</strong> Multiplicativity & Bell Series</p>
-</header>
+    <header>
+        <h1>Module: Algorithmic Number Theory & Arithmetic Functions</h1>
+        <p><strong>Section B:</strong> Multiplicativity & Bell Series</p>
+    </header>
 
-<main>
-    <section id="multiplicativity-definitions">
-        <h2>1. Multiplicative vs. Completely Multiplicative</h2>
-        <p>The algebraic structure of arithmetic functions heavily relies on how they operate over coprime factors. Recognizing these properties is crucial for mapping functions to efficient sieves.</p>
-        
-        <div class="definition">
-            <span class="label">Definition 1.1: Multiplicative Function</span>
-            An arithmetic function $f(n)$ is <strong>multiplicative</strong> if $f(1) = 1$ and for any two coprime positive integers $a$ and $b$ (i.e., $\gcd(a, b) = 1$):
-            $$f(ab) = f(a)f(b)$$
-            Consequently, if $n = p_1^{k_1} p_2^{k_2} \cdots p_r^{k_r}$, then $f(n) = \prod_{i=1}^r f(p_i^{k_i})$.
-        </div>
+    <main>
+        <section id="multiplicativity-definitions">
+            <h2>1. Multiplicative vs. Completely Multiplicative</h2>
+            <p>The algebraic structure of arithmetic functions heavily relies on how they operate over coprime factors.
+                Recognizing these properties is crucial for mapping functions to efficient sieves.</p>
 
-        <div class="definition">
-            <span class="label">Definition 1.2: Completely Multiplicative Function</span>
-            An arithmetic function $f(n)$ is <strong>completely (or totally) multiplicative</strong> if $f(1) = 1$ and for <em>all</em> positive integers $a$ and $b$:
-            $$f(ab) = f(a)f(b)$$
-            Here, $f(n) = \prod_{i=1}^r f(p_i)^{k_i}$. Notice the exponent $k_i$ is pulled outside the evaluation of $f$.
-        </div>
-    </section>
+            <div class="definition">
+                <span class="label">Definition 1.1: Multiplicative Function</span>
+                An arithmetic function $f(n)$ is <strong>multiplicative</strong> if $f(1) = 1$ and for any two coprime
+                positive integers $a$ and $b$ (i.e., $\gcd(a, b) = 1$):
+                $$f(ab) = f(a)f(b)$$
+                Consequently, if $n = p_1^{k_1} p_2^{k_2} \cdots p_r^{k_r}$, then $f(n) = \prod_{i=1}^r f(p_i^{k_i})$.
+            </div>
 
-    <section id="proofs-of-multiplicativity">
-        <h2>2. Rigorous Proofs of Multiplicativity</h2>
-        
-        <div class="theorem">
-            <span class="label">Theorem 2.1: Multiplicativity of $\phi(n)$</span>
-            Euler's Totient function $\phi(n)$ is multiplicative.
-        </div>
-        
-        <div class="proof">
-            <span class="label">Proof (Algebraic via Chinese Remainder Theorem)</span>
-            Let $m, n \in \mathbb{Z}^+$ such that $\gcd(m, n) = 1$. By definition, $\phi(x)$ is the cardinality of the multiplicative group of integers modulo $x$, denoted as $\mathbb{Z}_x^*$.
-            The Chinese Remainder Theorem establishes a ring isomorphism:
-            $$\mathbb{Z}_{mn} \cong \mathbb{Z}_m \times \mathbb{Z}_n$$
-            Restricting this isomorphism to the units of these rings gives a group isomorphism:
-            $$\mathbb{Z}_{mn}^* \cong \mathbb{Z}_m^* \times \mathbb{Z}_n^*$$
-            Taking the cardinality of both sides yields:
-            $$|\mathbb{Z}_{mn}^*| = |\mathbb{Z}_m^*| \times |\mathbb{Z}_n^*| \implies \phi(mn) = \phi(m)\phi(n)$$
-            Since $\phi(1) = 1$, $\phi$ is multiplicative. $\blacksquare$
-        </div>
+            <div class="definition">
+                <span class="label">Definition 1.2: Completely Multiplicative Function</span>
+                An arithmetic function $f(n)$ is <strong>completely (or totally) multiplicative</strong> if $f(1) = 1$
+                and for <em>all</em> positive integers $a$ and $b$:
+                $$f(ab) = f(a)f(b)$$
+                Here, $f(n) = \prod_{i=1}^r f(p_i)^{k_i}$. Notice the exponent $k_i$ is pulled outside the evaluation of
+                $f$.
+            </div>
+        </section>
 
-        <div class="example">
-            <span class="label">Algorithmic Implementation: $\phi(n)$ Evaluation</span>
-            Leveraging multiplicativity, we can evaluate $\phi(n)$ in $O(\sqrt{n})$ time by iteratively extracting prime factors.
-<pre><code>long long p(long long n){
+        <section id="proofs-of-multiplicativity">
+            <h2>2. Rigorous Proofs of Multiplicativity</h2>
+
+            <div class="theorem">
+                <span class="label">Theorem 2.1: Multiplicativity of $\phi(n)$</span>
+                Euler's Totient function $\phi(n)$ is multiplicative.
+            </div>
+
+            <div class="proof">
+                <span class="label">Proof (Algebraic via Chinese Remainder Theorem)</span>
+                Let $m, n \in \mathbb{Z}^+$ such that $\gcd(m, n) = 1$. By definition, $\phi(x)$ is the cardinality of
+                the multiplicative group of integers modulo $x$, denoted as $\mathbb{Z}_x^*$.
+                The Chinese Remainder Theorem establishes a ring isomorphism:
+                $$\mathbb{Z}_{mn} \cong \mathbb{Z}_m \times \mathbb{Z}_n$$
+                Restricting this isomorphism to the units of these rings gives a group isomorphism:
+                $$\mathbb{Z}_{mn}^* \cong \mathbb{Z}_m^* \times \mathbb{Z}_n^*$$
+                Taking the cardinality of both sides yields:
+                $$|\mathbb{Z}_{mn}^*| = |\mathbb{Z}_m^*| \times |\mathbb{Z}_n^*| \implies \phi(mn) = \phi(m)\phi(n)$$
+                Since $\phi(1) = 1$, $\phi$ is multiplicative. $\blacksquare$
+            </div>
+
+            <div class="example">
+                <span class="label">Algorithmic Implementation: $\phi(n)$ Evaluation</span>
+                Leveraging multiplicativity, we can evaluate $\phi(n)$ in $O(\sqrt{n})$ time by iteratively extracting
+                prime factors.
+                <pre><code>long long p(long long n){
 long long r=n;
 for(long long i=2;i*i<=n;i++){
 if(n%i==0){
@@ -127,57 +202,67 @@ r-=r/i;
 if(n>1)r-=r/n;
 return r;
 }</code></pre>
-        </div>
+            </div>
 
-        <div class="theorem">
-            <span class="label">Theorem 2.2: Multiplicativity of $\sigma(n)$</span>
-            The sum-of-divisors function $\sigma(n)$ is multiplicative.
-        </div>
-        
-        <div class="proof">
-            <span class="label">Proof (Combinatorial)</span>
-            Let $\gcd(m, n) = 1$. We wish to show $\sigma(mn) = \sigma(m)\sigma(n)$.
-            By definition, $\sigma(mn) = \sum_{d|mn} d$.
-            Since $m$ and $n$ are coprime, any divisor $d$ of $mn$ can be uniquely factored as $d = d_1 d_2$, where $d_1 | m$, $d_2 | n$, and $\gcd(d_1, d_2) = 1$. Furthermore, every such pair $(d_1, d_2)$ generates a unique divisor of $mn$.
-            Thus, we can rewrite the summation:
-            $$\sum_{d|mn} d = \sum_{d_1|m} \sum_{d_2|n} d_1 d_2 = \left( \sum_{d_1|m} d_1 \right) \left( \sum_{d_2|n} d_2 \right) = \sigma(m)\sigma(n)$$
-            Since $\sigma(1) = 1$, $\sigma(n)$ is multiplicative. $\blacksquare$
-        </div>
-    </section>
+            <div class="theorem">
+                <span class="label">Theorem 2.2: Multiplicativity of $\sigma(n)$</span>
+                The sum-of-divisors function $\sigma(n)$ is multiplicative.
+            </div>
 
-    <section id="bell-series">
-        <h2>3. Advanced Addition: Bell Series and Dirichlet Series</h2>
-        <p>To analyze multiplicative functions globally, it is often easier to analyze them locally at each prime $p$. The <strong>Bell series</strong> formalizes this local behavior.</p>
+            <div class="proof">
+                <span class="label">Proof (Combinatorial)</span>
+                Let $\gcd(m, n) = 1$. We wish to show $\sigma(mn) = \sigma(m)\sigma(n)$.
+                By definition, $\sigma(mn) = \sum_{d|mn} d$.
+                Since $m$ and $n$ are coprime, any divisor $d$ of $mn$ can be uniquely factored as $d = d_1 d_2$, where
+                $d_1 | m$, $d_2 | n$, and $\gcd(d_1, d_2) = 1$. Furthermore, every such pair $(d_1, d_2)$ generates a
+                unique divisor of $mn$.
+                Thus, we can rewrite the summation:
+                $$\sum_{d|mn} d = \sum_{d_1|m} \sum_{d_2|n} d_1 d_2 = \left( \sum_{d_1|m} d_1 \right) \left(
+                \sum_{d_2|n} d_2 \right) = \sigma(m)\sigma(n)$$
+                Since $\sigma(1) = 1$, $\sigma(n)$ is multiplicative. $\blacksquare$
+            </div>
+        </section>
 
-        <div class="definition">
-            <span class="label">Definition 3.1: Bell Series</span>
-            Given an arithmetic function $f$ and a prime $p$, the Bell series of $f$ modulo $p$ is the formal power series:
-            $$f_p(x) = \sum_{k=0}^{\infty} f(p^k) x^k$$
-        </div>
+        <section id="bell-series">
+            <h2>3. Advanced Addition: Bell Series and Dirichlet Series</h2>
+            <p>To analyze multiplicative functions globally, it is often easier to analyze them locally at each prime
+                $p$. The <strong>Bell series</strong> formalizes this local behavior.</p>
 
-        <div class="theorem">
-            <span class="label">Theorem 3.1: Euler Product Representation</span>
-            If $f$ is a multiplicative function and $F(s) = \sum_{n=1}^{\infty} \frac{f(n)}{n^s}$ is its Dirichlet series (converging in some half-plane), then $F(s)$ can be decomposed into an infinite product of its Bell series evaluated at $x = p^{-s}$:
-            $$F(s) = \prod_{p \text{ prime}} f_p(p^{-s})$$
-        </div>
+            <div class="definition">
+                <span class="label">Definition 3.1: Bell Series</span>
+                Given an arithmetic function $f$ and a prime $p$, the Bell series of $f$ modulo $p$ is the formal power
+                series:
+                $$f_p(x) = \sum_{k=0}^{\infty} f(p^k) x^k$$
+            </div>
 
-        <div class="example">
-            <span class="label">Example: Bell Series of $\tau(n)$</span>
-            Let's find the Bell series for the divisor function $\tau(n)$. For a prime power $p^k$, $\tau(p^k) = k + 1$.
-            $$\tau_p(x) = \sum_{k=0}^{\infty} (k + 1) x^k$$
-            This is the derivative of the geometric series, so:
-            $$\tau_p(x) = \frac{1}{(1-x)^2}$$
-            Substituting $x = p^{-s}$, the Dirichlet series for $\tau(n)$ is:
-            $$\sum_{n=1}^{\infty} \frac{\tau(n)}{n^s} = \prod_p \frac{1}{(1-p^{-s})^2} = \zeta(s)^2$$
-            This elegant identity is foundational for computing prefix sums of $\tau(n)$ via Dirichlet convolution techniques.
-        </div>
-    </section>
+            <div class="theorem">
+                <span class="label">Theorem 3.1: Euler Product Representation</span>
+                If $f$ is a multiplicative function and $F(s) = \sum_{n=1}^{\infty} \frac{f(n)}{n^s}$ is its Dirichlet
+                series (converging in some half-plane), then $F(s)$ can be decomposed into an infinite product of its
+                Bell series evaluated at $x = p^{-s}$:
+                $$F(s) = \prod_{p \text{ prime}} f_p(p^{-s})$$
+            </div>
 
-</main>
+            <div class="example">
+                <span class="label">Example: Bell Series of $\tau(n)$</span>
+                Let's find the Bell series for the divisor function $\tau(n)$. For a prime power $p^k$, $\tau(p^k) = k +
+                1$.
+                $$\tau_p(x) = \sum_{k=0}^{\infty} (k + 1) x^k$$
+                This is the derivative of the geometric series, so:
+                $$\tau_p(x) = \frac{1}{(1-x)^2}$$
+                Substituting $x = p^{-s}$, the Dirichlet series for $\tau(n)$ is:
+                $$\sum_{n=1}^{\infty} \frac{\tau(n)}{n^s} = \prod_p \frac{1}{(1-p^{-s})^2} = \zeta(s)^2$$
+                This elegant identity is foundational for computing prefix sums of $\tau(n)$ via Dirichlet convolution
+                techniques.
+            </div>
+        </section>
 
-<footer>
-    <p>Module generated for Advanced Mathematics & Computing Curriculum.</p>
-</footer>
+    </main>
+
+    <footer>
+        <p>Module generated for Advanced Mathematics & Computing Curriculum.</p>
+    </footer>
 
 </body>
+
 </html>
